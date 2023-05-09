@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<!--/*
+날짜 : 2023/03/31
+이름 : 조주영
+내용 : 사진 화면
+*/-->
+<html xmlns:th="http://www.thymleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/myLayout}">
+<th:block layout:fragment="main">
+    <div id="myActivity">
+        <div>
+            <a th:href="@{/my/photos/posts}">게시물</a>
+            <a>릴스</a>
+        </div>
+        <th:block th:if="${#maps.isEmpty(sortMap)}">
+            <h1>게시한 콘텐츠가 없습니다.</h1>
+            <h2>게시물을 만들면 여기에 표시됩니다.</h2>
+        </th:block>
+        <th:block th:unless="${#maps.isEmpty(sortMap)}">
+            <div>
+                <div class="activityTop">
+                    <h1 class="mySortTitle">최신순</h1>
+                    <a class="mySort">정렬 및 필터</a>
+                    <a class="mySortSelect">선택</a>
+                </div>
+                <div class="activityContents">
+                    <th:block th:each="m:${sortMap}">
+                        <a th:href="@{/board/post (no=${m.value.no})}">
+                        <th:block th:if="${#strings.endsWith(m.value.firstThumb, '.mp4')} == true">
+                            <video th:src="|@{/}thumb/${m.value.firstThumb}"></video>
+                        </th:block>
+                        <th:block th:unless="${#strings.endsWith(m.value.firstThumb, '.mp4')} == true">
+                            <img th:src="|@{/}thumb/${m.value.firstThumb}">
+                        </th:block>
+                            <input name="photo" type="checkbox" onclick="getCheckedCnt()" th:id="${m.value.firstThumb}" th:data-value="${m.value.no}">
+                            <label th:for="${m.value.firstThumb}"></label>
+                        </a>
+                    </th:block>
+                </div>
+            </div>
+            <div class="activityPop" style="display: none;">
+                <span class="closePop">X</span>
+                <h1><span id="deleteCount">0</span>개 선택됨</h1>
+                <button class="mySortDelete" th:data-type="photo">삭제</button>
+            </div>
+        </th:block>
+    </div>
+</th:block>
+</html>
+<script th:inline="javascript">
+/*<![CDATA[*/
+$(document).ready(function(){
+    setDateSelectBox();
+});
+
+function setDateSelectBox(){
+
+   let now = new Date();
+   let now_year = now.getFullYear();       // 현재 년도
+   let now_month = now.getMonth() + 1;     // 현재 월
+   let now_day = now.getDate();            // 현재 일
+
+   let year = [[${startYear}]];            // 계정이 생성된 년도
+   let month = [[${startMonth}]];           // 계정이 생성된 월
+   let day = [[${startDay}]];              // 계정이 생성된 날
+
+   for(i = now_year; i >= 1910; i--){
+       if (i == year){
+           $("#startYearBox").append("<option selected>"+ i +"</option>");
+       } else {
+           $("#startYearBox").append("<option>"+ i +"</option>");
+       }
+   }
+
+   for(i = now_year; i >= 1910; i--){
+        $("#endYearBox").append("<option>"+ i +"</option>");
+   }
+
+    for(i = 1; i <= 12; i++){
+       if (i == month){
+           $("#startMonthBox").append("<option value=" + i +" selected>"+ i + "월</option>");
+       } else {
+           $("#startMonthBox").append("<option value=" + i +">"+ i + "월</option>");
+       }
+   }
+
+    for(i = 1; i <= 12; i++){
+       if (i == now_month){
+           $("#endMonthBox").append("<option value=" + i +" selected>"+ i + "월</option>");
+       } else {
+           $("#endMonthBox").append("<option value=" + i +">"+ i + "월</option>");
+       }
+   }
+}
+/*]]*/
+</script>
+<script>
+$(function(){
+    $("#goSorting").on('click', function(){
+        let sortValue = $('.buttonOn').attr('data-value');
+        let year1 = $('select[name="startYear"]').val();
+        let year2 = $('select[name="endYear"]').val();
+        let month1 = $('select[name="startMonth"]').val();
+        let month2 = $('select[name="endMonth"]').val();
+        let day1 = $('select[name="startDay"]').val();
+        let day2 = $('select[name="endDay"]').val();
+
+        console.log("sortValue : " + sortValue);
+        console.log("start : " + year1, month1, day1);
+        console.log("end : " + year2, month2, day2);
+
+        let jsonData = {
+            "sortValue" : sortValue ,
+            "startYear" : year1 ,
+            "startMonth" : month1 ,
+            "startDay" : day1 ,
+            "endYear" : year2 ,
+            "endMonth" : month2 ,
+            "endDay" : day2 ,
+            "type" : "posts"
+        };
+
+        $.ajax({
+            url: '/Photostagram/my/sort',
+            type: 'post',
+            data: jsonData,
+            dataType: 'json',
+            success: function(data){
+                console.log(data);
+            }
+        });
+    });
+});
+</script>

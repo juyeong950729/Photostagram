@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<!--/*
+날짜 : 2023/03/15
+이름 : 조주영
+내용 : 프로필 변경 화면
+*/-->
+<html xmlns:th="http://www.thymleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/profileLayout}">
+    <th:block layout:fragment="main">
+        <div id="modi">
+          <div id="mySelect">
+              <div>
+                  <a th:href="@{/profile (username=${user.username})}">프로필</a>
+              </div>
+              <div class="currentMenu">
+                  <a th:href="@{/profile/modify}" class="currentSet">프로필 변경</a>
+              </div>
+              <div>
+                  <a th:href="@{/profile/changePass}">비밀번호 변경</a>
+              </div>
+              <div>
+                  <a th:href="@{/profile/deleteUser}">탈퇴하기</a>
+              </div>
+          </div>
+          <div id="myInfo">
+              <div>
+                  <div>
+                      <th:block th:if="${not #strings.isEmpty(user.profileImg)}">
+                          <img th:src="|@{/}thumb/${user.profileImg}" alt="profile" class="addProf"/>
+                      </th:block>
+                      <th:block th:unless="${not #strings.isEmpty(user.profileImg)}">
+                          <img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="profile" class="addProf"/>
+                      </th:block>
+                  </div>
+                  <div>
+                      <input type="file" class="real-addProf" accept="image/*" style="display: none;"/>
+                      <span>[[${user.username}]]</span>
+                      <th:block th:if="${not #strings.isEmpty(user.profileImg)}">
+                        <a href="#" class="addNewProf" id="profilePhoto">프로필 사진 바꾸기</a>
+                      </th:block>
+                      <th:block th:unless="${not #strings.isEmpty(user.profileImg)}">
+                        <a href="#" class="changeProf" id="profilePhoto">프로필 사진 바꾸기</a>
+                      </th:block>
+                  </div>
+                  <form th:action="@{/profile/modify}" method="post">
+                      <input type="hidden" name="no" th:value="${user.no}"/>
+                      <table>
+                          <tbody>
+                          <tr>
+                              <td>
+                                  <span>이름</span>
+                              </td>
+                              <td>
+                                  <input type="text" name="name" th:value="${user.name}"/><br/>
+                                  <span>사람들이 이름, 별명 또는 비즈니스 이름 등 회원님의 알려진 이름을 사용하여 회원님의 계정을 찾을 수 있도록 도와주세요.</span>
+                                  <span>이름은 14일 안에 두 번만 변경할 수 있습니다.</span>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td>
+                                  <span>사용자 이름</span>
+                              </td>
+                              <td>
+                                  <input type="text" name="username" th:value="${user.username}">
+                              </td>
+                          </tr>
+                          <!--/*
+                          <tr>
+                              <td>
+                                  <span>웹사이트</span>
+                              </td>
+                              <td>
+                                  <input type="text" value="웹사이트">
+                              </td>
+                          </tr>
+                          */-->
+                          <tr>
+                              <td>
+                                  <span>소개</span>
+                              </td>
+                              <td>
+                                  <textarea name="profileText" maxlength="150" id="textBox" onchange="changeLength()">[[${user.profileText}]]</textarea>
+                                  <span> <span class="textCount">0</span> / 150</span>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td></td>
+                              <td id="private">
+                                  개인 정보 <br/>
+                                  비즈니스나 반려동물 등에 사용된 계정인 경우에도 회원님의 정보를 입력하세요. 공개 프로필에는 포함되지 않습니다.
+                              </td>
+                          </tr>
+                          <tr>
+                              <td>
+                                  <span>이메일</span>
+                              </td>
+                              <td>
+                                  <input type="email" name="email" th:value="${user.email}" disabled/>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td>
+                                  <span>전화번호</span>
+                              </td>
+                              <td>
+                                  <input type="text" name="profilePhone" th:value="${user.profilePhone}"/>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td>
+                                  <span>성별</span>
+                              </td>
+                              <th:block th:if="${user.gender} == null">
+                                  <td>
+                                      <input type="text" name="gender" value="밝히고 싶지 않음"/>
+                                  </td>
+                              </th:block>
+                              <th:block th:unless="${user.gender} == null">
+                                  <td>
+                                      <input type="text" name="gender" th:value="${user.gender}"/>
+                                  </td>
+                              </th:block>
+                          </tr>
+                          <!--/*
+                          <tr>
+                              <td>
+                                  <span>프로필에 계정 추천 표시</span>
+                              </td>
+                              <td>
+                                  <input type="checkbox" value="1" id="check">
+                                  <span>사람들이 회원님의 프로필에서 비슷한 계정 추천을 볼 수 있는지와 회원님의 계정이 다른 프로필에서 추천될 수 있는지를 선택하세요.</span>
+                              </td>
+                          </tr>
+                          */-->
+                          </tbody>
+                      </table>
+                      <input id="myModify" type="submit" value="제출">
+                  </form>
+                  <a href="#">탈퇴하기</a>
+              </div>
+          </div>
+        </div>
+        <div id="photoModal" class="photoModal">
+            <div class="photoContents">
+                <div id="photoTop">
+                    <span>프로필 사진 바꾸기</span>
+                </div>
+                <ul id="photoBottom">
+                    <li class="addProf" id="modalAddProf">사진 업로드</li>
+                    <li class="deleteProf">현재 사진 삭제</li>
+                    <li class="photoClose">취소</li>
+                </ul>
+            </div>
+        </div>
+    </th:block>
+</html>

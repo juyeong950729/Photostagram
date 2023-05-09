@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="chatModalFragment">
+    <script th:inline="javascript">
+        $(function(){
+            $('input[name=queryBox]').keydown(function(key) {
+                //키의 코드가 13번일 경우 (13번은 엔터키)
+                if (key.keyCode == 13) {
+                    //경고창을 출력한다.
+                    //alert("엔터키를 눌렀습니다.");
+                    let keyword = $(this).val();
+
+                    let jsonData = {"keyword":keyword};
+
+                    $.ajax({
+                        url:'/Photostagram/findAllUsers',
+                        method:'POST',
+                        data:jsonData,
+                        dataType:'json',
+                        success:function(data){
+                            let users = data.users;
+                            if(users.length == 0){
+                                alert('사용자 없음');
+                            }else{
+                                $('.reco-list-main').hide();
+                                $('.recommend').hide();
+                                users.forEach(function(user){
+                                    let member = "<div class='reco-list-main-add'>";
+                                        member += "<div class='reco-list-img'>";
+                                        member += "<span class='reco-list-img-1'>";
+                                        if(!user.profileImg){
+                                            member += "<img class='reco-list-img-real' src='/Photostagram/img/44884218_345707102882519_2446069589734326272_n.jpg' alt='계정사진'>";
+                                        }else{
+                                            member += "<img class='reco-list-img-real' src='/Photostagram/thumb/"+user.profileImg+"' alt='계정사진'>";
+                                        }
+                                        member += "</span>";
+                                        member += "</div>";
+                                        member += "<div class='reco-id'>";
+                                        member += "<div class='reco-id-1'>";
+                                        member += "<div class='reco-id-2'>";
+                                        member += "<div class='reco-id-3'>"+user.username+"</div>";
+                                        member += "</div>";
+                                        member += "</div>";
+                                        member += "<div class='reco-name'>";
+                                        if(user.text != null){
+                                            member += "<div class='reco-name-1'>"+user.text+"</div>";
+                                        }else{
+                                            member += "<div class='reco-name-1'></div>";
+                                        }
+                                        member += "</div>";
+                                        member += "</div>";
+                                        member += "<div class='reco-btn' data-username='"+user.username+"' data-no='"+user.no+"'>";
+                                        if($('h5').hasClass(user.username)){
+                                            member += "<input type='checkbox' name='userCheck' checked>";
+                                        }else{
+                                            member += "<input type='checkbox' name='userCheck'>";
+                                        }
+                                        member += "</div>";
+                                        member += "</div>";
+
+                                   $('.reco-list-wrap').append(member);
+
+                                }); // foreach end
+                            } // else end
+                        } // success end
+                    }); // ajax end
+                } // if keycode == 13 end
+            }); // keydown event end
+
+            $(document).on('click', 'input[name=userCheck]', function(){
+
+                //alert('here1');
+
+                let div = $(this).parent('div');
+                let userCheck  = div.children('input[name=userCheck]');
+
+                let length = $('input:checkbox[name=userCheck]:checked').length;
+                console.log('here1 : '+length);
+
+                let username = div.attr('data-username');
+                let no = div.attr('data-no');
+
+                if(userCheck.is(':checked')){
+                    console.log('checked!');
+                    $('.sendingUser').append('<h5 class='+username+' data-num='+no+'>'+username+'&nbsp;&nbsp;</h5>');
+                    $('.new-body2-1').val('');
+                    $('.recommend').show();
+                    $('.reco-list-main').show();
+                    $('.reco-list-main-add').remove();
+
+                    if($('.sendingUser').children().length > 0){
+                        $('.btn-next').attr("disabled", false);
+                        $('.btn-next').css("color", "#0000ff");
+                    }
+                }else{
+                    console.log('not checked!');
+                    $('.'+username+'').remove();
+                    $('.new-body2-1').val('');
+                    $('.recommend').show();
+                    $('.reco-list-main').show();
+                    $('.reco-list-main-add').remove();
+
+                    console.log('h5 length : '+$('h5').length);
+
+                    if($('.sendingUser').children().length == 0){
+                        $('.btn-next').attr("disabled", true);
+                        $('.btn-next').css("color", "#4db5f9");
+                    }
+                }
+
+            });
+
+            $('.btn-next').on('click', function(){
+                var checkBoxArr = [];
+
+                $('.sendingUser').children().each(function(){
+                    let no = $(this).attr('data-num');
+                    checkBoxArr.push(no);
+                    console.log(checkBoxArr);
+                });
+                console.log('checkBoxArr : '+checkBoxArr);
+
+                let my_no = [[${user.no}]];
+                console.log('my_no : '+my_no);
+
+                let jsonData = {"user_no":checkBoxArr, "my_no":my_no};
+                console.log('jsonData : '+JSON.stringify(jsonData));
+
+
+                $.ajax({
+                    url:'/Photostagram/goChattingRoom',
+                    method:'POST',
+                    traditional: true,
+                    data:jsonData,
+                    dataType:'json',
+                    success:function(data){
+                        let room_no = data.result;
+                        console.log('메시지창으로 이동!');
+                        location.href='/Photostagram/chat/content?room_no='+room_no;
+                    }
+                });
+            });
+        });
+    </script>
+<!--메시지 보내기 모달-->
+<div id="overlay" class="new-wrap">
+    <div class="new-content">
+        <div class="new-head">
+            <div class="new-head-close">
+                <img id="confirm" th:src="@{/img/free-icon-close-4013407.png}" alt="닫기">
+            </div>
+            <div class="new-head-mesg">
+                새로운 메시지
+            </div>
+            <div class="new-head-next">
+                <button class="btn-next" disabled="disabled">다음</button>
+            </div>
+        </div>
+        <div class="new-body1">
+            <div class="new-body1-1">
+                <div class="new-body1-2">
+                    <h4 class="new-body1-3">받는 사람: </h4>
+                </div>
+                <div class="new-body2">
+                    <div class="sendingUser"></div>
+                    <input class="new-body2-1" autocomplete="off" name="queryBox" placeholder="검색..." spellcheck="false" type="text">
+                </div>
+            </div>
+        </div>
+        <div class="new-body3">
+            <div class="recommend">
+                <div class="recommend-1">추천</div>
+            </div>
+            <div class="reco-list-wrap" aria-disabled="false" role="button" tabindex="0">
+                <th:block th:if="${not #lists.isEmpty(recommends)}" th:each="recommend:${recommends}">
+                <div class="reco-list-main" id="recommends_user">
+                    <div class="reco-list-img">
+                        <span class="reco-list-img-1">
+                            <th:block th:if="${#strings.isEmpty(recommend.profileImg)}">
+                                <img class="reco-list-img-real" th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="계정사진">
+                            </th:block>
+                            <th:block th:unless="${#strings.isEmpty(recommend.profileImg)}">
+                                <img class="reco-list-img-real" th:src="@{/thumb/{img}(img=${recommend.profileImg})}" alt="계정사진">
+                            </th:block>
+                        </span>
+                    </div>
+                    <div class="reco-id">
+                        <div class="reco-id-1">
+                            <div class="reco-id-2">
+                                <div class="reco-id-3">[[${recommend.username}]]</div>
+                            </div>
+                        </div>
+                        <div class="reco-name">
+                            <div class="reco-name-1"></div>
+                        </div>
+                    </div>
+                    <div class="reco-btn" th:data-username="${recommend.username}" th:data-no="${recommend.user}">
+                        <input type='checkbox' name='userCheck'>
+                    </div>
+                </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</div>
+</th:block>
+</html>

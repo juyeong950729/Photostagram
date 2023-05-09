@@ -1,0 +1,573 @@
+<!--/*
+  날짜 : 2023 / 02 / 27
+  이름 : 조광호
+*/-->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/IndexLayout}">
+
+<th:block layout:fragment="main">
+    <section id="container">
+    <!---- 스토리 부분 ---->
+    <div class="hidden_menu">
+      <div class="scroll_inner">
+        <th:block th:each="following : ${followings}">
+          <div class="user">
+
+          <div class="thumb_img">
+            <th:block th:if="${#strings.isEmpty(following.profileImg)}">
+              <a th:href="@{/profile(username=${following.username})}"><img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="프로필이미지"/></a>
+            </th:block>
+
+            <th:block th:unless="${#strings.isEmpty(following.profileImg)}">
+              <a th:href="@{/profile(username=${following.username})}"><img th:src="|@{/}thumb/${following.profileImg}" alt="프로필이미지"/></a>
+            </th:block>
+          </div>
+
+          <div class="id" th:text="${following.username}">kindtigerrr1</div>
+        </div>
+        </th:block>
+
+      </div>
+    </div>
+    <section id="main_container">
+      <div class="inner">
+        <div class="contents_box">
+          <!-- 메인콘텐츠 -->
+          <th:block th:if="${#lists.size(articles) != 0}">
+            <article th:each="article : ${articles}" th:class="contents" th:data-no="${article.no}">
+
+                <header class="top">
+                  <div class="user_container">
+                    <!-- 상단 게시자 정보 div -->
+                    <div class="profile_img">
+
+                      <!------------- 게시글 상단 프로필사진입니다 --------------------->
+                      <th:block th:if="${#strings.isEmpty(article.memberVO.profileImg)}">
+                        <a th:href="@{/profile(username=${article.memberVO.username})}"><img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="프로필이미지"/></a>
+                      </th:block>
+
+                      <a th:href="@{/profile(username=${article.memberVO.username})}"><img th:src="|@{/}thumb/${article.memberVO.profileImg}" alt="프로필이미지"/></a>
+
+                    </div>
+                    <div class="user_name">
+                      <div class="nick_name m_text" >
+                        <!------------- 게시글 상단 아이디입니다 --------------------->
+                        <a th:href="@{/profile(username=${article.memberVO.username})}" th:text="${article.memberVO.username}">letary</a>
+
+                        <span class="jum">•</span>
+
+                        <!------------- 게시글 상단 날짜입니다 --------------------->
+                        <span class="time articleTime"></span>
+
+                      </div>
+                      <div class="country s_text">Busan, South Korea</div>
+                    </div>
+                  </div>
+
+                  <!-- 게시글 상단 토글박스 div -->
+                  <div class="sprite_more_icon">
+                    <div class="moreIcon" data-name="more"></div>
+                  </div>
+                </header>
+
+                <!-- 게시글 사진 div -->
+                <div class="img_section">
+                  <div class="bx_slider">
+                    <!------------- 게시글 사진입니다 --------------------->
+                    <th:block th:each="thumbImage : ${article.imageVO}">
+                      <th:block th:if="${#strings.contains(thumbImage.thumb,'.mp4')}">
+                        <video height="590"
+                               width="590"
+                               loop
+                               controls
+
+                               th:src="|@{/}thumb/${thumbImage.thumb}">
+                        </video>
+                      </th:block>
+
+                      <th:block th:unless="${#strings.contains(thumbImage.thumb,'.mp4')}">
+                        <img th:src="|@{/}thumb/${thumbImage.thumb}" alt="visual01" />
+                      </th:block>
+                    </th:block>
+                  </div>
+                </div>
+
+                <!--좋아요, 댓글리스트, 공유, 북마크-->
+                <div class="bottom_icons">
+                  <div class="left_icons">
+                    <!-- 좋아요 버튼 -->
+                    <th:block th:if="${#strings.equals(user.no,article.post_likeVO.user_no)}">
+                      <div class="artLike sprite_full_heart_icon_outline" th:data-no="${user.no}"></div>
+                    </th:block>
+
+                    <th:block th:unless="${#strings.equals(user.no,article.post_likeVO.user_no)}">
+                      <div class="artLike sprite_heart_icon_outline" th:data-no="${user.no}"></div>
+                    </th:block>
+
+                    <!-- 댓글 리스트 버튼 -->
+                    <div class="sprite_bubble_icon"></div>
+
+                    <!-- 공유하기 버튼 -->
+                    <div class="sprite_dm_icon" data-name="share">
+                      <img th:src="@{/img/DM-image.png}" alt="" />
+                    </div>
+                  </div>
+                  <div class="right_icon">
+                    <div class="sprite_bookmark_outline"
+                         th:data-value="${user.no}"></div>
+                  </div>
+                </div>
+
+                <div class="likes m_text">
+                  좋아요 <span class="like-count" th:text="${article.like}"></span>개
+                </div>
+
+                <!-- 게시글 내용 div -->
+                <div class="comment_container">
+                  <div class="comment" id="comment-list-ajax-post37">
+                    <div class="comment-detail">
+                      <div class="nick_name m_text">
+                        <!------------ 게시자 아이디 입니다 ----------->
+                        <a th:href="@{/profile(username=${article.memberVO.username})}" th:text="${article.memberVO.username}"></a>
+                      </div>
+                      <!------------- 게시글 내용 입니다 ----------------->
+                      <div class="mainContent">
+                        <div class="commentWord" th:text="${article.content}" >내용</div>
+                        <th:block th:each="hashtag : ${article.hashTagVO}">
+                          <a th:href="@{/search(no = ${hashtag.no})}" class="hashtag_text" style="color: #00376B;">#[[${hashtag.hashtag}]]</a>
+                        </th:block>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 댓글 div -->
+                  <th:block th:each="comment : ${comments}" th:if="${#strings.equals(comment.post_no,article.no)}">
+                    <div class="reply_user" th:data-no="${comment.no}">
+                      <!------- /* 댓글 아이디, 댓글 내용 */------->
+                      <input type="hidden" class="reply_no" th:value="${comment.no}">
+                      <a th:href="@{/profile(username=${comment.memberVO.username})}" class="reply_nick" th:text="${comment.username}">j_hlli</a>
+                      <span class="reply_content" th:text="${comment.comment}">강아지가 너무 귀여워요!</span>
+                      <!---------------------------------------->
+
+                      <!-- 좋아요를 눌렀던 경우 -->
+                      <th:block th:if="${#strings.equals(user.no,comment.comment_likeVO.user_no)}">
+                        <div class="comLike_full sprite_full_small_heart_icon_outline" th:data-no="${user.no}"></div>
+                      </th:block>
+                      <!-- 좋아요를 안 누른 경우 -->
+                      <th:block th:unless="${#strings.equals(user.no,comment.comment_likeVO.user_no)}">
+                        <div class="comLike sprite_small_heart_icon_outline" th:data-no="${user.no}"></div>
+                      </th:block>
+                    </div>
+                  </th:block>
+                  <!-- 댓글 끝 div -->
+                </div>
+
+                <div class="commentMore">
+                  댓글 <span id="comment-count" th:text="${article.commentCount}">12</span>개 모두 보기
+                </div>
+
+                <!----- 댓글 작성 폼 ------->
+                <div class="comment_field" id="add-comment-post37">
+                  <input type="hidden" name="uid" th:value="${#authentication.principal.user.username}">
+                  <input type="hidden" name="postNo" th:value="${article.no}">
+                  <input type="hidden" name="userNo" th:value="${user.no}">
+                  <input type="text" name="commentText" class="commentText" placeholder="댓글달기..." />
+                  <button class="upload_btn m_text">게시</button>
+                </div>
+
+                <!-------------- 포스트 게시글 모달 ------------------->
+                <div class="modal-post" th:data-no="${article.no}">
+                  <svg class="post-close" fill="#ffffff" viewBox="0 0 48 48">
+                    <path
+                            clip-rule="evenodd"
+                            d="M41.8 9.8L27.5 24l14.2 14.2c.6.6.6 1.5 0 2.1l-1.4 1.4c-.6.6-1.5.6-2.1 0L24 27.5 9.8 41.8c-.6.6-1.5.6-2.1 0l-1.4-1.4c-.6-.6-.6-1.5 0-2.1L20.5 24 6.2 9.8c-.6-.6-.6-1.5 0-2.1l1.4-1.4c.6-.6 1.5-.6 2.1 0L24 20.5 38.3 6.2c.6-.6 1.5-.6 2.1 0l1.4 1.4c.6.6.6 1.6 0 2.2z"
+                            fill-rule="evenodd"
+                    ></path>
+                  </svg>
+                  <div class="wrapper">
+                    <!---------- 모달 메인 사진영역 -------->
+                    <div class="image">
+                      <div class="bx_slider">
+                        <!------------- 게시글 사진입니다 --------------------->
+                        <th:block th:each="thumbImage : ${article.imageVO}">
+                          <th:block th:if="${#strings.contains(thumbImage.thumb,'.mp4')}">
+                            <video class="modal_video"
+                                   height="590"
+                                   width="590"
+                                   loop
+                                   controls
+                                   autoplay th:src="|@{/}thumb/${thumbImage.thumb}">
+                            </video>
+                          </th:block>
+                          <th:block th:unless="${#strings.contains(thumbImage.thumb,'.mp4')}">
+                            <img th:src="|@{/}thumb/${thumbImage.thumb}" alt="visual01" />
+                          </th:block>
+                        </th:block>
+                      </div>
+                    </div>
+
+                    <div class="post-content">
+                      <!-- 글 작성자 -->
+                      <div class="user">
+                        <img th:src="|@{/}thumb/${article.memberVO.profileImg}"
+                             onerror="this.src='/Photostagram/img/44884218_345707102882519_2446069589734326272_n.jpg'">
+                        <a th:href="@{/profile(username=${article.memberVO.username})}" th:text="${article.memberVO.username}"></a>
+                      </div>
+
+                      <!-- modal 게시글 내용 -->
+                      <div class="user-content">
+                        <img th:src="|@{/}thumb/${article.memberVO.profileImg}"
+                             onerror="this.src='/Photostagram/img/44884218_345707102882519_2446069589734326272_n.jpg'">
+                        <a th:href="@{/profile(username=${article.memberVO.username})}" th:text="${article.memberVO.username}"></a>
+
+                        <span>[[${article.content}]]
+                          <a th:href="@{/search(no = ${hashtag.no})}" th:each="hashtag : ${article.hashTagVO}" class="modalhashtag_text" style="color: #00376B;">#[[${hashtag.hashtag}]]</a>
+                        </span>
+
+                      </div>
+
+                      <!-- modal 댓글 th:if="${comment.parent} == 0" -->
+                      <div class="rest">
+                        <div class="text">
+                          <th:block th:each="comment : ${comments}" th:if="${#strings.equals(comment.post_no,article.no)}">
+                            <div class="top" th:data-value="${comment.no}" >
+                              <!---- modal 댓글 프로필 사진입니다 --->
+                              <img th:src="|@{/}thumb/${comment.memberVO.profileImg}"
+                                   onerror="this.src='/Photostagram/img/44884218_345707102882519_2446069589734326272_n.jpg'">
+
+                              <!---- modal 댓글작성자 ID, 내용 입니다 ---->
+                              <div class="posting">
+                                <div th:data-no="${comment.no}">
+                                  <a class="modal_comment_id" th:href="@{/profile(username=${comment.username})}" th:text="${comment.memberVO.username}">KingTiger</a>
+                                  <input type="hidden" th:value="${comment.no}">
+                                  <span class="modal_comment" th:text="${comment.comment}">모달 댓글 내용</span>
+                                  <!-- 댓글 좋아요 -->
+                                  <th:block th:if="${#strings.equals(user.no,comment.comment_likeVO.user_no)}">
+                                    <div class="comLike sprite_full_small_heart_icon_outline" th:data-no="${user.no}"></div>
+                                  </th:block>
+                                  <!-- 댓글 좋아요를 안 누른 경우 -->
+                                  <th:block th:unless="${#strings.equals(user.no,comment.comment_likeVO.user_no)}">
+                                    <div class="comLike sprite_small_heart_icon_outline" th:data-no="${user.no}"></div>
+                                  </th:block>
+
+                                  <div class="commentInfo">
+                                    <span>1일</span>&nbsp;&nbsp;좋아요
+                                    <span id="md_comment_likeCount" th:text="${comment.modal_likeCount}">100개</span>개&nbsp;
+                                    <span class="resp_comment">답글달기</span>
+                                    <button class="comment_option"></button>
+                                  </div>
+                                </div>
+                              </div>
+                              <!---------------------------------->
+
+                              <!-- 답글 -->
+                              <div class="resp_comment_section" >
+                                <a href="#" class="respCommentOpen" th:if="${comment.childComment != null}">―― 답글보기</a>
+                                  <ul style="display:none">
+                                    <li th:each="child:${comment.childComment}">
+
+                                      <!-- 프로필 사진 -->
+                                      <img th:src="|@{/}thumb/${child.profileImg}"
+                                           onerror="this.src='/Photostagram/img/44884218_345707102882519_2446069589734326272_n.jpg'"
+                                           alt="profile">
+
+                                      <div th:data-no="${child.no}" style="display: inline-block;">
+                                        <!-- 답글 작성자 & 프로필 경로 -->
+                                        <a class="modal_comment_id" th:href="@{/profile(username=${child.username})}" th:text="${child.memberVO.username}">KingTiger</a>
+
+                                        <!-- 답글 대상자(@jgh0609) -->
+                                        <a th:href="@{/profile(username=${comment.username})}" class="resp_id" th:text="|@${comment.username}|"  style="color:#00376B;">@아이디</a>&nbsp;
+
+                                        <!-- 답글 내용 -->
+                                        <span class="modal_comment" th:text="${child.comment}">모달 답글내용</span>
+
+                                        <!-- 댓글 좋아요 -->
+                                        <th:block th:if="${#strings.equals(user.no,child.comment_likeVO.user_no)}">
+                                          <div class="comLike sprite_full_small_heart_icon_outline" th:data-no="${user.no}"></div>
+                                        </th:block>
+                                        <!-- 댓글 좋아요를 안 누른 경우 -->
+                                        <th:block th:unless="${#strings.equals(user.no,child.comment_likeVO.user_no)}">
+                                          <div class="comLike sprite_small_heart_icon_outline" th:data-no="${user.no}"></div>
+                                        </th:block>
+
+                                        <div class="commentInfo">
+                                          <span>1일</span>&nbsp;&nbsp;좋아요
+                                          <span id="md_comment_likeCount" th:text="${child.modal_likeCount}">100개</span>개&nbsp;
+                                          <span class="resp_comment">답글달기</span>
+                                          <button class="comment_option"></button>
+                                        </div>
+                                      </div>
+
+                                    </li>
+                                  </ul>
+                                </div>
+                              <div id="modal_postSelect" class="modalPost modal_post_overlay">
+                                <div class="modal_post_window">
+                                  <div class="modal_post_title">
+
+                                    <div class="modal_postDelete">
+                                      <span>삭제</span>
+                                    </div>
+
+                                    <div class="modal_postCancel">
+                                      <span>취소</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div id="modal_postSelect_delete" class="modalPost modal_post_overlay">
+                                <div class="modal_post_window_delete">
+                                  <div class="modal_post_title">
+                                    <div class="confirm_delete">
+                                      <span>댓글을 삭제할까요?</span>
+                                      <span>이 댓글을 정말 삭제하시겠어요?</span>
+                                    </div>
+                                    <div class="post_delete" >
+                                      <span th:data-value="${comment.no}">삭제</span>
+                                    </div>
+                                    <div class="post_delete_cancel">
+                                      <span>취소</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </th:block> <!-- comment : ${comments}-->
+                        </div>
+                        <div class="buttons">
+                          <!-- 좋아요 버튼 -->
+                          <button class="like">
+                            <th:block th:if="${#strings.equals(user.no,article.post_likeVO.user_no)}">
+                              <div class="artLike sprite_full_heart_icon_outline" th:data-no="${user.no}"></div>
+                            </th:block>
+                            <th:block th:unless="${#strings.equals(user.no,article.post_likeVO.user_no)}">
+                              <div class="artLike sprite_heart_icon_outline" th:data-no="${user.no}"></div>
+                            </th:block>
+                          </button>
+
+                          <!-- 공유 버튼 -->
+                          <button class="direct" onclick="direct()">
+                            <svg viewBox="0 0 48 48">
+                              <path
+                                      d="M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 3.5.1 4S0 5.2.4 5.7l15.9 15.6 5.5 22.6c.1.6.6 1 1.2 1.1h.2c.5 0 1-.3 1.3-.7l23.2-39c.4-.4.4-1 .1-1.5zM5.2 6.1h35.5L18 18.7 5.2 6.1zm18.7 33.6l-4.4-18.4L42.4 8.6 23.9 39.7z"
+                              ></path>
+                            </svg>
+                          </button>
+
+                          <!-- 저장됨 -->
+                          <button class="save">
+                            <svg class="save-no" viewBox="0 0 48 48">
+                              <path
+                                      d="M43.5 48c-.4 0-.8-.2-1.1-.4L24 29 5.6 47.6c-.4.4-1.1.6-1.6.3-.6-.2-1-.8-1-1.4v-45C3 .7 3.7 0 4.5 0h39c.8 0 1.5.7 1.5 1.5v45c0 .6-.4 1.2-.9 1.4-.2.1-.4.1-.6.1zM24 26c.8 0 1.6.3 2.2.9l15.8 16V3H6v39.9l15.8-16c.6-.6 1.4-.9 2.2-.9z"
+                              ></path>
+                            </svg>
+                            <svg class="save-yes" viewBox="0 0 48 48">
+                              <path
+                                      d="M43.5 48c-.4 0-.8-.2-1.1-.4L24 28.9 5.6 47.6c-.4.4-1.1.6-1.6.3-.6-.2-1-.8-1-1.4v-45C3 .7 3.7 0 4.5 0h39c.8 0 1.5.7 1.5 1.5v45c0 .6-.4 1.2-.9 1.4-.2.1-.4.1-.6.1z"
+                              ></path>
+                            </svg>
+                          </button>
+
+                        </div>
+                        <div class="likes m_text">
+                          좋아요 <span class="modal-like-count" th:text="${article.like}"></span>개
+                        </div>
+                        <div class="post-date" >[[${article.rdate}]]</div>
+
+                        <div class="comment-wrapper">
+                          <input type="hidden" name="uid" th:value="${#authentication.principal.user.username}">
+                          <input type="hidden" name="postNo" th:value="${article.no}">
+                          <input type="hidden" name="userNo" th:value="${user.no}">
+                          <input type="text" class="modal_commentText" placeholder="댓글 달기...">
+                          <button class="upload_btn m_text">게시</button>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="previous" onclick="postPrevious();"></div>
+                    <div class="next" onclick="postNext();"></div>
+                  </div>
+                </div>
+
+                <!-- 포스트 메뉴 모달 -->
+                <div class="post-menu">
+                  <div class="wrapper">
+                    <button>신고</button>
+                    <button><a th:href="@{/board/post(no=${article.no})}">게시물로 이동</a></button>
+                    <button>공유 대상...</button>
+                    <button>링크 복사</button>
+                    <button>퍼가기</button>
+                    <button class="postmenu-cancel">
+                      취소
+                    </button>
+                  </div>
+                </div>
+
+
+                <!-- -->
+              </article>
+          </th:block>
+
+          <th:block th:if="${#lists.size(articles) == 0}">
+            <div style="display: inline-block;
+                        margin-top: 102px;
+                        margin-left: 133px;
+                        font-size: 20px;"
+            >
+              <p>등록된 게시글이 없습니다.<p> <br>
+              <p style="margin-top: 14px;">지금부터 팔로잉을 해보세요!</p>
+            </div>
+          </th:block>
+        </div>
+        <!-- <input type="hidden" id="page" value="1"> 왜 있는지 모름 (보류)-->
+
+
+        <!-- 본인 프로필 및 정보 -->
+        <div class="side_box">
+          <div class="user_profile">
+            <div class="profile_thumb">
+              <a th:href="@{/profile(username=${user.username})}">
+                <img th:src="|@{/}thumb/${user.profileImg}"
+                   onerror="this.src='/Photostagram/img/44884218_345707102882519_2446069589734326272_n.jpg'"
+                   alt="profile">
+              </a>
+            </div>
+
+            <div class="detail">
+              <a th:href="@{/profile(username=${user.username})}">
+                <div class="id m_text" th:text="${user.username}">letary</div>
+              </a>
+              <div class="ko_name" th:text="${user.name}">김길동</div>
+            </div>
+
+            <div class="trans">
+              <a href="#">전환</a>
+            </div>
+          </div>
+
+          <!----- 회원님을 위한 추천 ----->
+          <!-- 내가 팔로잉 하지 않은 사람들 -->
+          <article class="recommend" style="overflow-y: scroll; height:300px;">
+            <header class="reco_header">
+              <div>회원님을 위한 추천</div>
+              <div class="more">모두 보기</div>
+            </header>
+            <th:block th:each="member : ${members}" th:if="${not #strings.equals(member.name,'NULL')}">
+              <div class="thumb_user">
+                <div class="profile_thumb">
+
+                  <th:block th:if="${#strings.isEmpty(member.profileImg)}">
+                    <a th:href="@{/profile(username=${member.username})}"><img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="프로필이미지"/></a>
+                  </th:block>
+
+                  <th:block th:unless="${#strings.isEmpty(member.profileImg)}">
+                    <a th:href="@{/profile(username=${member.username})}"><img th:src="|@{/}thumb/${member.profileImg}" alt="프로필이미지"/></a>
+                  </th:block>
+                </div>
+                <div class="detail" style="display: inline-block; vertical-align: top;">
+                  <a th:href="@{/profile(username=${member.username})}" class="id" th:text="${member.username}">kind_pizza</a>
+                  <div class="time">1시간 전</div>
+                </div>
+                <input type="button" class="idxfw idx_followBtn" th:value="팔로우" th:data-no="${member.no}">
+              </div>
+            </th:block>
+          </article>
+
+
+          <div class="info">
+            <nav>
+              <ul>
+                <li><a href="#">소개&nbsp;|</a></li>
+                <li><a href="#">도움말&nbsp;|</a></li>
+                <li><a href="#">홍보센터&nbsp;|</a></li>
+                <li><a href="#">API&nbsp;|</a></li>
+                <li><a href="#">채용 정보&nbsp;|</a></li>
+                <li><a href="#">개인정보처리방침&nbsp;|</a></li>
+                <li><a href="#">약관&nbsp;|</a></li>
+                <li><a href="#">위치&nbsp;|</a></li>
+                <li><a href="#">언어&nbsp;|</a></li>
+                <li><a href="#">Meta Verified</a></li>
+              </ul>
+            </nav>
+            <span> © 2023 INSTAGRAM FROM META </span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+</th:block>
+</html>
+<script th:inline="javascript">
+/*<![CDATA[*/
+
+  let idxnow = new Date();
+
+  // 현재시간
+  let idxyear = idxnow.getFullYear();
+  let idxmonth = idxnow.getMonth();
+  let idxday = idxnow.getDate();
+  let idxhours = idxnow.getHours();
+  let idxminutes = idxnow.getMinutes();
+
+  $(function(){
+     // 비교시간
+      let articles = [[${articles}]];
+
+      let idx_h = 0;
+      articles.forEach(function(article, index){
+          let idxrdate = article.rdate;
+          console.log("idx rdate : "+idxrdate);
+          idxrdate = idxrdate.split(" ");
+
+          let idxdate = idxrdate[0].split("-");
+          let idxsttYear = idxdate[0];
+          let idxsttMonth = idxdate[1];
+          idxsttMonth = parseInt(idxsttMonth)-1;
+          let idxsttDay = idxdate[2];
+          console.log('idx sttYear : '+idxsttYear);
+          console.log('idx sttMonth : '+idxsttMonth);
+          console.log('idx sttDay : '+idxsttDay);
+
+          let idxtime = idxrdate[1].split(":");
+          let idxsttHours = idxtime[0];
+          let idxsttMinutes = idxtime[1];
+          console.log("idx sttHours : "+idxsttHours);
+          console.log("idx sttMinutes : "+idxsttMinutes);
+
+          let idx_calDate1 = new Date(idxyear, idxmonth, idxday, idxhours, idxminutes);
+          let idx_calDate2 = new Date(idxsttYear, idxsttMonth, idxsttDay, idxsttHours, idxsttMinutes);
+
+          console.log("idx Date1 : "+idx_calDate1);
+          console.log("idx Date2 : "+idx_calDate2);
+
+          let idx_MSec = idx_calDate1.getTime() - idx_calDate2.getTime();
+          let idx_Min = idx_MSec / 1000 / 60;
+          idx_Min = parseInt(idx_Min);
+          let idx_h = idx_Min / 60;
+          idx_h = Math.round(idx_h);
+          console.log("idx h : "+idx_h);
+          if(idx_h == 24){
+              $('.articleTime')[index].append('1일');
+              return;
+          }else if(idx_h < 24){
+              $('.articleTime')[index].append(idx_h+'시간');
+              return;
+          }else{
+              idx_h = Math.floor(idx_h / 24);
+              if(idx_h < 7){
+                  $('.articleTime')[index].append(idx_h+'일');
+                  return;
+              }else{
+                  idx_h = Math.floor(idx_h / 7);
+                  $('.articleTime')[index].append(idx_h+'주');
+              }
+          }
+      });
+
+
+  });
+/*]]*/
+</script>

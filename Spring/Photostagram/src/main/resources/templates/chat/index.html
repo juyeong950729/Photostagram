@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/chatLayout}">
+<th:block layout:fragment="main">
+<style>
+    /*메시지부분*/
+
+    /*중앙 화면 전체크기*/
+   ._aa5b {
+    align-items: center;
+    border: 1px solid;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    font: inherit;
+    font-size: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 20px;
+    position: relative;
+    vertical-align: baseline;
+    width: 100%;
+}
+    .aa6b{
+        height: 100%;
+        width: 100%;
+        max-width: 935px;
+        overflow: hidden;
+        flex: 1 1 auto;
+        min-height: 0;
+        min-width: 0;
+        justify-content: center;
+        flex-direction: row;
+        align-items: stretch;
+        display: flex;
+        border-radius: 4px;
+        border: 1px solid rgb(var(--ig-separator));
+        --ig-separator: 219, 219, 219;
+        box-sizing: border-box;
+        position: relative;
+
+    }
+
+    ._aa5c {
+    align-items: stretch;
+    background-color: rgb(var(--ig-primary-background));
+    border: 0;
+    border-right: 1px solid rgb(var(--ig-elevated-separator));
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    font: inherit;
+    font-size: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    position: relative;
+    vertical-align: baseline;
+    width: 350px;
+}
+
+._aa4j {
+    background-color: rgb(var(--ig-primary-background));
+    --ig-primary-background: 255, 255, 255;
+    border-bottom: 1px solid rgb(var(--ig-elevated-separator));
+    --ig-elevated-separator: 219, 219, 219;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    font-size: 16px;
+    font-weight: 600;
+    height: 60px;
+    padding: 0 20px;
+    width: 100%;
+    z-index: 2;
+}
+
+._aa4k {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    height: inherit;
+    justify-content: space-between;
+    width: 100%;
+}
+
+._aa4n {
+    margin-right: 8px;
+}
+
+._aa4m {
+    display: flex;
+    flex-basis: 32px;
+    flex-direction: row;
+}
+
+._aa4o {
+    align-items: center;
+    color: rgb(var(--ig-primary-text));
+    display: inline-block;
+    flex-basis: 0px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    justify-content: center;
+    min-width: 0;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+._aa03{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    position: relative;
+}
+
+._aa02{
+    -webkit-appearance: none;
+    background: none;
+    border: none;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    font-family: var(--font-family-system);
+    --font-family-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: var(--font-weight-system-semibold);
+    --font-weight-system-semibold: 600;
+    padding: 7px 16px!important;
+    pointer-events: auto;
+    text-align: center;
+    text-overflow: ellipsis;
+    text-transform: inherit;
+    -webkit-user-select: none;
+    width: auto;
+    border: 0;
+    color: rgb(var(--ig-primary-button));
+    --ig-primary-button: 0, 149, 246;
+    display: inline-block;
+    padding: 0!important;
+    position: relative;
+}
+
+._aa01{
+    display: flex;
+    align-content: stretch;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    position: relative;
+}
+
+._abyj {
+    align-items: stretch;
+    border: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 10;
+    font: inherit;
+    font-size: 100%;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+._aa00{
+    font-family: var(--font-family-system);
+    --font-family-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: var(--system-16-font-size);
+    line-height: var(--system-16-line-height);
+    margin: -6px 0 -6px;
+    font-weight: var(--font-weight-system-semibold);
+    --font-weight-system-semibold: 600;
+    color: rgb(var(--ig-primary-text));
+    --ig-primary-text: 38, 38, 38;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0;
+}
+
+._aa00_{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 0 0 auto;
+    padding-left: calc(var(--base-unit) * 2);
+    padding-right: calc(var(--base-unit) * 2);
+    padding-bottom: calc(var(--base-unit) * 2);
+    padding-top: calc(var(--base-unit) * 2);
+    --base-unit: 4px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+._ab6- {
+    display: block;
+    position: relative;
+}
+
+._aa01_{
+    display: flex;
+    flex-basis: 32px;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-left: 8px;
+}
+
+._aa02_{
+    align-items: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    padding: 8px;
+    padding: 0;
+}
+
+._abm0 {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+._aa03_{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 0 0 auto;
+    overflow: hidden;
+    box-sizing: border-box;
+    position: relative;
+}
+
+._aa04_{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+    box-sizing: border-box;
+    position: relative;
+}
+
+._abyl {
+    height: calc(100% - 44px);
+    overflow: hidden;
+}
+
+._abyk {
+    background: rgb(var(--ig-primary-background));
+    --ig-primary-background: 255, 255, 255;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    padding-top: 8px;
+}
+
+._aa05_{
+    background-color: rgb(var(--ig-primary-background));
+    --ig-primary-background: 255, 255, 255;
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    position: relative;
+}
+
+._abm4 {
+    cursor: pointer;
+    outline: none;
+}
+
+._aa06_{
+    display: flex;
+    align-content: stretch;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex: 0 0 auto;
+    padding-left: calc(var(--base-unit) * 5);
+    padding-right: calc(var(--base-unit) * 5);
+    padding-bottom: calc(var(--base-unit) * 2);
+    padding-top: calc(var(--base-unit) * 2);
+    --base-unit: 4px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+._aa07_{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 0 0 auto;
+    margin-right: calc(var(--base-unit) * 3);
+    --base-unit: 4px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+._aa08_{
+    display: flex;
+    align-content: stretch;
+    align-items: flex-end;
+    justify-content: flex-end;
+    flex-direction: row;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    position: relative;
+}
+
+._aa09_{
+    background-color: rgb(var(--ig-secondary-background));
+    --ig-secondary-background: 250, 250, 250;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+    border-bottom-left-radius: 50%;
+    box-sizing: border-box;
+    display: block;
+    flex-shrink: 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    position: relative;
+}
+
+.xt298gk::after {
+    border-bottom-left-radius: 50%;
+}
+.xougopr::after {
+    border-right: 1px solid rgba(var(--web-always-black),.0975);
+}
+.xnp5s1o::after {
+    border-left: 1px solid rgba(var(--web-always-black),.0975);
+}
+.xd7ygy7::after {
+    border-bottom-right-radius: 50%;
+}
+.x2q1x1w::after {
+    pointer-events: none;
+}
+.x1ykvv32::after {
+    border-top: 1px solid rgba(var(--web-always-black),.0975);
+}
+.x1xrz1ek::after {
+    bottom: 0;
+}
+.x1vzenxt::after {
+    border-top-right-radius: 50%;
+}
+.x1s928wv::after {
+    content: "";
+}
+.x1n449xj::after {
+    right: 0;
+}
+.x1m1drc7::after {
+    top: 0;
+}
+.x1j6awrg::after {
+    position: absolute;
+}
+.x194ut8o::after {
+    border-top-left-radius: 50%;
+}
+.x162n7g1::after {
+    left: 0;
+}
+.x159fomc::after {
+    border-bottom: 1px solid rgba(var(--web-always-black),.0975);
+}
+
+._aa10_{
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+    font-size: 100%;
+    height: 100%;
+    -webkit-touch-callout: none;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    vertical-align: baseline;
+    width: 100%;
+}
+
+.aa_00_{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: center;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.aa_01_{
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex: 0 0 auto;
+}
+
+.aa_02_{
+    font-family: var(--font-family-system);
+    --font-family-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: var(--system-14-font-size);
+    --system-14-font-size: 14px;
+    line-height: var(--system-14-line-height);
+    --system-14-line-height: 18px;
+    margin: -3px 0 -4px;
+    font-weight: var(--font-weight-system-regular);
+    --font-weight-system-regular: 400;
+    color: rgb(var(--ig-primary-text));
+    --ig-primary-text: 38, 38, 38;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    background-color: rgb(var(--ig-primary-button));
+    /*--ig-primary-button: 0, 149, 246;*/
+    border: none;
+}
+
+.aa_03_{
+    display: flex;
+    align-content: stretch;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.aa_04_{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 0 1 auto;
+    overflow: hidden;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.aa_05_{
+    display: inline!important;
+    margin: 0!important;
+    font-family: var(--font-family-system);
+    --font-family-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: var(--system-14-font-size);
+    --system-14-font-size: 14px;
+    line-height: var(--system-14-line-height);
+    --system-14-line-height: 18px;
+    margin: -3px 0 -4px;
+    font-weight: var(--font-weight-system-regular);
+    --font-weight-system-regular: 400;
+    color: rgb(var(--ig-primary-text));
+    --ig-primary-text: 38, 38, 38;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.aa_06_{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 0 0 auto;
+    margin-top: calc(var(--base-unit) * 2);
+    --base-unit: 4px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.aa_07_{
+    font-family: var(--font-family-system);
+    --font-family-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: var(--system-14-font-size);
+    --system-14-font-size: 14px;
+    line-height: var(--system-14-line-height);
+    --system-14-line-height: 18px;
+    margin: -3px 0 -4px;
+    font-weight: var(--font-weight-system-regular);
+    --font-weight-system-regular: 400;
+    color: rgb(var(--ig-secondary-text));
+    --ig-secondary-text: 142, 142, 142;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.aa_08_{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.aa_09_{
+    border: 0;
+    font: inherit;
+    font-size: 100%;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    text-overflow: ellipsis;
+    vertical-align: baseline;
+}
+
+.aa_10_{
+    font-family: var(--font-family-system);
+    --font-family-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    display: inline!important;
+    margin: 0!important;
+    font-size: var(--system-14-font-size);
+    --system-14-font-size: 14px;
+    line-height: var(--system-14-line-height);
+    --system-14-line-height: 18px;
+    margin: -3px 0 -4px;
+    color: rgb(var(--ig-secondary-text));
+    --ig-secondary-text: 142, 142, 142;
+}
+
+.aa_11_{
+    display: flex;
+    align-content: stretch;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex: 0 0 auto;
+    padding-bottom: calc(var(--base-unit) * 2);
+    padding-top: calc(var(--base-unit) * 2);
+    --base-unit: 4px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.aa_12_{
+    background-color: rgb(var(--ig-primary-background));
+    --ig-primary-background: 255, 255, 255;
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.ab_00_{
+    display: flex;
+    align-content: stretch;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex: 0 0 auto;
+    padding-left: calc(var(--base-unit) * 6);
+    padding-right: calc(var(--base-unit) * 6);
+    padding-bottom: calc(var(--base-unit) * 6);
+    padding-top: calc(var(--base-unit) * 6);
+    --base-unit: 4px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+._ab6- {
+    display: block;
+    position: relative;
+}
+
+.ab_01_{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 0 0 auto;
+    margin-top: calc(var(--base-unit) * 4);
+    --base-unit: 4px;
+    box-sizing: border-box;
+      position: relative;
+}
+
+.ab_02_{
+    display: block;
+    overflow-x: visible;
+    overflow-y: visible;
+    position: relative;
+    max-width: 100%;
+    min-width: 0;
+    white-space: pre-line;
+    word-break: break-word;
+    word-wrap: break-word;
+    font-family: var(--font-family-system);
+    --font-family-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: var(--system-20-font-size);
+    --system-20-font-size: 20px;
+    font-weight: 400;
+    color: rgb(var(--ig-primary-text));
+    --ig-primary-text: 38, 38, 38;
+    text-align: center;
+    margin-top: 0!important;
+    margin-right: 0!important;
+    margin-bottom: 0!important;
+    margin-left: 0!important;
+}
+.x4zkp8e::before {
+    margin-top: -4px;
+}
+.x1fgarty::before {
+    display: block;
+}
+.x1cpjm7i::before {
+    content: "";
+}
+.x1943h6x::before {
+    height: 0;
+}
+.xw06pyt::after {
+    margin-bottom: -6px;
+}
+.xhkezso::after {
+    display: block;
+}
+.x1s928wv::after {
+    content: "";
+}
+.x1gmr53x::after {
+    height: 0;
+}
+
+.ab_03_{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 0 0 auto;
+    margin-top: calc(var(--base-unit) * 4);
+    --base-unit: 4px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.ab_04_{
+    font-family: var(--font-family-system);
+    --font-family-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: var(--system-14-font-size);
+    --system-14-font-size: 14px;
+    line-height: var(--system-14-line-height);
+    --system-14-line-height: 18px;
+    margin: -3px 0 -4px;
+    font-weight: var(--font-weight-system-regular);
+    --font-weight-system-regular: 400;
+    color: rgb(var(--ig-secondary-text));
+    --ig-secondary-text: 142, 142, 142;
+    display: block;
+    text-align: center;
+}
+
+.ab_05_{
+    display: flex;
+    align-content: stretch;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex: 0 0 auto;
+    margin-top: calc(var(--base-unit) * 6);
+    --base-unit: 4px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.ab_06_{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 0 0 auto;
+    padding-left: var(--base-unit);
+    padding-right: var(--base-unit);
+    padding-bottom: var(--base-unit);
+    padding-top: var(--base-unit);
+    --base-unit: 4px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.ab_07_{
+    -webkit-appearance: none;
+    background: none;
+    border: none;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    font-family: var(--font-family-system);
+    font-size: 14px;
+    font-weight: var(--font-weight-system-semibold);
+    padding: 7px 16px!important;
+    pointer-events: auto;
+    text-align: center;
+    text-overflow: ellipsis;
+    text-transform: inherit;
+    -webkit-user-select: none;
+    width: auto;
+    border: none;
+    border-radius: 8px;
+    color: rgb(var(--web-always-white));
+    --web-always-white: 255, 255, 255;
+    position: relative;
+    background-color: rgb(var(--ig-primary-button));
+    --ig-primary-button: 0, 149, 246;
+    border: none;
+    text-align: center;
+}
+_acas _aa02//////////////////////////////////////////////////
+</style>
+   <div class="_aa5b">
+        <div class="_aa6b" style="height: 100%; width: 100%; max-width: 935px;">
+            <div class="_aa5c">
+                <div class="_aa4j">
+                    <div class="_aa4k">
+                        <div class="_aa4m _aa4n"></div>
+                        <div class="_aa4o">
+                            <div class="_aa03" style="width: 100%;">
+                                <button aria-label="계정 전환 - adfadfa123" class="_aa02" type="button">
+                                    <div class="_aa01" style="width: 100%;">
+                                        <div class="_abyj">
+                                            <div class="_aa00">adfadfa123</div>
+                                        </div>
+                                        <div class="_aa00_">
+                                            <span style="display: inline-block; transform: rotate(180deg);">
+                                                <svg aria-label="아래쪽 V자형 아이콘" class="_ab6-" color="rgb(38, 38, 38)" fill="rgb(38, 38, 38)" height="20" role="img" viewBox="0 0 24 24" width="20">
+                                                    <path d="M21 17.502a.997.997 0 0 1-.707-.293L12 8.913l-8.293 8.296a1 1 0 1 1-1.414-1.414l9-9.004a1.03 1.03 0 0 1 1.414 0l9 9.004A1 1 0 0 1 21 17.502Z"></path>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="_aa01_">
+                            <button class="_aa02_" type="button">
+                                <div class="_abm0">
+                                    <svg aria-label="새로운 메시지" class="_ab6-" color="rgb(38, 38, 38)" fill="rgb(38, 38, 38)" height="24" role="img" viewBox="0 0 24 24" width="24"><path d="M12.202 3.203H5.25a3 3 0 0 0-3 3V18.75a3 3 0 0 0 3 3h12.547a3 3 0 0 0 3-3v-6.952" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M10.002 17.226H6.774v-3.228L18.607 2.165a1.417 1.417 0 0 1 2.004 0l1.224 1.225a1.417 1.417 0 0 1 0 2.004Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="16.848" x2="20.076" y1="3.924" y2="7.153"></line>
+                                        <path d="M12.202 3.203H5.25a3 3 0 0 0-3 3V18.75a3 3 0 0 0 3 3h12.547a3 3 0 0 0 3-3v-6.952" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                                        <path d="M10.002 17.226H6.774v-3.228L18.607 2.165a1.417 1.417 0 0 1 2.004 0l1.224 1.225a1.417 1.417 0 0 1 0 2.004Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                                        <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="16.848" x2="20.076" y1="3.924" y2="7.153"></line>
+                                    </svg>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!--대화창 리스트-->
+                <div class="_aa03_" style="height: 100%;">
+                    <div class="_aa04_" style="height: 100%;">
+                        <div class="_abyl">
+                            <div class="_abyk" style="height: 100%; overflow: hidden auto;">
+                                <div style="position: relative; display: flex; flex-direction: column; padding-bottom: 0px; padding-top: 0px;">
+                                    <div class="_aa05_">
+                                        <div class="_abm4">
+                                            <a class="x1i10hfl xjbqb8w x6umtig x1b1mbwd xaqea5y xav7gou x9f619 x1ypdohk xt0psk2 xe8uvvx xdj266r x11i5rnm xat24cr x1mh8g0r xexx8yu x4uap5 x18d9i69 xkhd6sd x16tdsg8 x1hl2dhg xggy1nq x1a2a7pz _a6hd" href="#" role="link" tabindex="0">
+                                                <div aria-labelledby="fffaa612c35d4c f2713089ed66d5c f3cfb74b51fc53 f3a607f43101d24" 
+                                                class="_aa06_">
+                                                    <div class="_aa07_">
+                                                        <div class="_aa08_">
+                                                            <span class="_aa09_ x1ykvv32 xougopr x159fomc xnp5s1o x194ut8o x1vzenxt xd7ygy7 xt298gk x1xrz1ek x1s928wv x162n7g1 x2q1x1w x1j6awrg x1n449xj x1m1drc7" role="link" tabindex="-1" style="width: 56px; height: 56px;">
+                                                                <img alt="프로필 사진" class="_aa10_" crossorigin="anonymous" draggable="false" src="../profile/img/44884218_345707102882519_2446069589734326272_n.jpg" >
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="aa_00_">
+                                                        <div class="aa_01_" id="f2d079842e671ac">
+                                                            <div class="aa_02_">
+                                                                <div class="aa_03_">
+                                                                    <div class="aa_04_">
+                                                                        <div class="aa_05_">
+                                                                            김아무개</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="aa_06_" id="f30893537da3d08">
+                                                            <div class="aa_07_">
+                                                                <div class="aa_08_">
+                                                                    <span class="aa_09_">
+                                                                        <span class="aa_10_">최근 활동 : 오늘
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!--대화창 리스트-->
+                                    <div class="_aa03_" style="height: 100%;">
+                                        <div class="_aa04_" style="height: 100%;">
+                                            <div class="_abyl">
+                                                <div class="_abyk" style="height: 100%; overflow: hidden auto;">
+                                                    <div style="position: relative; display: flex; flex-direction: column; padding-bottom: 0px; padding-top: 0px;">
+                                                        <div class="_aa05_">
+                                                            <div class="_abm4">
+                                                                <a class="x1i10hfl xjbqb8w x6umtig x1b1mbwd xaqea5y xav7gou x9f619 x1ypdohk xt0psk2 xe8uvvx xdj266r x11i5rnm xat24cr x1mh8g0r xexx8yu x4uap5 x18d9i69 xkhd6sd x16tdsg8 x1hl2dhg xggy1nq x1a2a7pz _a6hd" href="#" role="link" tabindex="0">
+                                                                    <div aria-labelledby="fffaa612c35d4c f2713089ed66d5c f3cfb74b51fc53 f3a607f43101d24" 
+                                                                    class="_aa06_">
+                                                                        <div class="_aa07_">
+                                                                            <div class="_aa08_">
+                                                                                <span class="_aa09_ x1ykvv32 xougopr x159fomc xnp5s1o x194ut8o x1vzenxt xd7ygy7 xt298gk x1xrz1ek x1s928wv x162n7g1 x2q1x1w x1j6awrg x1n449xj x1m1drc7" role="link" tabindex="-1" style="width: 56px; height: 56px;">
+                                                                                    <img alt="프로필 사진" class="_aa10_" crossorigin="anonymous" draggable="false" src="../profile/img/44884218_345707102882519_2446069589734326272_n.jpg" >
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="aa_00_">
+                                                                            <div class="aa_01_" id="f2d079842e671ac">
+                                                                                <div class="aa_02_">
+                                                                                    <div class="aa_03_">
+                                                                                        <div class="aa_04_">
+                                                                                            <div class="aa_05_">
+                                                                                                이아무개</div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="aa_06_" id="f30893537da3d08">
+                                                                                <div class="aa_07_">
+                                                                                    <div class="aa_08_">
+                                                                                        <span class="aa_09_">
+                                                                                            <span class="aa_10_">최근 활동 : 오늘
+                                                                                            </span>
+                                                                                        </span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="aa_11_" style="height: 72px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="aa_12_" style="height: auto;">
+                <div class="ab_00_" style="height: 100%; width: 100%;">
+                    <svg aria-label="Direct" class="_ab6-" color="rgb(38, 38, 38)" fill="rgb(38, 38, 38)" height="96" role="img" viewBox="0 0 96 96" width="96">
+                        <circle cx="48" cy="48" fill="none" r="47" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle>
+                        <line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="69.286" x2="41.447" y1="33.21" y2="48.804"></line>
+                        <polygon fill="none" points="47.254 73.123 71.376 31.998 24.546 32.002 41.448 48.805 47.254 73.123" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></polygon>
+                    </svg>
+                    <div class="ab_01_">
+                        <span class="ab_02_ x4zkp8e x1fgarty x1cpjm7i x1943h6x xw06pyt xhkezso x1s928wv x1gmr53x" style="line-height: var(--base-line-clamp-line-height); --base-line-clamp-line-height:25px;">내 메시지</span>
+                    </div>
+                    <div class="ab_03_">
+                        <div class="ab_04_">
+                            친구나 그룹에 비공개 사진과 메시지를 보내보세요.</div>
+                    </div>
+                    <div class="ab_05_">
+                        <div class="ab_06_">
+                            <button class="ab_07_" type="button">메시지 보내기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </div>
+<!-- 메시지 보내기 모달 -->
+<div class="container">
+  <div class="mes-wrap">
+    <div class="popup-mes">
+      <div class="popup-head">
+       
+        <div class="_ac7b _ac7c">
+          <div class="_ab8w  _ab94 _ab99 _ab9f _ab9m _ab9p  _ab9- _abcm">
+            <button class="_abl- _abm2" type="button">
+              <div class="_abm0">
+                <svg aria-label="닫기" class="_ab6-" color="rgb(38, 38, 38)" fill="rgb(38, 38, 38)" height="18" role="img" viewBox="0 0 24 24" width="18"><polyline fill="none" points="20.643 3.357 12 12 3.353 20.647" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></polyline><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" x1="20.649" x2="3.354" y1="20.649" y2="3.354"></line>
+                </svg>
+              </div>
+            </button>
+          </div>
+        </div>
+        <h1 class="_ac78" tabindex="-1" style="width: calc(100% - 0px);">
+          <div class="_ac7a">새로운 메시지</div>
+        </h1>
+        <div class="_ac7b _ac7d">
+          <div class="_ab8w  _ab94 _ab99 _ab9f _ab9m _ab9p  _ab9- _abcm">
+            <button class="_acan _acao _acas _acav _aj1-" disabled type="button">
+              <div class="_aagz">다음</div>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="popup-body1">
+        <div class="">받는 사람:</div>
+        <div class="search">
+          <input type="text" class="popup-search" autocomplete="off" name="queryBox" placeholder="검색..." spellcheck="false">
+        </div>
+      </div>
+      <div class="popup-body2">
+        <div class="recommend1">
+          <div class="recommend2">
+            추천
+          </div>
+          <div class="f-list">
+            <ul>
+              <li>
+                  <img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="프로필사진">
+                  <div class="profile">
+                      <p>dlafjd</p>
+                      <p>안녕하세요.</p>
+                  </div>
+                  <div>
+                    <button class="mes-btn0"></button>
+                  </div>
+              </li>
+            </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<th:block/>
+</html>

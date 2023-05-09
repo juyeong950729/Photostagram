@@ -1,0 +1,594 @@
+    * {
+        margin: 0;
+        padding: 0;
+        font: normal 'Arial';
+    }
+
+    ul, ol {list-style: none;}
+    a {text-decoration: none; color: #111;}
+    input, textarea {outline: none;}
+
+    #pro {
+        width: 1000px;
+        margin-top:20px;
+        margin-left:500px;
+    }
+    #pro > section {width: 100%;}
+    #pro > section > div {display: block;}
+
+    #pro > section > .myProfile {
+        width: 100%;
+        height: 200px;
+        position: relative;
+        display: block;
+        border-bottom: 1px solid #e9e9e9;
+    }
+    #pro > section > .myProfile > .proPhoto {
+        float: left;
+        margin-top: 20px;
+        margin-left:100px;
+        margin-right:100px;
+        width: 200px;
+    }
+    #pro > section > .myProfile > .proPhoto > div {
+        width: 150px;
+        height: 150px;
+        border-radius: 70%;
+        overflow: hidden;
+    }
+    #pro > section > .myProfile > .proPhoto > div > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    #pro > section > .myProfile > .proPhoto > div > a > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    #pro > section > .myProfile > .detail {float:left; width:500px;}
+    #pro > section > .myProfile > .detail > .pTop {
+        display: block;
+        margin-top: 30px;
+        position: relative;
+        width: auto;
+        height: 40px;
+    }
+    #pro > section > .myProfile > .detail > .pTop > .userName {
+        float:left;
+        padding-right:15px;
+        font-size: 24px;
+        height: 40px;
+        line-height: 40px;
+    }
+    #pro > section > .myProfile > .detail > .pTop > .button {
+        margin: 2px;
+        padding: 9px 15px;
+        background: #e9e9e9;
+        font-size: 13px;
+        top: 10px;
+        position: inherit;
+    }
+    #pro > section > .myProfile > .detail > .pTop > #follow {
+        background: #32a4ff;
+        color: aliceblue;
+        font-weight: bold;
+    }
+    #pro > section > .myProfile > .detail > .pMiddle {
+        display: block;
+        margin-top: 20px;
+        width: 500px;
+        height: 40px;
+        overflow: hidden;
+    }
+    #pro > section > .myProfile > .detail > .pMiddle > li {
+        box-sizing: border-box;
+        margin-right:35px;
+        float: left;
+        font-size:15px;
+        width: 100px;
+    }
+    #pro > section > .myProfile > .detail > .pMiddle > li > span {
+        font-size: 16px;
+        font-weight: bold;
+        margin-left: 5px;
+    }
+    #pro > section > .myProfile > .detail > .pMiddle > li > a {font-size:15px;}
+    #pro > section > .myProfile > .detail > .pMiddle > li > a > span {
+        font-size:16px;
+        font-weight:bold;
+        margin-left:5px;
+    }
+
+    #pro > section > .myProfile > .detail > .pAbout > .notice {font-size: 15px;}
+
+    #pro > section > .myNav {
+        padding-top: 30px;
+        width: 400px;
+        margin-right: 300px;
+        margin-left: 300px;
+        text-align: center;
+    }
+    #pro > section > .myNav > div:nth-child(1) {margin-left: 50px;}
+    #pro > section > .myNav > div {
+        float: left;
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+    #pro > section > .myNav > div > a {color: #888;}
+    #pro > section > .myNav > div > a:hover {color: #111;}
+
+    #pro > section > .myList {margin-top: 50px;}
+    #pro > section > .myList > .pic {
+        position: relative;
+        float:left;
+        margin: 5px;
+        height: 300px;
+    }
+    #pro > section > .myList > .pic > a {
+        display: block;
+        width: 300px;
+        height: 300px;
+        overflow: hidden;
+    }
+    #pro > section > .myList > .pic > a > img {width: 100%; height: 100%; object-fit:cover; position:relative;}
+    #pro > section > .myList > .pic > a > video {width: 100%; height: 100%; object-fit:cover; position:relative;}
+
+  .fModal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0,0,0,0.4);
+    -ms-overflow-style: none;
+  }
+  .fModal::-webkit-scrollbar {display: none;}
+
+  .fContents {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 400px;
+    border-radius: 10px;
+  }
+
+  .fContents > #fTop {
+    margin-left: 135px;
+    width:55px;
+    position: relative;
+    text-align: center;
+    padding: 20px;
+  }
+  .fContents > #fTop > img {
+    display: inline-block;
+    width: 55px;
+    height: auto;
+    vertical-align: middle;
+   }
+  .fContents > #fTop > span {
+    display: inline-block;
+    width: 55px;
+    height: auto;
+    vertical-align: middle;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 5px;
+   }
+  .fContents > #fBottom {border-top: 1px solid #e9e9e9;}
+  .fContents > #fBottom > li {
+    display: block;
+    height: 40px;
+    box-sizing: border-box;
+   }
+  .fContents > #fBottom > li > a {
+    top: 14px;
+    position: relative;
+    float: left;
+    display: block;
+    width: 350px;
+    font-size: 14px;
+   }
+  .fContents > #fBottom > li > a > span {float:left; font-size:14px;}
+  .fContents > #fBottom > li > a > i {float: right;}
+
+  .fClose {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+  }
+
+  .peopleFollow {
+    background-color: #fefefe;
+    margin: 15% auto;
+    border: 1px solid #888;
+    width: 400px;
+    border-radius: 10px;
+  }
+
+  .closeFollow, .closeFollowing {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    margin-right: 5px;
+  }
+
+  .fClose:hover,
+  .fClose:focus,
+  .closeFollowing:hover,
+  .closeFollowing:focus,
+  .closeFollow:hover,
+  .closeFollow:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .fList {width: 100%; height: 370px; padding: 10px; overflow-y: scroll;}
+
+  .peopleFollow > div {
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    border-bottom: 1px solid #e9e9e9;
+    font-weight: bold;
+  }
+  .peopleFollow > div > div {width: 50%; float: left; text-align: center; line-height: 40px; font-weight: bold;}
+  .peopleFollow > div > div:nth-child(1) {border-right: 1px solid #e9e9e9;}
+  .peopleFollow > div > div:hover {cursor: pointer;}
+  .fList > li {
+    width: 350px;
+    height: 50px;
+    display: inline-block;
+    padding: 5px;
+   }
+  .fList > li > a:nth-child(1) {
+    float:left;
+    display: block;
+    width: 280px;
+    height: 45px;
+    line-height: 45px;
+   }
+  .fList > li > a:nth-child(3) {
+    width: 55px;
+    height: 40px;
+    line-height: 40px;
+    vertical-align: middle;
+   }
+  .fList > li > a:nth-child(2) {
+    width: 55px;
+    height: 40px;
+    line-height: 40px;
+    vertical-align: middle;
+  }
+  .fList > li > a > h1 {
+    height: 45px;
+    float: left;
+    font-size: 14px;
+    margin-left: 10px;
+    vertical-align: middle;
+    line-height: 45px;
+   }
+  .fList > li > a > div {
+    float: left;
+    width: 45px;
+    height: 45px;
+    border-radius: 70%;
+    overflow: hidden;
+   }
+  .fList > li > a > div > img {
+    width: 100%;
+    height: 100%;
+    line-height: 55px;
+    vertical-align: middle;
+    object-fit: cover;
+   }
+
+  .aFloatRight {
+    float: right;
+    border-radius: 5px;
+    text-align: center;
+  }
+  .aFloatRight > span {font-weight: bold;}
+  .aFloatRight > .spinner {
+          position: absolute;
+          display: none;
+          width: 100%;
+          height: 100%;
+          left: 0;
+          top: 0;
+          background-image: url(../img/GIF/spinner.gif);
+          background-size: contain;
+          background-repeat: no-repeat;
+          background-color: white;
+          background-position: center;
+      }
+
+  .userFollow, .tagFollow {
+    position: relative;
+    background-color: #32a4ff;
+   }
+
+  .userFollowing, .tagFollowing {position: relative; background: #e9e9e9;}
+  .userSelect {position: relative; background: #e9e9e9;}
+
+    .photoModal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: rgba(0,0,0,0.4);
+      -ms-overflow-style: none;
+    }
+    .photoModal::-webkit-scrollbar {display: none;}
+
+    .photoContents {
+      background-color: #fefefe;
+      margin: 15% auto;
+      border: 1px solid #888;
+      width: 400px;
+      border-radius: 10px;
+    }
+
+    .photoContents > #photoTop {
+        height:80px;
+        position: relative;
+        text-align: center;
+        line-height: 90px;
+        vertical-align: middle;
+     }
+    .photoContents > #photoTop > span {font-size: 20px;}
+    .photoContents > #photoBottom {border-top: 1px solid #e9e9e9;}
+    .photoContents > #photoBottom > li {
+        display: block;
+        height: 40px;
+        box-sizing: border-box;
+        font-size: 14px;
+        text-align: center;
+        line-height: 40px;
+        vertical-align: middle;
+        font-weight: bold;
+     }
+    .photoContents > #photoBottom > .addProf {color: #32a4ff; border-bottom: 1px solid #e9e9e9;}
+    .photoContents > #photoBottom > .deleteProf {color: red; border-bottom: 1px solid #e9e9e9;}
+
+   .addProf:hover,    .addProf:focus,
+   .addNewProf:hover, .addNewProf:focus,
+   .deleteProf:hover, .deleteProf:focus,
+   .photoClose:hover, .photoClose:focus
+   {
+     cursor: pointer;
+   }
+
+   .profileSpinner {
+        position: absolute;
+        display: none;
+        width: 150px;
+        height: 150px;
+        left: 100px;
+        top: 20px;
+        background-image: url(../img/GIF/spinner.gif);
+        background-size: auto;
+        background-repeat: no-repeat;
+        background-color: white;
+        background-position: center;
+        border-radius: 70%;
+   }
+
+    #followerDelete > .secondModal {
+      background-color: #fefefe;
+      margin: 15% auto;
+      border: 1px solid #888;
+      width: 400px;
+      border-radius: 10px;
+      box-sizing: border-box;
+    }
+    #followingCancel > .secondModal {
+      background-color: #fefefe;
+      margin: 15% auto;
+      border: 1px solid #888;
+      width: 400px;
+      border-radius: 10px;
+      box-sizing: border-box;
+    }
+
+    .secondModalFrame {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: rgba(0,0,0,0.4);
+      -ms-overflow-style: none;
+    }
+    .secondModalFrame::-webkit-scrollbar {display: none;}
+
+    .secondModal > div {
+        display: block;
+        width:400px;
+        height: 200px;
+        position: relative;
+        text-align: center;
+        padding: 20px;
+        box-sizing: border-box;
+     }
+    .secondModal > div > div {
+        display: inline-block;
+        width: 75px;
+        height: 75px;
+        overflow: hidden;
+        border-radius: 70%;
+     }
+    .secondModal > div > div > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+     }
+    .secondModal > div > h1 {
+        text-align: center;
+        font-size: 14px;
+        margin-top: 5px;
+     }
+    .secondModal > div > h1 > span {font-weight: bold; font-size: 15px;}
+
+    .secondModal > ul {text-align: center;}
+    .secondModal > ul > li {
+        text-align: center;
+        border-top:1px solid #e9e9e9;
+        display: block;
+        height: 50px;
+        line-height: 50px;
+        box-sizing: border-box;
+     }
+    .secondModal > ul > li > a {font-size: 14px; font-weight: bold;}
+    .secondModal > ul > li:nth-child(1) > a {color: red;}
+
+    .cancelModalFrame {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: rgba(0,0,0,0.4);
+      -ms-overflow-style: none;
+    }
+    .cancelModalFrame::-webkit-scrollbar {display: none;}
+
+     .cancelModal {
+      background-color: #fefefe;
+      margin: 15% auto;
+      border: 1px solid #888;
+      width: 400px;
+      border-radius: 10px;
+      box-sizing: border-box;
+    }
+    .cancelModal > div {
+        display: block;
+        width:400px;
+        height: 150px;
+        position: relative;
+        text-align: center;
+        padding: 20px;
+        box-sizing: border-box;
+     }
+    .cancelModal > div > div {
+        display: inline-block;
+        width: 75px;
+        height: 75px;
+        overflow: hidden;
+        border-radius: 70%;
+     }
+    .cancelModal > div > div > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+     }
+    .cancelModal > div > h1 {
+        text-align: center;
+        font-size: 14px;
+        margin-top: 5px;
+     }
+    .cancelModal > div > h1 > span {font-weight: bold;}
+
+    .cancelModal > ul {text-align: center;}
+    .cancelModal > ul > li {
+        text-align: center;
+        border-top:1px solid #e9e9e9;
+        display: block;
+        height: 50px;
+        line-height: 50px;
+        box-sizing: border-box;
+     }
+    .cancelModal > ul > li > a {font-size: 14px; font-weight: bold;}
+    .cancelModal > ul > li:nth-child(1) > a {color: red;}
+
+    #settingIcon {
+        left: 10px;
+        position: relative;
+        top: 8px;
+    }
+
+    .settingModalFrame {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: rgba(0,0,0,0.4);
+      -ms-overflow-style: none;
+    }
+    .settingModalFrame::-webkit-scrollbar {display: none;}
+
+     .settingModal {
+      background-color: #fefefe;
+      margin: 15% auto;
+      border: 1px solid #888;
+      width: 400px;
+      border-radius: 10px;
+      box-sizing: border-box;
+    }
+
+    .settingModal > ul {text-align: center;}
+    .settingModal > ul > li {
+        text-align: center;
+        border-top:1px solid #e9e9e9;
+        display: block;
+        height: 50px;
+        line-height: 50px;
+        box-sizing: border-box;
+     }
+    .settingModal > ul > li > a {font-size: 14px; font-weight: bold;}
+
+    .faIcons {
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      color: white;
+    }
+
+
+    #deleteUserProfile {margin-left: 500px; width:1000px;}
+    #deleteUserProfile > h1 {font-size: 26px; text-align: center;}
+    #deleteUserProfile > h2 {font-size: 20px; text-align: center;}
+    #deleteUserProfile > h2 > a {font-size: 20px;}
+
+    .picOver {
+      display: none;
+      width: 300px;
+      height: 300px;
+      overflow: hidden;
+      position: relative;
+      float: left;
+      top: -300px;
+      background: black; opacity: 0.5;
+    }
+
+    .picOver > div {width: 50%; height: 100%; float: left;}
+    .picOverI, .picOverSpan {position: relative; top: 150px;}
+    .picOver > div:nth-child(1) > i {left: 80px;}
+    .picOver > div:nth-child(2) > i {left: 20px;}
+    .picOver > div:nth-child(1) > span {color: white; left: 85px; font-size: 18px;}
+    .picOver > div:nth-child(2) > span {color: white; left: 25px; font-size: 18px;}
+    .pic:hover > .picOver {display: block; cursor: pointer;}
+
+
+
+

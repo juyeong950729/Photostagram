@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<!--/*
+날짜 : 2023/04/07
+이름 : 조주영
+내용 : 프로필 태그됨 화면
+*/-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/profileLayout}">
+<th:block layout:fragment="main">
+  <th:block th:if="${#strings.equals(member.password, member.name)}">
+    <div id="deleteUserProfile">
+      <h1>죄송합니다. 페이지를 사용할 수 없습니다.</h1><br/>
+      <h2>클릭하신 링크가 잘못되었거나 페이지가 삭제되었습니다. <a href="javascript:window.history.back();">Photostagram으로 돌아가기.</a></h2>
+    </div>
+  </th:block>
+  <th:block th:unless="${#strings.equals(member.password, member.name)}">
+    <div id="pro">
+      <section>
+        <div class="myProfile">
+          <div class="proPhoto">
+            <div>
+              <th:block th:if="${#strings.equals(myName, username)}">
+                <input type="file" class="real-addProf" accept="image/*" style="display: none;"/>
+                <th:block th:if="${not #strings.isEmpty(member.profileImg)}">
+                  <img th:src="|@{/}thumb/${member.profileImg}" alt="profile" class="addNewProf" id="profilePhoto"/>
+                </th:block>
+                <th:block th:unless="${not #strings.isEmpty(member.profileImg)}">
+                  <img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="profile" class="addProf" id="profilePhoto"/>
+                </th:block>
+              </th:block>
+              <th:block th:unless="${#strings.equals(myName, username)}">
+                <th:block th:if="${not #strings.isEmpty(member.profileImg)}">
+                  <img th:src="|@{/}thumb/${member.profileImg}" alt="profile" id="profilePhoto" class="notAddProf"/>
+                </th:block>
+                <th:block th:unless="${not #strings.isEmpty(member.profileImg)}">
+                  <img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="profile" id="profilePhoto" class="notAddProf" />
+                </th:block>
+              </th:block>
+              <span class="profileSpinner"></span>
+            </div>
+          </div>
+          <div class="detail">
+            <div class="pTop">
+              <div class="userName">[[${username}]]</div>
+              <th:block th:if="${#strings.equals(myName, username)}">
+                <a th:href="@{/profile/modify}" class="button">프로필 편집</a>
+                <a id="settingIcon"><i class="fa-solid fa-gear fa-2x"></i></a>
+              </th:block>
+              <th:block th:unless="${#strings.equals(myName, username)}">
+                <th:block th:if="${result} > 0">
+                  <a href="#" class="button" id="following">팔로잉</a>
+                  <a href="#" class="button" id="chatStart">메시지 보내기</a>
+                </th:block>
+                <th:block th:unless="${result} > 0">
+                  <a th:href="@{/profile/follow (type=insert, userName=${username}, myName=${myName})}" class="button" id="follow">팔로우</a>
+                </th:block>
+              </th:block>
+
+            </div>
+            <ul class="pMiddle">
+              <li>
+                게시물<span>[[${post}]]</span>
+              </li>
+              <th:block th:if="${myFollower == 0}">
+                <li>
+                  <a href="#">팔로워<span>[[${myFollower}]]</span></a>
+                </li>
+              </th:block>
+              <th:block th:unless="${myFollower == 0}">
+                <li>
+                  <a href="#" id="followerModal">팔로워<span>[[${myFollower}]]</span></a>
+                </li>
+              </th:block>
+              <th:block th:if="${myFollowing == 0}">
+                <th:block th:if="${tagFollowing == 0}">
+                  <li>
+                    <a href="#">팔로잉<span>[[${myFollowing}]]</span></a>
+                  </li>
+                </th:block>
+                <th:block th:unless="${tagFollowing == 0}">
+                  <li>
+                    <a href="#" id="followingModal">팔로잉<span>[[${myFollowing}]]</span></a>
+                  </li>
+                </th:block>
+              </th:block>
+              <th:block th:unless="${myFollowing == 0}">
+                <li>
+                  <a href="#" id="followingModal">팔로잉<span>[[${myFollowing}]]</span></a>
+                </li>
+              </th:block>
+            </ul>
+            <p class="pAbout">
+              <span class="notice">
+                  [[${member.profileText}]]
+              </span>
+            </p>
+          </div>
+        </div>
+        <div class="myNav">
+          <div><a th:href="@{/profile/index (username=${username})}">게시물</a></div>
+          <th:block th:if="${#strings.equals(myName, username)}">
+            <div><a href="#">저장됨</a></div>
+          </th:block>
+          <th:block th:unless="${#strings.equals(myName, username)}">
+            <div><a href="#">릴스</a></div>
+          </th:block>
+          <div><a th:href="@{/profile/tagged (username=${username})}">태그됨</a></div>
+        </div>
+
+        <div class="myList">
+          <th:block th:if="${#maps.isEmpty(sortMap)}">
+            <h1>사람들이 회원님을 태그하면 태그된 사진이 여기에 표시됩니다.</h1>
+          </th:block>
+          <th:block th:unless="${#maps.isEmpty(sortMap)}">
+            <th:block th:each="m:${sortMap}">
+              <div class="pic">
+                <a th:href="@{/board/post (no=${m.value.no})}">
+                  <th:block th:if="${#strings.endsWith(m.value.firstThumb, '.mp4')} == true">
+                    <video th:src="|@{/}thumb/${m.value.firstThumb}"></video>
+                    <i class="fa-solid fa-film fa-2x faIcons"></i>
+                  </th:block>
+                  <th:block th:unless="${#strings.endsWith(m.value.firstThumb, '.mp4')} == true">
+                    <img th:src="|@{/}thumb/${m.value.firstThumb}">
+                    <th:block th:if="${m.value.thumbs > 1}">
+                      <i class="fa-solid fa-images fa-2x faIcons"></i>
+                    </th:block>
+                    <th:block th:unless="${m.value.thumbs > 1}">
+                    </th:block>
+                  </th:block>
+                </a>
+                <div class="picOver" th:onclick="|window.open('@{/board/post (no=${m.value.no})}')|">
+                  <div><i class="fa-solid fa-heart fa-2x picOverI" style="color: #f0f4f9;"></i><span class="picOverSpan">[[${m.value.like}]]</span></div>
+                  <div><i class="fa-solid fa-comment fa-2x picOverI" style="color: #f0f4f9;"></i><span class="picOverSpan">[[${m.value.commentCount}]]</span></div>
+                </div>
+              </div>
+            </th:block>
+          </th:block>
+        </div>
+      </section>
+      <div id="fCancel" class="fModal">
+        <div class="fContents">
+          <span class="fClose">&times;</span>
+          <div id="fTop">
+            <img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="profile">
+            <span>[[${username}]]</span>
+          </div>
+          <ul id="fBottom">
+            <li><a href="#" class="fClose"><span>친한 친구 리스트에 추가</span><i class="fa-solid fa-star"></i></a></li>
+            <li><a href="#" class="fClose"><span>즐겨찾기에 추가</span><i class="fa-regular fa-star"></i></a></li>
+            <li><a href="#" class="fClose"><span>일시 차단</span><i class="fa-solid fa-chevron-right"></i></a></li>
+            <li><a href="#" class="fClose"><span>제한</span><i class="fa-solid fa-chevron-right"></i></a></li>
+            <li><a th:href="@{/profile/follow (type=delete, userName=${username}, myName=${myName})}" id="unFollow" class="fClose">팔로우 취소</a></li>
+          </ul>
+        </div>
+      </div>
+      <div id="followerModalWindow" class="fModal">
+        <div class="peopleFollow">
+          <div>
+            팔로워
+            <span class="closeFollow">&times;</span>
+          </div>
+          <ul class="fList frList" th:data-value="follower">
+            <th:block th:each="map:${followerMap}">
+              <th:block th:each="follower,index:${map.key}">
+                <li>
+                  <a th:href="@{/profile (username=${follower.username})}">
+                    <div>
+                      <th:block th:if="${not #strings.isEmpty(follower.profileImg)}">
+                        <img th:src="|@{/}thumb/${follower.profileImg}" alt="profile">
+                      </th:block>
+                      <th:block th:unless="${not #strings.isEmpty(follower.profileImg)}">
+                        <img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="profile">
+                      </th:block>
+                    </div>
+                    <h1>[[${follower.username}]]</h1>
+                  </a>
+                  <th:block th:if="${#strings.equals(myName, follower.username)}">
+                  </th:block>
+                  <th:block th:unless="${#strings.equals(myName, follower.username)}">
+                    <th:block th:if="${#strings.equals(myName, username)}">
+                      <a href="#" class="aFloatRight userSelect" th:data-value="${follower.username}" th:data-image="${follower.profileImg}">
+                        <span>삭제</span>
+                        <span class="spinner"></span>
+                      </a>
+                    </th:block>
+                    <th:block th:unless="${#strings.equals(myName, username)}">
+                      <th:block th:if="${map.value == 0}">
+                        <a href="#" class="aFloatRight userFollowing" th:data-value="${follower.username}" th:data-image="${follower.profileImg}" style="display:none;">
+                          <span>팔로잉</span>
+                          <span class="spinner"></span>
+                        </a>
+                        <a href="#" class="aFloatRight userFollow" th:data-value="${follower.username}" th:data-image="${follower.profileImg}">
+                          <!--<img th:src="@{/img/GIF/spinner.gif}" alt="spinner"/>-->
+                          <span>팔로우</span>
+                          <span class="spinner"></span>
+                        </a>
+                      </th:block>
+                      <th:block th:unless="${map.value == 0}">
+                        <a href="#" class="aFloatRight userFollowing" th:data-value="${follower.username}" th:data-image="${follower.profileImg}">
+                          <span>팔로잉</span>
+                          <span class="spinner"></span>
+                        </a>
+                        <a href="#" class="aFloatRight userFollow" th:data-value="${follower.username}" th:data-image="${follower.profileImg}" style="display:none;">
+                          <!--<img th:src="@{/img/GIF/spinner.gif}" alt="spinner"/>-->
+                          <span>팔로우</span>
+                          <span class="spinner"></span>
+                        </a>
+                      </th:block>
+                    </th:block>
+                  </th:block>
+                </li>
+              </th:block>
+            </th:block>
+          </ul>
+        </div>
+      </div>
+      <div id="followingModalWindow" class="fModal">
+        <div class="peopleFollow">
+          <div>
+            팔로잉
+            <span class="closeFollowing">&times;</span>
+          </div>
+          <div>
+            <div id="followUser">
+              사람
+            </div>
+            <div id="followTag">
+              해시태그
+            </div>
+          </div>
+          <ul class="fList fgList" th:data-value="following">
+            <th:block th:each="map:${followingMap}">
+              <th:block th:each="following,index:${map.key}">
+                <li>
+                  <a th:href="@{/profile (username=${following.username})}">
+                    <div>
+                      <th:block th:if="${not #strings.isEmpty(following.profileImg)}">
+                        <img th:src="|@{/}thumb/${following.profileImg}" alt="profile">
+                      </th:block>
+                      <th:block th:unless="${not #strings.isEmpty(following.profileImg)}">
+                        <img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="profile">
+                      </th:block>
+                    </div>
+                    <h1>[[${following.username}]]</h1>
+                  </a>
+                  <th:block th:if="${#strings.equals(myName, following.username)}">
+                  </th:block>
+                  <th:block th:unless="${#strings.equals(myName, following.username)}">
+                    <th:block th:if="${map.value == 0}">
+                      <a href="#" class="aFloatRight userFollow" th:data-value="${following.username}" th:data-image="${following.profileImg}">
+                        <!--<img th:src="@{/img/GIF/spinner.gif}" alt="spinner"/>-->
+                        <span>팔로우</span>
+                        <span class="spinner"></span>
+                      </a>
+                      <a href="#" class="aFloatRight userFollowing" th:data-value="${following.username}" th:data-image="${following.profileImg}" style="display:none;">
+                        <span>팔로잉</span>
+                        <!--<span class="spinner"></span>-->
+                      </a>
+                    </th:block>
+                    <th:block th:unless="${map.value == 0}">
+                      <a href="#" class="aFloatRight userFollow" th:data-value="${following.username}" th:data-image="${following.profileImg}" style="display:none;">
+                        <!--<img th:src="@{/img/GIF/spinner.gif}" alt="spinner"/>-->
+                        <span>팔로우</span>
+                        <span class="spinner"></span>
+                      </a>
+                      <a href="#" class="aFloatRight userFollowing" th:data-value="${following.username}" th:data-image="${following.profileImg}">
+                        <span>팔로잉</span>
+                        <!--<span class="spinner"></span>-->
+                      </a>
+                    </th:block>
+                  </th:block>
+                </li>
+              </th:block>
+            </th:block>
+          </ul>
+        </div>
+      </div>
+      <div id="photoModal" class="photoModal">
+        <div class="photoContents">
+          <div id="photoTop">
+            <span>프로필 사진 바꾸기</span>
+          </div>
+          <ul id="photoBottom">
+            <li class="addProf" id="modalAddProf">사진 업로드</li>
+            <li class="deleteProf">현재 사진 삭제</li>
+            <li class="photoClose">취소</li>
+          </ul>
+        </div>
+      </div>
+      <div id="followerDelete" class="secondModalFrame">
+        <div class="secondModal">
+          <div>
+            <div>
+              <img id="modalDeleteImg" th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}">
+            </div>
+            <h1>
+              팔로워를 삭제하시겠어요?<br/>
+              <span id="modalDeleteName">name</span>님은 회원님의 팔로워 리스트에서 삭제된 사실을 알 수 없습니다.</h1>
+          </div>
+          <ul>
+            <li><a href="#" class="pClose followerDelete">삭제</a></li>
+            <li><a href="#" class="pClose">취소</a></li>
+          </ul>
+        </div>
+      </div>
+      <div id="followingCancel" class="cancelModalFrame">
+        <div class="cancelModal">
+          <div>
+            <div>
+              <img id="modalCancelImg" th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}">
+            </div>
+            <h1>
+              <span id="modalCancelName">name</span>님의 팔로우를 취소하시겠어요?
+            </h1>
+          </div>
+          <ul>
+            <li><a href="#" class="pClose followingCancel">팔로우 취소</a></li>
+            <li><a href="#" class="pClose">취소</a></li>
+          </ul>
+        </div>
+      </div>
+      <div id="sModal" class="settingModalFrame">
+        <div class="settingModal">
+          <ul>
+            <li><a th:href="@{/profile/changePass}">비밀번호 변경</a></li>
+            <li><a th:href="@{/member/logout}">로그아웃</a></li>
+            <li><a href="#" class="pClose">취소</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </th:block>
+</th:block>
+</html>
+<script th:inline="javascript">
+/*<![CDATA[*/
+    let username = [[${username}]];
+    let pg = 1;
+    let isComplete = false;
+
+    $(window).scroll(function() {
+
+        // 현재 스크롤이 있는 위치의 높이
+        let top = $(this).scrollTop();
+
+        // 현재 창의 총 높이 (컨텐츠 총 길이 -- 의 1.1)
+        let height = ($(document).height() - $(window).height()) / 1.1;
+
+        console.log('top : ' + top);
+        console.log('height : ' + height);
+
+        // 스크롤 위치가 총 높이의 1.1배보다 아래로 내려오면 실행
+        if(top > height){
+
+            // 같은 작업이 다시 실행되지 않도록 걸어둔 조건문
+            if(!isComplete){
+
+                console.log(pg + '데이터불러오기!!!!');
+                $.ajax({
+                    url: "/Photostagram/profile/tagged",
+                    type: "post",
+                    async: false,
+                    data: {"username": username, "pg": pg},
+                    dataType: "json",
+                    success: function(data){
+                        // 반복 실행 방지로 isComplete true 처리
+                        isComplete = true;
+
+                        // 데이터 길이가 0이 아닐 때 (null 체크 시 빈 map이 들어오기 때문에 not null로 뜸)
+                        if (Object.keys(data).length != 0){
+
+                            // 실행되면 pg값 1씩 추가
+                            pg += 1;
+                            // (새 데이터가 들어오면)다시 실행할 수 있도록 isComplete false 처리
+                            isComplete = false;
+
+                            // 받아온 object 길이만큼 반복, data[i]에서 i는 key 값
+                            for (i=0; i < Object.keys(data).length; i++){
+                                let num = data[i].no
+                                let thumb = data[i].firstThumb
+                                let like = data[i].like
+                                let comments = data[i].commentCount
+                                let tags = '';
+
+                                if (thumb.slice(-4, thumb.length) == '.mp4') {
+                                    tags = `<div class="pic">
+                                                <a href="/Photostagram/board/post?no=${num}">
+                                                <video src="/Photostagram/thumb/${thumb}"></video>
+                                                <i class="fa-solid fa-film fa-2x faIcons"></i></a>
+                                                <div class="picOver" onclick="window.open('/Photostagram/board/post?no=${num}')">
+                                                   <div><i class="fa-solid fa-heart fa-2x picOverI" style="color: #f0f4f9;"></i><span class="picOverSpan">${like}</span></div>
+                                                   <div><i class="fa-solid fa-comment fa-2x picOverI" style="color: #f0f4f9;"></i><span class="picOverSpan">${comments}</span></div>
+                                                </div>
+                                            </div>`
+                                }else if (data[i].thumbs > 1) {
+                                    tags = `<div class="pic">
+                                                <a href="/Photostagram/board/post?no=${num}">
+                                                <img src="/Photostagram/thumb/${thumb}">
+                                                <i class="fa-solid fa-images fa-2x faIcons"></i></a>
+                                                <div class="picOver" onclick="window.open('/Photostagram/board/post?no=${num}')">
+                                                   <div><i class="fa-solid fa-heart fa-2x picOverI" style="color: #f0f4f9;"></i><span class="picOverSpan">${like}</span></div>
+                                                   <div><i class="fa-solid fa-comment fa-2x picOverI" style="color: #f0f4f9;"></i><span class="picOverSpan">${comments}</span></div>
+                                                </div>
+                                            </div>`
+                                } else {
+                                   tags = `<div class="pic">
+                                                <a href="/Photostagram/board/post?no=${num}">
+                                                <img src="/Photostagram/thumb/${thumb}"></a>
+                                                <div class="picOver" onclick="window.open('/Photostagram/board/post?no=${num}')">
+                                                   <div><i class="fa-solid fa-heart fa-2x picOverI" style="color: #f0f4f9;"></i><span class="picOverSpan">${like}</span></div>
+                                                   <div><i class="fa-solid fa-comment fa-2x picOverI" style="color: #f0f4f9;"></i><span class="picOverSpan">${comments}</span></div>
+                                                </div>
+                                            </div>`
+                                }
+
+                                $('.myList').append(tags);
+                            }
+                        } else {
+                            // 재 실행 가능하도록 하는 isComplete를 true로 차단
+                            isComplete = true;
+                            return 0;
+                        }
+                    }
+                });
+            }
+        }
+
+
+
+        /*** 이 코드 아님
+        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+
+        $.ajax({
+                url: "/Photostagram/profile/post",
+                type: "post",
+                data: {"username": username, "pg": pg},
+                dataType: "json",
+                success: function(data){
+                    if (data > 0){
+                        console.log(data);
+                        $('.myList').append(data);
+                        pg += 1;
+                    }
+                }
+            });
+
+          $(".myList").append("");
+
+        }
+        ***/
+    });
+/*]]*/
+</script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+$(function(){
+    let pageUser = [[${username}]];
+    let myName = [[${myName}]];
+
+    console.log("page User : " + pageUser);
+    console.log("myName : " + myName);
+
+    let followings = [[${myFollowing}]];
+    let tagFollowings = [[${tagFollowing}]];
+
+    console.log (followings);
+    console.log (tagFollowings);
+
+    const popUp = $('.fList');
+    const pop = $('.fgList');
+    const solo = $('.frList');
+    var num1 = 1;   // 팔로우 변수
+    var num2 = 1;   // 팔로잉 변수
+    var num3 = 1;   // 해시태그 변수
+
+    const userBtn = $('#followUser');
+    const tagBtn = $('#followTag');
+
+    userBtn.on('click', function(e){
+        e.preventDefault();
+
+        if (followings == 0) {
+            pop.empty();
+            tags = `<h1>팔로잉하는 유저가 없습니다.</h1>`
+            pop.append(tags);
+        } else {
+            //var tag = $(this);
+            popUp.attr('data-value', 'following');
+            popUp.scrollTop(0);
+            var type = popUp.attr('data-value');
+            console.log(type);
+            num3 = 1;
+
+            $.ajax({
+                url: '/Photostagram/profile/followers',
+                type: 'post',
+                async: false,
+                data: {'pg':0, 'username':pageUser, type:'type'},
+                dataType: 'json',
+                success: function(data){
+                    if (Object.keys(data).length != 0) {
+                        console.log ('성공!');
+                        console.log (data);
+
+                        pop.empty();
+                        for (i=0; i<Object.keys(data).length; i++) {
+                            let name = data[i].username
+                            console.log ("name : " + name);
+                            let result = data[i].followResult
+                            let num = data[i].no
+                            let profile = data[i].profileImg
+                            let tags='';
+                            if (result == 0) {
+                                if (myName == name) {
+                                    if (profile != null) {
+                                        tags = `<li>
+                                                    <a href="/Photostagram/profile?username=${name}">
+                                                     <div>
+                                                        <img src="/Photostagram/thumb/${profile}" alt="profile">
+                                                     </div>
+                                                     <h1>${name}</h1>
+                                                    </a>
+                                               </li>`
+                                    } else {
+                                        tags = `<li>
+                                                    <a href="/Photostagram/profile?username=${name}">
+                                                     <div>
+                                                        <img src="img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile">
+                                                     </div>
+                                                     <h1>${name}</h1>
+                                                    </a>
+                                               </li>`
+                                    }
+                                } else {
+                                    if (profile != null) {
+                                        tags = `<li>
+                                                    <a href="/Photostagram/profile?username=${name}">
+                                                     <div>
+                                                        <img src="/Photostagram/thumb/${profile}" alt="profile">
+                                                     </div>
+                                                     <h1>${name}</h1>
+                                                    </a>
+                                                    <a href="#" class="aFloatRight userFollow" data-value="${name}">
+                                                        <span>팔로우</span>
+                                                        <span class="spinner"></span>
+                                                    </a>
+                                                    <a href="#" class="aFloatRight userFollowing" data-value="${name}"  data-image="${profile}" style="display:none;">
+                                                        <span>팔로잉</span>
+                                                        <span class="spinner"></span>
+                                                    </a>
+                                               </li>`
+                                    } else {
+                                        tags = `<li>
+                                                    <a href="/Photostagram/profile?username=${name}">
+                                                     <div>
+                                                        <img src="img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile">
+                                                     </div>
+                                                     <h1>${name}</h1>
+                                                    </a>
+                                                    <a href="#" class="aFloatRight userFollow" data-value="${name}">
+                                                        <span>팔로우</span>
+                                                        <span class="spinner"></span>
+                                                    </a>
+                                                    <a href="#" class="aFloatRight userFollowing" data-value="${name}"  data-image="${profile}" style="display:none;">
+                                                        <span>팔로잉</span>
+                                                        <span class="spinner"></span>
+                                                    </a>
+                                               </li>`
+                                    }
+                                }
+                            } else {
+                                if (profile != null) {
+                                    tags = `<li>
+                                                <a href="/Photostagram/profile?username=${name}">
+                                                 <div>
+                                                    <img src="/Photostagram/thumb/${profile}" alt="profile">
+                                                 </div>
+                                                 <h1>${name}</h1>
+                                                </a>
+                                                <a href="#" class="aFloatRight userFollow" data-value="${name}" style="display:none;">
+                                                    <span>팔로우</span>
+                                                    <span class="spinner"></span>
+                                                </a>
+                                                <a href="#" class="aFloatRight userFollowing" data-value="${name}"  data-image="${profile}">
+                                                    <span>팔로잉</span>
+                                                    <span class="spinner"></span>
+                                                </a>
+                                           </li>`
+                                } else {
+                                    tags = `<li>
+                                                <a href="/Photostagram/profile?username=${name}">
+                                                 <div>
+                                                    <img src="img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile">
+                                                 </div>
+                                                 <h1>${name}</h1>
+                                                </a>
+                                                <a href="#" class="aFloatRight userFollow" data-value="${name}" style="display:none;">
+                                                    <span>팔로우</span>
+                                                    <span class="spinner"></span>
+                                                </a>
+                                                <a href="#" class="aFloatRight userFollowing" data-value="${name}" data-image="${profile}">
+                                                    <span>팔로잉</span>
+                                                    <span class="spinner"></span>
+                                                </a>
+                                           </li>`
+                                }
+                            }
+
+                            pop.append(tags);
+                        }
+
+                    }
+                }
+            });
+        }
+    });
+
+    tagBtn.on('click', function(e){
+        e.preventDefault();
+
+        if (tagFollowings == 0) {
+            pop.empty();
+            tags = `<h1>팔로잉하는 태그가 없습니다.</h1>`
+            pop.append(tags);
+        } else {
+
+            popUp.attr('data-value', 'hash');
+            popUp.scrollTop(0);
+            var type = popUp.attr('data-value');
+            console.log(type);
+            num2 = 1;
+
+            $.ajax({
+                url: '/Photostagram/profile/tags',
+                type: 'post',
+                async: false,
+                data: {'username':pageUser, 'pg':0},
+                dataType: 'json',
+                success: function(data){
+                    if (Object.keys(data).length != 0) {
+                        console.log ('성공!');
+                        console.log(data);
+                        pop.empty();
+                        for (i=0; i<Object.keys(data).length; i++) {
+                            let name = data[i].hashtag
+                            let result = data[i].followResult
+                            let num = data[i].tag_no
+                            let tags='';
+
+                            if (result == 0) {
+                                tags = `<li>
+                                            <a href="/Photostagram/search?no=${num}">
+                                             <div>
+                                                <img src="img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile">
+                                             </div>
+                                             <h1>${name}</h1>
+                                            </a>
+                                            <a href="#" class="aFloatRight tagFollow" data-value="${num}">
+                                                <span>팔로우</span>
+                                                <span class="spinner"></span>
+                                            </a>
+                                            <a href="#" class="aFloatRight tagFollowing" data-value="${num}" style="display:none;">
+                                                <span>팔로잉</span>
+                                                <span class="spinner"></span>
+                                            </a>
+                                       </li>`
+                            } else {
+                                tags= `<li>
+                                            <a href="/Photostagram/search?no=${num}">
+                                             <div>
+                                                <img src="img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile">
+                                             </div>
+                                             <h1>${name}</h1>
+                                            </a>
+                                            <a href="#" class="aFloatRight tagFollow" data-value="${num}" style="display:none;">
+                                                <span>팔로우</span>
+                                                <span class="spinner"></span>
+                                            </a>
+                                            <a href="#" class="aFloatRight tagFollowing" data-value="${num}">
+                                                <span>팔로잉</span>
+                                                <span class="spinner"></span>
+                                            </a>
+                                       </li>`
+                            }
+
+                            pop.append(tags);
+                        }
+                    }
+                }
+            });
+        }
+    });
+
+        popUp.scroll(function(){
+            var tag = $(this);
+            var type = tag.attr('data-value');
+            var top = tag.scrollTop();
+            var height = pop.height();
+            console.log(top);
+            console.log(type);
+            console.log(height);
+
+            if (type == 'hash'){
+
+                if (top > 280 * num3){
+                    console.log('데이터 불러오기');
+                    console.log('here1');
+                    $.ajax({
+                        url: '/Photostagram/profile/tags',
+                        type: 'post',
+                        async: false,
+                        data: {'pg':num3, 'username':pageUser},
+                        dataType: 'json',
+                        success: function(data){
+                            if (Object.keys(data).length != 0) {
+                                num3++;
+                                console.log ('성공!');
+                                for (i=0; i<Object.keys(data).length; i++) {
+                                    let name = data[i].hashtag
+                                    let result = data[i].followResult
+                                    let num = data[i].tag_no
+                                    let tags='';
+
+                                    if (result == 0) {
+                                        tags = `<li>
+                                                    <a href="#">
+                                                     <div>
+                                                        <img src="img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile">
+                                                     </div>
+                                                     <h1>${name}</h1>
+                                                    </a>
+                                                    <a href="#" class="aFloatRight tagFollow" data-value="${num}">
+                                                        <span>팔로우</span>
+                                                        <span class="spinner"></span>
+                                                    </a>
+                                                    <a href="#" class="aFloatRight tagFollowing" data-value="${num}" style="display:none;">
+                                                        <span>팔로잉</span>
+                                                        <span class="spinner"></span>
+                                                    </a>
+                                               </li>`
+                                    } else {
+                                        tags= `<li>
+                                                    <a href="#">
+                                                         <div>
+                                                            <img src="img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile">
+                                                         </div>
+                                                         <h1>${name}</h1>
+                                                    </a>
+                                                    <a href="#" class="aFloatRight tagFollow" data-value="${num}" style="display:none;">
+                                                        <span>팔로우</span>
+                                                        <span class="spinner"></span>
+                                                    </a>
+                                                    <a href="#" class="aFloatRight tagFollowing" data-value="${num}">
+                                                        <span>팔로잉</span>
+                                                        <span class="spinner"></span>
+                                                    </a>
+                                               </li>`
+                                    }
+
+                                    pop.append(tags);
+                                }
+                            }
+                        }
+                    });
+
+                }
+            } else if (type == 'following') {
+
+                if (top > 280 * num2){
+                    $.ajax({
+                        url: '/Photostagram/profile/followers',
+                        type: 'post',
+                        async: false,
+                        data: {'pg':num2, 'username':pageUser, 'type':type},
+                        dataType: 'json',
+                        success: function(data){
+                            console.log('here2');
+                            if (Object.keys(data).length != 0){
+                                num2++;
+                                console.log('here3');
+                                console.log ('성공!');
+
+                                for (i=0; i<Object.keys(data).length; i++) {
+                                    let name = data[i].username
+                                    let result = data[i].followResult
+                                    let num = data[i].no
+                                    let profile = data[i].profileImg
+                                    let tags='';
+                                    if (result == 0) {
+                                        if (myName == name) {
+                                            if (profile != null) {
+                                                tags = `<li>
+                                                            <a href="/Photostagram/profile?username=${name}">
+                                                             <div>
+                                                                <img src="/Photostagram/thumb/${profile}" alt="profile">
+                                                             </div>
+                                                             <h1>${name}</h1>
+                                                            </a>
+                                                       </li>`
+                                            } else {
+                                                tags = `<li>
+                                                            <a href="/Photostagram/profile?username=${name}">
+                                                             <div>
+                                                                <img src="img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile">
+                                                             </div>
+                                                             <h1>${name}</h1>
+                                                            </a>
+                                                       </li>`
+                                            }
+                                        } else {
+                                            if (profile != null) {
+                                                tags = `<li>
+                                                            <a href="/Photostagram/profile?username=${name}">
+                                                             <div>
+                                                                <img src="/Photostagram/thumb/${profile}" alt="profile">
+                                                             </div>
+                                                             <h1>${name}</h1>
+                                                            </a>
+                                                            <a href="#" class="aFloatRight userFollow" data-value="${name}">
+                                                                <span>팔로우</span>
+                                                                <span class="spinner"></span>
+                                                            </a>
+                                                            <a href="#" class="aFloatRight userFollowing" data-value="${name}" data-image="${profile}" style="display:none;">
+                                                                <span>팔로잉</span>
+                                                                <span class="spinner"></span>
+                                                            </a>
+                                                       </li>`
+                                            } else {
+                                                tags = `<li>
+                                                            <a href="/Photostagram/profile?username=${name}">
+                                                             <div>
+                                                                <img src="img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile">
+                                                             </div>
+                                                             <h1>${name}</h1>
+                                                            </a>
+                                                            <a href="#" class="aFloatRight userFollow" data-value="${name}">
+                                                                <span>팔로우</span>
+                                                                <span class="spinner"></span>
+                                                            </a>
+                                                            <a href="#" class="aFloatRight userFollowing" data-value="${name}" style="display:none;">
+                                                                <span>팔로잉</span>
+                                                                <span class="spinner"></span>
+                                                            </a>
+                                                       </li>`
+                                            }
+                                        }
+                                    } else {
+                                        if (profile != null) {
+                                            tags = `<li>
+                                                        <a href="/Photostagram/profile?username=${name}">
+                                                         <div>
+                                                            <img src="/Photostagram/thumb/${profile}" alt="profile">
+                                                         </div>
+                                                         <h1>${name}</h1>
+                                                        </a>
+                                                        <a href="#" class="aFloatRight userFollow" data-value="${name}" style="display:none;">
+                                                            <span>팔로우</span>
+                                                            <span class="spinner"></span>
+                                                        </a>
+                                                        <a href="#" class="aFloatRight userFollowing" data-value="${name}" data-image="${profile}">
+                                                            <span>팔로잉</span>
+                                                            <span class="spinner"></span>
+                                                        </a>
+                                                   </li>`
+                                        } else {
+                                            tags = `<li>
+                                                        <a href="/Photostagram/profile?username=${name}">
+                                                         <div>
+                                                            <img src="img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile">
+                                                         </div>
+                                                         <h1>${name}</h1>
+                                                        </a>
+                                                        <a href="#" class="aFloatRight userFollow" data-value="${name}" style="display:none;">
+                                                            <span>팔로우</span>
+                                                            <span class="spinner"></span>
+                                                        </a>
+                                                        <a href="#" class="aFloatRight userFollowing" data-value="${name}">
+                                                            <span>팔로잉</span>
+                                                            <span class="spinner"></span>
+                                                        </a>
+                                                   </li>`
+                                        }
+                                    }
+
+                                        pop.append(tags);
+                                    }
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    if (top > 280 * num1) {
+                        $.ajax({
+                            url: '/Photostagram/profile/followers',
+                            type: 'post',
+                            async: false,
+                            data: {'pg':num1, 'username':pageUser, 'type':type},
+                            dataType: 'json',
+                            success: function(data){
+                                console.log('here2');
+                                if (Object.keys(data).length != 0){
+                                    num1++;
+                                    console.log('here3');
+                                    console.log ('성공!');
+
+                                    if (username == myName) {
+                                        for (i=0; i<Object.keys(data).length; i++) {
+                                            let name = data[i].username
+                                            let result = data[i].followResult
+                                            let num = data[i].no
+                                            let profile = data[i].profileImg
+                                            let tags='';
+                                            if (profile != null) {
+                                                tags = `<li>
+                                                            <a href="/Photostagram/profile?username=${name}">
+                                                             <div>
+                                                                <img src="/Photostagram/thumb/${profile}" alt="profile">
+                                                             </div>
+                                                             <h1>${name}</h1>
+                                                            </a>
+                                                            <a href="#" class="aFloatRight userSelect" data-value="${name}" data-image="${profile}">
+                                                                <span>삭제</span>
+                                                                <span class="spinner"></span>
+                                                            </a>
+                                                       </li>`
+                                            } else {
+                                                tags = `<li>
+                                                            <a href="/Photostagram/profile?username=${name}">
+                                                             <div>
+                                                                <img src="img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile">
+                                                             </div>
+                                                             <h1>${name}</h1>
+                                                            </a>
+                                                            <a href="#" class="aFloatRight userSelect" data-value="${name}">
+                                                                <span>삭제</span>
+                                                                <span class="spinner"></span>
+                                                            </a>
+                                                       </li>`
+                                            }
+
+                                            solo.append(tags);
+                                        }
+                                    } else {
+                                        for (i=0; i<Object.keys(data).length; i++) {
+                                            let name = data[i].username
+                                            let result = data[i].followResult
+                                            let num = data[i].no
+                                            let profile = data[i].profileImg
+                                            let tags='';
+                                            if (result == 0) {
+                                                if (myName == name) {
+                                                    if (profile != null) {
+                                                        tags = `<li>
+                                                                    <a href="/Photostagram/profile?username=${name}">
+                                                                     <div>
+                                                                        <img src="/Photostagram/thumb/${profile}" alt="profile">
+                                                                     </div>
+                                                                     <h1>${name}</h1>
+                                                                    </a>
+                                                               </li>`
+                                                    } else {
+                                                        tags = `<li>
+                                                                    <a href="/Photostagram/profile?username=${name}">
+                                                                     <div>
+                                                                        <img src="img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile">
+                                                                     </div>
+                                                                     <h1>${name}</h1>
+                                                                    </a>
+                                                               </li>`
+                                                    }
+                                                } else {
+                                                    if (profile != null) {
+                                                        tags = `<li>
+                                                                    <a href="/Photostagram/profile?username=${name}">
+                                                                     <div>
+                                                                        <img src="/Photostagram/thumb/${profile}" alt="profile">
+                                                                     </div>
+                                                                     <h1>${name}</h1>
+                                                                    </a>
+                                                                    <a href="#" class="aFloatRight userFollow" data-value="${name}" style="display:none;">
+                                                                        <span>팔로우</span>
+                                                                        <span class="spinner"></span>
+                                                                    </a>
+                                                                    <a href="#" class="aFloatRight userFollowing" data-value="${name}" data-image="${profile}">
+                                                                        <span>팔로잉</span>
+                                                                        <span class="spinner"></span>
+                                                                    </a>
+                                                               </li>`
+                                                    } else {
+                                                        tags = `<li>
+                                                                    <a href="/Photostagram/profile?username=${name}">
+                                                                     <div>
+                                                                        <img src="img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile">
+                                                                     </div>
+                                                                     <h1>${name}</h1>
+                                                                    </a>
+                                                                    <a href="#" class="aFloatRight userFollow" data-value="${name}" style="display:none;">
+                                                                        <span>팔로우</span>
+                                                                        <span class="spinner"></span>
+                                                                    </a>
+                                                                    <a href="#" class="aFloatRight userFollowing" data-value="${name}">
+                                                                        <span>팔로잉</span>
+                                                                        <span class="spinner"></span>
+                                                                    </a>
+                                                               </li>`
+                                                    }
+                                                }
+                                            } else {
+                                                if (profile != null) {
+                                                    tags = `<li>
+                                                                <a href="/Photostagram/profile?username=${name}">
+                                                                 <div>
+                                                                    <img src="/Photostagram/thumb/${profile}" alt="profile">
+                                                                 </div>
+                                                                 <h1>${name}</h1>
+                                                                </a>
+                                                                <a href="#" class="aFloatRight userFollow" data-value="${name}" style="display:none;">
+                                                                    <span>팔로우</span>
+                                                                    <span class="spinner"></span>
+                                                                </a>
+                                                                <a href="#" class="aFloatRight userFollowing" data-value="${name}" data-image="${profile}">
+                                                                    <span>팔로잉</span>
+                                                                    <span class="spinner"></span>
+                                                                </a>
+                                                           </li>`
+                                                } else {
+                                                    tags = `<li>
+                                                                <a href="/Photostagram/profile?username=${name}">
+                                                                 <div>
+                                                                    <img src="img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile">
+                                                                 </div>
+                                                                 <h1>${name}</h1>
+                                                                </a>
+                                                                <a href="#" class="aFloatRight userFollow" data-value="${name}" style="display:none;">
+                                                                    <span>팔로우</span>
+                                                                    <span class="spinner"></span>
+                                                                </a>
+                                                                <a href="#" class="aFloatRight userFollowing" data-value="${name}">
+                                                                    <span>팔로잉</span>
+                                                                    <span class="spinner"></span>
+                                                                </a>
+                                                           </li>`
+                                                }
+                                            }
+
+                                            solo.append(tags);
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+        });
+});
+/*]]*/
+</script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+
+    $('#chatStart').on('click', function(){
+        var checkBoxArr = [];
+
+        let no = [[${member.no}]];
+        checkBoxArr.push(no);
+
+        let my_no = [[${user.no}]];
+        console.log('my_no : '+my_no);
+
+        let jsonData = {"user_no":checkBoxArr, "my_no":my_no};
+        console.log('jsonData : '+JSON.stringify(jsonData));
+
+
+        $.ajax({
+            url:'/Photostagram/goChattingRoom',
+            method:'POST',
+            traditional: true,
+            data:jsonData,
+            dataType:'json',
+            success:function(data){
+                let room_no = data.result;
+                console.log('메시지창으로 이동!');
+                location.href='/Photostagram/chat/content?room_no='+room_no;
+            }
+        });
+    });
+
+/*]]*/
+</script>

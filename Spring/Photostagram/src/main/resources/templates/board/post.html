@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/boardLayout}">
+<th:block layout:fragment="main">
+    <script th:inline="javascript">
+        $(function(){
+
+           $('#btnComment').click(function(e){
+                e.preventDefault();
+                
+                var comment = $("#comment").val();
+                var user_no = [[${user.no}]];
+                var post_no = [[${post.no}]];
+                var username = [[${user.username}]];
+                var profileImg = [[${user.profileImg}]];
+
+                // 작성 폼의 내용이 답글인 경우
+                if(comment.startsWith("@")){
+                    let respComment_no = $("input[name=commentNo]").val()
+                    console.log("답글 달 댓글번호 : " + respComment_no) // ok
+                    let resp = comment.split(" | ")
+                    console.log("답글 의 댓글 내용 : " + resp[1]) // ok
+
+                    let comment_length = $("li.text").length; // for
+
+                    
+
+                    let jsonData = {
+                        comment: resp[1],
+                        user_no:user_no,
+                        post_no:post_no,
+                        parent:respComment_no
+                    }
+
+                    
+                    
+                    $.ajax({
+                        url:'/Photostagram/BoardRespComment',
+                        method:'POST',
+                        data:JSON.stringify(jsonData),
+                        contentType: "application/json",
+                        dataType:'json',
+                        success: function(data){
+                            let str =      "<li>"
+                                str +=          "<img class='proImg' src='/Photostagram/thumb/"+profileImg+"' onerror='this.src=/Photostagram/img/44884218_345707102882519_2446069589734326272_n.jpg'>"
+                                str +=          "<div class='reply'>"
+                                str +=       "<h1>"
+                                str +=            "<span>"+username+"</span>"
+                                str +=            ""+resp[1]+""
+                                str +=      "</h1>"
+                                str +=   "<div class='favorite'>"
+                                str +=       "<span class='comment_writeTime'>1일</span>"
+                                str +=   "좋아요"
+                                str +=   "<span class='cmt_like_count'>0</span>개"
+                                str +=   "<span class='comment_more'>답글달기</span>"
+                                str += "</div>"
+                                str += "</div>"
+                                str +="<a href='#' id='reHeart' class='reWhite'>좋아요</a>"
+                                str +="</li>"
+                                
+                            
+                                for(let i=0; i<comment_length; i++){
+
+                                    let text_cmt = $("li.text").eq(i);
+                                    console.log("text_cmt : " + text_cmt)
+                                    
+                                    if(text_cmt.attr("data-no") == respComment_no){
+                                        text_cmt.find('.reReply').append(str);
+                                    }
+                                }
+                            $("#comment").val('');
+                        }
+                    })
+                }else{
+
+                    var jsonData = {
+                    "comment": comment,
+                    "user_no": user_no,
+                    "post_no": post_no
+                    };
+                    
+                    
+
+                    console.log('jsonData : ' + JSON.stringify(jsonData));
+
+                    $.ajax({
+                        url : '/Photostagram/BoardComment',
+                        method : 'POST',
+                        data : jsonData,
+                        dataType : 'JSON',
+                        success : function(data){
+                            console.log('success data : ' + JSON.stringify(data));
+
+                            if(data.result > 0){
+                                console.log('username : ' + username);
+                                console.log('profileImg : ' + profileImg);
+
+
+
+                                let tags = `<li id="text">
+                                    <img class="proImg" src="/Photostagram/thumb/${profileImg}" onerror="this.src='/Photostagram/img/44884218_345707102882519_2446069589734326272_n.jpg'" alt="profile">
+                                    <div class="reply">
+                                        <h1 class="comment_width"><span>${username}</span>${comment}</h1>
+
+                                        <div class="favorite">
+                                            <span class="comment_writeTime">1일</span>
+                                            좋아요
+                                            <span class="cmt_like_count">0</span>개
+                                            <span class="comment_more">답글달기</span>
+                                        </div>
+                                    </div>
+                                    <a href="#" id="reHeart" class="reWhite" data-no=${user_no}>좋아요</a>
+
+                                    <div class="showReply">
+
+                                        <div class="listReply reHide">
+                                            <ul class="reReply">
+                                                <li>
+                                                    <img class="proImg" src="/Photostagram/img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile">
+                                                    <div class="reply">
+                                                        <h1><span>gildong</span>댓글 내용111111111111111111111111111111111111111111111111111111</h1>
+                                                        <a href="#">#해시태그</a>
+                                                        <div class="comment-time">
+                                                            좋아요 <span>100</span>개 &nbsp;&nbsp;
+                                                            <a href="#">답글달기</a>
+                                                        </div>
+                                                    </div>
+                                                    <a href="#" id="reHeart" class="reWhite">좋아요</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </li>`;
+
+                                $('#post > .contents > ul').append(tags);
+                                $('#comment').val('');
+
+                            }else{
+                                alert("실패");
+                            }
+                        }
+                    });
+                }
+
+                
+            });
+
+
+
+        });
+    </script>
+    <div id="wrapper">
+        <article id="post" th:data-no="${NowArticleNo}">
+            <section class="picture" >
+                    <!-- 게시글 사진 -->
+                   <div class="mySlide">
+                            <div class="mySlides">
+                                <th:block th:each="images:${images}">
+                                    <img class="picture-size" th:src="|@{/}thumb/${images.thumb}" alt="picture">
+                                </th:block>
+                            </div>
+                   </div>
+            </section>
+
+            <section class="contents">
+                <!-- 글 작성자 -->
+                <nav>
+                    <div id="profile">
+                        <img th:src="|@{/}thumb/${post.profileImg}" onerror="this.src='/Photostagram/img/44884218_345707102882519_2446069589734326272_n.jpg'"  alt="profile">
+                        <p class="postTop">
+                            <span id="nick">[[${post.username}]]</span>
+                            <span>·</span>
+                            <a id="postFollowing" href="#">팔로잉</a>
+                            <a id="postFollow" href="#">팔로우</a>
+                        </p>
+                    </div>
+                    <th:block th:if="${post.user_no == user.no}">
+                        <a th:href="@{#}" class="postSelect">...</a>
+                    </th:block>
+                </nav>
+                <ul>
+                    <!-- 게시글 작성 콘텐츠 내용&해시태그-->
+                    <li>
+                     <img class="proImg" th:src="|@{/}thumb/${post.profileImg}" onerror="this.src='/Photostagram/img/44884218_345707102882519_2446069589734326272_n.jpg'"  alt="profile">
+                        <div class="reply">
+                            <h1><span>[[${post.username}]]</span>[[${post.content}]]</h1>
+                            <th:block th:each="hash:${hashes}">
+                                <a href="#">#[[${hash.hashtag}]]</a>
+                            </th:block>
+                            <div class="comment-time">
+                                5주
+                            </div>
+                        </div>
+                    </li>
+                    <!---->
+
+                    <!-- 댓글 -->
+                    <li class="text" th:each="commentVo:${comments}"
+                        th:if="${commentVo.post_no == NowArticleNo}"
+                        th:data-no="${commentVo.no}"
+                    >
+                        <a th:href="@{/profile(username = ${commentVo.memberVO.username})}">
+                            <img class="proImg" th:src="|@{/}thumb/${commentVo.profileImg}" onerror="this.src='/Photostagram/img/44884218_345707102882519_2446069589734326272_n.jpg'" alt="profile">
+                        </a>
+                        <div class="reply">
+                            <h1 class="comment_width">
+                                    <span>[[${commentVo.username}]]</span>
+                                [[${commentVo.comment}]]
+                            </h1>
+
+                            <div class="favorite">
+                                <span class="comment_writeTime">1일</span>
+                                좋아요
+                                <span class="cmt_like_count" th:text="${commentVo.modal_likeCount}"></span>개
+                                <span class="comment_more">답글달기</span>
+                            </div>
+                        </div>
+
+                        <input type="hidden" th:data-no="${commentVo.no}">
+                        <a href="#" id="reHeart" th:if="${#strings.equals(user.no , commentVo.comment_likeVO.user_no)}" class="reRed detail_comment_heart" th:data-no="${user.no}"></a>
+                        <a href="#" id="reHeart" th:unless="${#strings.equals(user.no , commentVo.comment_likeVO.user_no)}" class="reWhite detail_comment_heart" th:data-no="${user.no}"></a>
+
+                        <!----- 답글 ----->
+                        <div class="showReply" >
+                            <a href="#" class="reOpen" th:if="${commentVo.childComment != null}">ㅡ 답글보기</a>
+                            <div class="listReply reHide">
+                                <ul class="reReply">
+                                    <li th:each="child:${commentVo.childComment}">
+                                        <img class="proImg" th:src="|@{/}thumb/${child.memberVO.profileImg}"
+                                             onerror="this.src='/Photostagram/img/44884218_345707102882519_2446069589734326272_n.jpg'"
+                                             alt="profile">
+
+                                        <div class="reply">
+                                            <h1>
+                                                <span th:text="${child.memberVO.username}">gildong</span>
+                                                [[${child.comment}]]
+                                            </h1>
+                                            <div class="favorite">
+                                                <span class="comment_writeTime">1일</span>
+                                                좋아요
+                                                <span class="cmt_like_count">[[${child.modal_likeCount}]]</span>개
+                                                <span class="comment_more">답글달기</span>
+                                            </div>
+                                        </div>
+                                        <a href="#" id="reHeart" class="reWhite">좋아요</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </li>
+                </ul>
+
+                <div>
+                    <div>
+
+                        <a href="#" id="likeThis" class="unlike" th:if="${post_like_user == null}" th:data-no="${user.no}"></a>
+                        <a href="#" id="likeThis" class="like" th:unless="${post_like_user == null}" th:data-no="${user.no}"></a>
+                        <a href="#" id="writeReply"></a>
+                        <a href="#" id="share"></a>
+                        <a href="#" id="bookMark" class="remove" th:data-no="${user.no}"></a>
+                    </div>
+
+                    <div>
+                        <div>좋아요 <span class="like-count">[[${content_like_time.like}]]</span>개</div>
+                        <div class="date" th:text="${#strings.substring(content_like_time.rdate, 5, 10)}">2월 28일</div>
+                    </div>
+                    
+
+                    <div class="comment_textarea">
+                        <a href="#"><i class="fa-regular fa-face-smile fa-2x"></i></a>
+                        <textarea name="comment" id="comment"></textarea>
+                        <a href="#" id="btnComment">게시</a>
+                    </div>
+                </div>
+            </section>
+        </article>
+
+
+        <div id="more">
+            <div><span>[[${user.username}]]</span>님의 게시물 더 보기</div>
+            <th:block th:each="plus:${plusimg}">
+                <a href="#" class="plusimg">
+                    <img th:src="|@{/}thumb/${plus.thumb}" alt="pic">
+                </a>
+            </th:block>
+        </div>
+        <div id="pCancel" class="pModal">
+            <div class="pContents">
+                <div>
+                    <img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}">
+                    <h1><span>[[${user.username}]]</span>님의 팔로우를 취소하시겠어요?</h1>
+                </div>
+                <ul>
+                    <li><a href="#" class="pClose" id="postUnFollow">팔로우 취소</a></li>
+                    <li><a href="#" class="pClose">취소</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

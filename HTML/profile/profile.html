@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"/>
+    <link
+    href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+    rel="stylesheet"/>
+    <link rel="stylesheet" href="./css/profile.css">
+    <link rel="stylesheet" href="../css/aside.css">
+    <link rel="shortcut icon" href="../img/favicon.png" type="image/png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="../js/aside.js"></script>
+    <script>
+      $(function(){
+        //게시글 업로드 버튼 클릭시(ajax추가하면 됨)
+      $('#button_write_feed').on('click', ()=>{        
+        const image = $('#input_image').css("background-image").replace(/^url\(['"](.+)['"]\)/, '$1');
+        const content = $('#input_content').val();
+        const profile_image = $('#input_profile_image').attr('src');
+        const user_id = $('#input_user_id').text();
+
+        const file = files[0];
+
+        let fd = new FormData();
+
+        fd.append('file', file);
+        fd.append('image', image);
+        fd.append('content', content);
+        fd.append('profile_image', profile_image);
+        fd.append('user_id', user_id);
+
+        if(image.length <= 0)
+        {
+            alert("이미지가 비어있습니다.");
+        }
+        else if(content.length <= 0)
+        {
+            alert("설명을 입력하세요");
+        }
+        else if(profile_image.length <= 0)
+        {
+            alert("프로필 이미지가 비어있습니다.");
+        }
+        else if(user_id.length <= 0)
+        {
+            alert("사용자 id가 없습니다.");
+        }
+        else{
+            writeFeed(fd);
+            console.log(files[0]);
+        }
+      });
+      });
+    </script>
+    <style>
+
+    </style>
+</head>
+<body>
+          <div id="pro">
+          <section>
+              <div class="myProfile">
+                  <div class="proPhoto">
+                      <div>
+                      <th:block th:if="${#strings.equals(myName, username)}">
+                        <input type="file" class="real-addProf" accept="image/*" style="display: none;"/>
+                          <th:block th:if="${not #strings.isEmpty(user.profileImg)}">
+                              <img th:src="|@{/}thumb/${user.profileImg}" alt="profile" class="addProf" id="profilePhoto"/>
+                          </th:block>
+                          <th:block th:unless="${not #strings.isEmpty(user.profileImg)}">
+                              <img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="profile" class="addProf" id="profilePhoto"/>
+                          </th:block>
+                      </th:block>
+                      <th:block th:unless="${#strings.equals(myName, username)}"></th:block>
+                          <th:block th:if="${not #strings.isEmpty(user.profileImg)}">
+                              <img th:src="|@{/}thumb/${user.profileImg}" alt="profile" id="profilePhoto"/>
+                          </th:block>
+                          <th:block th:unless="${not #strings.isEmpty(user.profileImg)}">
+                              <img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="profile" id="profilePhoto"/>
+                          </th:block>
+                      </div>
+                  </div>
+                  <div class="detail">
+                      <div class="pTop">
+                          <div class="userName">[[${username}]]</div>
+                          <th:block th:if="${#strings.equals(myName, username)}">
+                              <a th:href="@{/profile/modify}" class="button">프로필 편집</a>
+                          </th:block>
+                          <th:block th:unless="${#strings.equals(myName, username)}">
+                              <th:block th:if="${result} > 0">
+                                  <a th:href="@{/profile/follow (type=delete, userName=${username}, myName=${myName})}" class="button" id="following">팔로잉</a>
+                              </th:block>
+                              <th:block th:unless="${result} > 0">
+                                  <a href="#" class="button" id="follow">팔로우</a>
+                              </th:block>
+                          </th:block>
+
+                      </div>
+                      <ul class="pMiddle">
+                          <li>
+                              게시물<span>[[${post}]]</span>
+                          </li>
+                          <li>
+                              <a id="followModal">팔로워<span>[[${myFollower}]]</span></a>
+                          </li>
+                          <li>
+                              <a id="followingModal">팔로잉<span>[[${myFollowing}]]</span></a>
+                          </li>
+                      </ul>
+                      <p class="pAbout">
+                          <span class="notice">
+                              [[${user.profileText}]]
+                          </span>
+                      </p>
+                  </div>
+              </div>
+              <div class="myNav">
+                  <div><a href="#">게시물</a></div>
+                  <div><a href="#">릴스</a></div>
+                  <div><a href="#">태그됨</a></div>
+              </div>
+              <div class="myList">
+                  <div class="pic">
+                      <a href="#">
+                          <img th:src="@{/img/300x300-1.png}">
+                      </a>
+                  </div>
+                  <div class="pic">
+                      <a href="#">
+                          <img th:src="@{/img/300x300-1.png}">
+                      </a>
+                  </div>
+                  <div class="pic">
+                      <a href="#">
+                          <img th:src="@{/img/300x300-1.png}">
+                      </a>
+                  </div>
+                  <div class="pic">
+                      <a href="#">
+                          <img th:src="@{/img/300x300-1.png}">
+                      </a>
+                  </div>
+                  <div class="pic">
+                      <a href="#">
+                          <img th:src="@{/img/300x300-1.png}">
+                      </a>
+                  </div>
+                  <div class="pic">
+                      <a href="#">
+                          <img th:src="@{/img/300x300-1.png}">
+                      </a>
+                  </div>
+                  <div class="pic">
+                      <a href="#">
+                          <img th:src="@{/img/300x300-1.png}">
+                      </a>
+                  </div>
+                  <div class="pic">
+                      <a href="#">
+                          <img th:src="@{/img/300x300-1.png}">
+                      </a>
+                  </div>
+                  <div class="pic">
+                      <a href="#">
+                          <img th:src="@{/img/300x300-1.png}">
+                      </a>
+                  </div>
+              </div>
+          </section>
+            <div id="fCancel" class="fModal">
+                <div class="fContents">
+                    <span class="fClose">&times;</span>
+                    <div id="fTop">
+                        <img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="profile">
+                        <span>[[${username}]]</span>
+                    </div>
+                    <ul id="fBottom">
+                        <li><a href="#" class="fClose"><span>친한 친구 리스트에 추가</span><i class="fa-solid fa-star"></i></a></li>
+                        <li><a href="#" class="fClose"><span>즐겨찾기에 추가</span><i class="fa-regular fa-star"></i></a></li>
+                        <li><a href="#" class="fClose"><span>일시 차단</span><i class="fa-solid fa-chevron-right"></i></a></li>
+                        <li><a href="#" class="fClose"><span>제한</span><i class="fa-solid fa-chevron-right"></i></a></li>
+                        <li><a th:href="@{/profile/follow (type=insert, userName=${username}, myName=${myName})}" id="unFollow" class="fClose">팔로우 취소</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+</body>
+</html>

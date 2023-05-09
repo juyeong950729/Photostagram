@@ -1,0 +1,233 @@
+.quest-screen{
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .quest-content{
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            order: 4;
+            background-color: rgb(255, 255, 255);
+        }
+
+        .content1{
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            margin: 0 auto 30px;
+            box-sizing: content-box;
+            max-width: 935px;
+            padding: 40px 20px 0;
+            width: calc(100% - 40px);
+            padding-top: 24px;
+        }
+
+        .content2{
+            display: flex;
+            flex-direction: column;
+            margin-right: -2px;
+            position: relative;
+            margin: 0 -28px 0 0;
+        }
+
+        .content3{
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 2241.97px;
+            padding-top: 0px;
+        }
+
+        .content4{
+            overflow-y: visible;
+            align-content: stretch;
+            border-bottom-left-radius: 0;
+            background-color: transparent;
+            flex-direction: column;
+            box-sizing: border-box;
+            border-bottom-right-radius: 0;
+            flex-shrink: 0;
+            align-items: stretch;
+            overflow-x: visible;
+            align-self: auto;
+            justify-content: flex-start;
+            position: relative;
+            display: block;
+            flex-grow: 0;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        .content5{
+            margin: 0 4px 4px 0;
+            width: calc(33.3333% - 4px);
+            align-items: stretch;
+            border: 0;
+            box-sizing: border-box;
+            display: block;
+            flex-direction: column;
+            flex-shrink: 0;
+            float: left;
+            font: inherit;
+            font-size: 100%;
+            margin: var(--mobile-grid-item-margin) var(--mobile-grid-item-margin) 0 0;
+            padding: 0;
+            position: relative;
+            vertical-align: baseline;
+        }
+
+        .content6{
+            width: 100%;
+            overflow-y: visible;
+            align-content: stretch;
+            border-bottom-left-radius: 0;
+            background-color: transparent;
+            flex-direction: column;
+            box-sizing: border-box;
+            border-bottom-right-radius: 0;
+            flex-shrink: 0;
+            align-items: stretch;
+            overflow-x: visible;
+            align-self: auto;
+            justify-content: flex-start;
+            position: relative;
+            display: block;
+            flex-grow: 0;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        .content7{
+            text-decoration: none;
+            display: inline;
+            padding-left: 0;
+            background-color: transparent;
+            touch-action: manipulation;
+            padding-top: 0;
+            list-style: none;
+            margin-top: 0;
+            border-left: 0;
+            margin-bottom: 0;
+            border-bottom: 0;
+            box-sizing: border-box;
+            border-top: 0;
+            padding-right: 0;
+            cursor: pointer;
+            margin-left: 0;
+            -webkit-tap-highlight-color: transparent;
+            text-decoration: none;
+            border-right: 0;
+            outline: none;
+            padding-bottom: 0;
+            text-align: inherit;
+            margin-right: 0;
+        }
+
+        .content8 {
+            background-color: rgb(239, 239, 239);
+            display: block;
+            width: 100%;
+            position: relative;
+            background-color: white;
+        }
+
+        .content9{
+
+            display: block;
+            overflow: hidden;
+            padding-bottom: 100%;
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+
+        .content10{
+            object-fit: cover;
+            left: 0;
+            width: 100%;
+            user-select: none;
+            height: 100%;
+            top: 0;
+            position: absolute;
+            border: 0;
+            overflow-clip-margin: content-box;
+            overflow: clip;
+        }
+
+        .content11{
+            bottom: 0;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            display: block;
+        }
+
+        .content12{
+            margin: 15px 15px 0 0;
+            align-items: flex-end;
+            border: 0;
+            bottom: 0;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            font: inherit;
+            font-size: 100%;
+            justify-content: flex-start;
+            left: 0;
+            margin: 5px 5px 0 0;
+            padding: 0;
+            pointer-events: none;
+            position: absolute;
+            right: 0;
+            top: 0;
+            vertical-align: baseline;
+        }
+
+        .content13{
+          position: relative;
+          display: block;
+          filter: drop-shadow(0 0 0.75px rgba(0,0,0,.42)) drop-shadow(0 1px 0.5px rgba(0,0,0,.18)) drop-shadow(0 2px 3px rgba(0,0,0,.2));
+        }
+
+        .content9 > img {
+            width:300px;
+            height:300px;
+            object-fit: cover;
+        }
+
+        .content9 > video {
+                    width:300px;
+                    height:300px;
+                    object-fit: cover;
+                }
+
+       .fa-solid, .fas {
+           font-weight: 900;
+       }
+
+       .fa-images {
+           content: "\f302";
+       }
+
+       .fa-2x {
+           font-size: 2em;
+       }
+
+       .faIcons {
+           position: absolute;
+           right: 5px;
+           top: 5px;
+           color: white;
+       }
+
+
+        .fa-film:before {
+            content: "\f008";
+        }
+
+

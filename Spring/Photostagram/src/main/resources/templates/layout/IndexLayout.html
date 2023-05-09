@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+          name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+  />
+  <title>Photostagram</title>
+  <link rel="shortcut icon" th:href="@{/img/favicon.png}" type="image/png">
+  <!--
+      날짜 : 2023 / 02 / 28
+      이름 : 조광호
+      내용 : 메인 index 화면 구현
+  -->
+  <link rel="stylesheet" th:href="@{/css/common.css}" />
+  <link rel="stylesheet" th:href="@{/css/reset.css}" />
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+  <link rel="stylesheet" th:href="@{/css/aside.css}" />
+  <link rel="stylesheet" th:href="@{/css/index.css}" />
+  <link
+          rel="stylesheet"
+          href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
+  />
+  <link
+          href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+          rel="stylesheet"
+  />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+  <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+</head>
+
+  <body>
+    <th:block th:replace="~{fragments/_aside::asideFragment}"></th:block>
+    <th:block layout:fragment="main"></th:block>
+  </body>
+
+<th:block th:replace="~{fragments/_modal::modalFragment}"></th:block>
+
+<th:block layout:fragment="script">
+  <script th:src="@{/js/aside.js}"></script>
+  <script th:src="@{/js/index.js}"></script>
+  <script th:src="@{/js/indexModal.js}"></script>
+
+</th:block>
+
+</html>

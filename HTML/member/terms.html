@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photostagram::terms</title>
+    <link rel="shortcut icon" href="./images/favicon.png" type="image/png">
+    <!-- 구글 폰트 -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/member.css">
+</head>
+<body>
+<main class="member">
+    <div class="container">
+        <div class="main-container">
+            <div class="main-content">
+                <div class="form-container">
+                    <div class="form-content box">
+                        <div class="signin-form-reg" id="signin-form">
+                            <div class="birth">
+                                <p>이용 약관에 동의</p>
+                                <div>
+                                    Instagram은 회원님의 개인 정보를 안전하게 보호합<br>니다.
+                                    새 계정을 만들려면 모든 약관에 동의하세요.
+                                </div>
+                            </div>
+                            <!-- 이용약관 동의 -->
+                        
+                            <ul class="join_box">
+                                <li class="checkBox check01">
+                                    <ul class="clearfix" id="clearfix">
+                                        <li>
+                                            이용약관 3개에 모두 동의
+                                        </li>
+                                        <li class="checkAllBtn">
+                                            <input type="checkbox" name="chkAll" id="chk" class="chkAll">
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="checkBox check02">
+                                    <ul class="clearfix">
+                                        <li>
+                                            이용약관(필수)<br>
+                                            <a href="#">더 알아보기</a>
+                                        </li>
+                                        <li class="checkAllBtn">
+                                            <input type="checkbox" name="chkAll" id="chk" class="chkAll">
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="checkBox check03">
+                                    <ul class="clearfix">
+                                        <li>
+                                            데이터 정책(필수)<br>
+                                            <a href="#">더 알아보기</a>
+                                        </li>
+                                        <li class="checkAllBtn">
+                                            <input type="checkbox" name="chkAll" id="chk" class="chkAll">
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="checkBox check04">
+                                    <ul class="clearfix">
+                                        <li>
+                                            위치 기반 기능(필수)<br>
+                                            <a href="#">더 알아보기</a>
+                                        </li>
+                                        <li class="checkAllBtn">
+                                            <input type="checkbox" name="chkAll" id="chk" class="chkAll">
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <div class="btn-group">
+                                <button type="submit" class="btn-login" id="signin-btn" onclick="location.href='/member/terms'">
+                                    가입
+                                </button>
+                            </div>
+                            
+                            <div class="birth">
+                                <div>
+                                    <a href="./birth.html">돌아가기</a>
+                                </div>
+                            </div>                     
+                        </div>
+                    </div>
+                    <div class="box goto">
+                        <p>
+                            계정이 있으신가요?
+                            <a href="./login.html">로그인</a>
+                        </p>
+                    </div>
+
+                    <div class="app-download">
+                        <p>앱을 다운로드 하세요.</p>
+                        <div class="store-link">
+                            <a href="#">
+                                <img src="./images/appDownload.png" alt="app store">
+                            </a>
+                            <a href="#">
+                                <img src="./images/googlePlay.png" alt="google play">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="links">
+                <a href="#">Meta</a>
+                <a href="#">소개</a>
+                <a href="#">블로그</a>
+                <a href="#">채용정보</a>
+                <a href="#">도움말</a>
+                <a href="#">API</a>
+                <a href="#">개인정보처리방침</a>
+                <a href="#">약관</a>
+                <a href="#">인기 계정</a>
+                <a href="#">위치</a>
+                <a href="#">Instagram Lite</a>
+                <a href="#">연락처 업로드 & 비사용자</a>
+                <a href="#">Meta verified</a>
+                <a href="#" id="darkmode-toggle">Darkmode</a>
+            </div>
+            <div class="copyright">
+                © 2023 Instagram from Meta
+            </div>
+        </div>
+    </div>
+    </main>
+    <!-- APP JS -->
+    <script src="./js/member.js"></script>
+</body>
+</html>

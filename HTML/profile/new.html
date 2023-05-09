@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <style>
+    * {
+    margin: 0;
+    padding: 0;
+    font: normal 'Arial';
+}
+
+ul, ol {list-style: none;}
+a {text-decoration: none; color: #111;}
+input, textarea {outline: none;}
+
+#pro {
+    width: 1000px;
+    margin-top:20px;
+    margin-left:500px;
+}
+#pro > section {width: 100%;}
+#pro > section > div {display: block;}
+
+#pro > section > .myProfile {
+    width: 100%;
+    height: 200px;
+    position: relative; 
+    display: block; 
+    border-bottom: 1px solid #e9e9e9; 
+}
+#pro > section > .myProfile > .proPhoto {
+    float: left; 
+    margin-top: 20px; 
+    margin-left:100px; 
+    margin-right:100px; 
+    width: 200px;
+}
+#pro > section > .myProfile > .proPhoto > div {width: 150px; height: 150px; border-radius: 70%; overflow: hidden;}
+#pro > section > .myProfile > .proPhoto > div > img {width: 100%; height: 100%; object-fit: cover;}
+#pro > section > .myProfile > .proPhoto > div > a > img {width: 100%; height: 100%; object-fit: cover;}
+#pro > section > .myProfile > .detail {float:left; width:500px;}
+#pro > section > .myProfile > .detail > .pTop {
+    display: block; 
+    margin-top: 30px; 
+    position: relative; 
+    width: auto; 
+    height: 40px;
+}
+#pro > section > .myProfile > .detail > .pTop > .userName {
+    float:left; 
+    padding-right:15px; 
+    font-size: 24px;
+    height: 40px;
+    line-height: 40px;
+}
+#pro > section > .myProfile > .detail > .pTop > .button {
+    margin: 2px;
+    padding: 9px 15px;
+    background: #e9e9e9;
+    font-size: 13px;
+    top: 10px;
+    position: inherit;
+}
+#pro > section > .myProfile > .detail > .pTop > #follow {
+    background: #32a4ff; 
+    color: aliceblue; 
+    font-weight: bold;
+}
+#pro > section > .myProfile > .detail > .pMiddle {
+    display: block; 
+    margin-top: 20px; 
+    width: 500px; 
+    height: 40px; 
+    overflow: hidden;
+}
+#pro > section > .myProfile > .detail > .pMiddle > li {
+    box-sizing: border-box; 
+    margin-right:35px; 
+    float: left;
+    font-size:15px;
+    width: 100px;
+}
+#pro > section > .myProfile > .detail > .pMiddle > li > span {
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 5px;
+}
+#pro > section > .myProfile > .detail > .pMiddle > li > a {font-size:15px;}
+#pro > section > .myProfile > .detail > .pMiddle > li > a > span {font-size:16px; font-weight:bold; margin-left:5px;}
+
+#pro > section > .myProfile > .detail > .pAbout > .notice {font-size: 15px;}
+
+#pro > section > .myNav {
+    padding-top: 30px; 
+    width: 400px; 
+    margin-right: 300px; 
+    margin-left: 300px; 
+    text-align: center;
+}
+#pro > section > .myNav > div:nth-child(1) {margin-left: 50px;}
+#pro > section > .myNav > div {
+    float: left; 
+    padding-left: 30px; 
+    padding-right: 30px;
+}
+#pro > section > .myNav > div > a {color: #888;}
+#pro > section > .myNav > div > a:hover {color: #111;}
+
+#pro > section > .myList {margin-top: 50px;}
+#pro > section > .myList > .pic {
+    float:left;
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+    margin: 5px; 
+    overflow: hidden;
+}
+#pro > section > .myList > .pic > a {display: block;} 
+#pro > section > .myList > .pic > a > img {width: 100%; height: 100%; object-fit:cover;}
+
+  .fModal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0,0,0,0.4);
+    -ms-overflow-style: none;
+  }
+  .fModal::-webkit-scrollbar {display: none;}
+
+  .fContents {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 400px;
+    border-radius: 10px;
+  }
+
+  .fContents > #fTop {margin-left: 135px; width:55px; position: relative; text-align: center;padding: 20px;}
+  .fContents > #fTop > img {display: inline-block; width: 55px; height: auto; vertical-align: middle;}
+  .fContents > #fTop > span {display: inline-block; width: 55px; height: auto; vertical-align: middle; font-size: 14px; font-weight: bold; margin-top: 5px;}
+  .fContents > #fBottom {border-top: 1px solid #e9e9e9;}
+  .fContents > #fBottom > li {display: block; height: 40px; box-sizing: border-box;}
+  .fContents > #fBottom > li > a {top: 14px; position: relative; float: left; display: block; width: 350px; font-size: 14px; }
+  .fContents > #fBottom > li > a > span {float:left; font-size:14px;}
+  .fContents > #fBottom > li > a > i {float: right;}
+
+  .fClose {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+  }
+
+  .fClose:hover,
+  .fClose:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .addProf:hover,
+  .addProf:focus {
+    cursor: pointer;
+  }
+
+  /*** 여기서부터 new ***/
+
+  
+  .peopleFollow {
+    background-color: #fefefe;
+    margin: 15% auto;
+    border: 1px solid #888;
+    width: 400px;
+    border-radius: 10px;
+  }
+
+  .closeFollow {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    margin-right: 5px;
+  }
+
+  .closeFollow:hover,
+  .closeFollow:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .closeFollowing {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    margin-right: 5px;
+  }
+
+  .closeFollowing:hover,
+  .closeFollowing:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .fList {width: 380px; height:374px; padding: 10px; overflow-y: scroll;}
+
+  .peopleFollow > div {
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    border-bottom: 1px solid #e9e9e9;
+    font-weight: bold;
+  }
+  .fList > li {width: 350px; height: 45px; display: inline-block; padding: 5px;}
+  .fList > li > a {display: block; width: 350px; height: 45px; line-height: 45px;}
+  .fList > li > a > h1 {height: 45px; float: left; font-size: 14px; margin-left: 10px; vertical-align: middle;}
+  .fList > li > a > img {line-height: 55px; float: left; width: 45px; vertical-align: middle;}
+
+
+
+  
+
+  </style>
+  <script>
+    $(function(){
+      var modal = document.getElementById("fCancel");
+      var btn = document.getElementById("following");
+      var span = document.getElementsByClassName("fClose")[0];
+
+      btn.onclick = function() {
+        modal.style.display = "block";
+      }
+
+      span.onclick = function() {
+        modal.style.display = "none";
+      }
+
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
+    });
+  </script>
+  <script>
+    $(function(){
+      var modal = document.getElementById("followerModalWindow");
+      var btn = document.getElementById("followerModal");
+      var span = document.getElementsByClassName("closeFollow")[0];
+
+      btn.onclick = function() {
+        modal.style.display = "block";
+      }
+
+      span.onclick = function() {
+        modal.style.display = "none";
+      }
+
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        } 
+      }
+
+    });
+  </script>
+  <script>
+    $(function(){
+      var modal = document.getElementById("followingModalWindow");
+      var btn = document.getElementById("followingModal");
+      var span = document.getElementsByClassName("closeFollowing")[0];
+
+      btn.onclick = function() {
+        modal.style.display = "block";
+      }
+
+      span.onclick = function() {
+        modal.style.display = "none";
+      }
+
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        } 
+      }
+
+    });
+  </script>
+</head>
+<body>
+        <div id="pro">
+          <section>
+              <div class="myProfile">
+                  <div class="proPhoto">
+                      <div>                    
+                        <input type="file" class="real-addProf" accept="image/*" style="display: none;"/>
+                              <img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile" class="addProf" id="profilePhoto"/>
+                      </div>
+                  </div>
+                  <div class="detail">
+                      <div class="pTop">
+                          <div class="userName">username</div>
+                              <a href="#" class="button">프로필 편집</a>
+                                  <a class="button" id="following">팔로잉</a>
+                                  <a class="button" id="follow">팔로우</a>
+                      </div>
+                      <ul class="pMiddle">
+                          <li>
+                              게시물<span>3</span>
+                          </li>
+                          <li>
+                              <a id="followerModal" href="#">팔로워<span>3</span></a>
+                          </li>
+                          <li>
+                              <a id="followingModal" href="#">팔로잉<span>3</span></a>
+                          </li>
+                      </ul>
+                      <p class="pAbout">
+                          <span class="notice">
+                              소개
+                          </span>
+                      </p>
+                  </div>
+              </div>
+              <div class="myNav">
+                  <div><a href="#">게시물</a></div>
+                  <div><a href="#">릴스</a></div>
+                  <div><a href="#">태그됨</a></div>
+              </div>
+                  <div class="myList">
+                    <h1>게시물이 없습니다.</h1>
+                  </div>
+          </section>
+            <div id="fCancel" class="fModal">
+                <div class="fContents">
+                  <span class="fClose">&times;</span>
+                  <div id="fTop">
+                      <img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile">
+                      <span>username</span>
+                  </div>
+                  <ul id="fBottom">
+                      <li><a href="#" class="fClose"><span>친한 친구 리스트에 추가</span><i class="fa-solid fa-star"></i></a></li>
+                      <li><a href="#" class="fClose"><span>즐겨찾기에 추가</span><i class="fa-regular fa-star"></i></a></li>
+                      <li><a href="#" class="fClose"><span>일시 차단</span><i class="fa-solid fa-chevron-right"></i></a></li>
+                      <li><a href="#" class="fClose"><span>제한</span><i class="fa-solid fa-chevron-right"></i></a></li>
+                      <li><a href="#" id="unFollow" class="fClose">팔로우 취소</a></li>
+                  </ul>
+                </div>
+            </div>
+            <div id="followerModalWindow" class="fModal">
+                <div class="peopleFollow">
+                    <div>
+                      팔로워
+                      <span class="closeFollow">&times;</span>
+                    </div>
+                    <ul class="fList">
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                        <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="followingModalWindow" class="fModal">
+              <div class="peopleFollow">
+                  <div>
+                    팔로잉
+                    <span class="closeFollowing">&times;</span>
+                  </div>
+                  <ul class="fList">
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                      <li><a href="#"><img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile"><h1>username</h1></a></li>
+                  </ul>
+              </div>
+          </div>
+        </div>
+        <footer>
+          <div>
+            <a href="#">Meta</a>
+            <a href="#">소개</a>
+            <a href="#">블로그</a>
+            <a href="#">채용 정보</a>
+            <a href="#">도움말</a>
+            <a href="#">API</a>
+            <a href="#">개인정보처리방침</a>
+            <a href="#">약관</a>
+            <a href="#">인기 계정</a>
+            <a href="#">위치</a>
+            <a href="#">Instagram Lite</a>
+            <a href="#">연락처 업로드 & 비사용자</a>
+            <a href="#">Meta Verified</a>
+          </div>
+          <div>
+            <a href="#">한국어</a>
+            <a>ⓒ 2023 Photostagram from Meta</a>
+          </div>
+        </footer>
+        </body>
+</html>

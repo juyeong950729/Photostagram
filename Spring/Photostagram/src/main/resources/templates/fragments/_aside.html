@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <th:block th:fragment="asideFragment">
+        <script th:inline="javascript">
+            let now = new Date();
+
+            // 현재시간
+            let year = now.getFullYear();
+            let month = now.getMonth();
+            let day = now.getDate();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+
+            $(function(){
+               // 비교시간
+                let notices = [[${notices}]];
+
+                let h = 0;
+                notices.forEach(function(notice, index){
+                    let rdate = notice.rdate;
+                    console.log("rdate : "+rdate);
+                    rdate = rdate.split(" ");
+
+                    let date = rdate[0].split("-");
+                    let sttYear = date[0];
+                    let sttMonth = date[1];
+                    sttMonth = parseInt(sttMonth)-1;
+                    let sttDay = date[2];
+                    console.log('sttYear : '+sttYear);
+                    console.log('sttMonth : '+sttMonth);
+                    console.log('sttDay : '+sttDay);
+
+                    let time = rdate[1].split(":");
+                    let sttHours = time[0];
+                    let sttMinutes = time[1];
+                    console.log("sttHours : "+sttHours);
+                    console.log("sttMinutes : "+sttMinutes);
+
+                    let calDate1 = new Date(year, month, day, hours, minutes);
+                    let calDate2 = new Date(sttYear, sttMonth, sttDay, sttHours, sttMinutes);
+
+                    console.log("Date1 : "+calDate1);
+                    console.log("Date2 : "+calDate2);
+
+                    let MSec = calDate1.getTime() - calDate2.getTime();
+                    let Min = MSec / 1000 / 60;
+                    Min = parseInt(Min);
+
+                    if(Min < 60){
+                        $('.noticeTime')[index].append(Min+'분');
+                        return;
+                    }
+
+                    let h = Min / 60;
+                    h = Math.round(h);
+                    console.log("h : "+h);
+                    if(h == 24){
+                        $('.noticeTime')[index].append('1일');
+                        return;
+                    }else if(h < 24){
+                        $('.noticeTime')[index].append(h+'시간');
+                        return;
+                    }else{
+                        h = Math.floor(h / 24);
+                        if(h < 7){
+                            $('.noticeTime')[index].append(h+'일');
+                            return;
+                        }else{
+                            h = Math.floor(h / 7);
+                            $('.noticeTime')[index].append(h+'주');
+                        }
+                    }
+                });
+            });
+        </script>
+
+        <!--sidebar 기본-->
+        <aside class="sidebar">
+            <header class="sidebar-header">
+                <img class="logo-img" th:src="@{/img/photostagram_logo.png}" />
+                <i class="logo-icon uil uil-instagram"></i>
+            </header>
+            <nav>
+
+                <button>
+                    <a th:href="@{/index}">
+                        <i class="uil uil-estate"></i>
+                        <span>홈</span>
+                    </a>
+                </button>
+
+                <button id="search">
+                  <span>
+                      <i class="uil uil-search"></i>
+                      <span>검색</span>
+                  </span>
+                </button>
+
+                <button>
+                    <a th:href="@{/board/quest}">
+                        <i class="uil uil-compass"></i>
+                        <span>탐색 탭</span>
+                    </a>
+                </button>
+
+                <button>
+                    <a th:href="@{/chat/index}">
+                        <i class="uil uil-location-arrow"></i>
+                        <span>메시지</span>
+                    </a>
+                </button>
+
+                <button id="alarm">
+              <span>
+                <i class="uil uil-heart"></i>
+                <span>알림</span>
+              </span>
+                </button>
+
+                <button id="add_feed">
+              <span>
+                <i class="uil uil-plus-circle"> </i>
+                <span>만들기</span>
+              </span>
+                </button>
+                <button id="myProfile">
+                    <a th:href="@{/profile(username=${user.username})}">
+                        <th:block th:if="${#strings.isEmpty(user.profileImg)}">
+                            <img th:src=@{/img/44884218_345707102882519_2446069589734326272_n.jpg}/>
+                        </th:block>
+                        <th:block th:unless="${#strings.isEmpty(user.profileImg)}">
+                            <img th:src=@{/thumb/{img}(img=${user.profileImg})}/>
+                        </th:block>
+                      <span>프로필</span>
+                    </a>
+                </button>
+
+                <button id="more_view">
+              <span>
+                <i class="uil uil-bars"> </i>
+                <span>더보기</span>
+              </span>
+                </button>
+            </nav>
+        </aside>
+        <!--sidebar 축소(검색, 알람창 선택시)-->
+        <aside class="side">
+            <header class="sidebar-header">
+                <img class="logo-img" src="https://raw.githubusercontent.com/zouraiz523/Instagram-Sidebar-/b2750eba8fa31cde49364428bf28fbb41b3a02f0/Instagram%20Sidebar%20Coding/Profile.svg" />
+                <i class="logo-icon uil uil-instagram"></i>
+            </header>
+            <nav>
+
+                <button>
+                    <a th:href="@{/index}">
+                        <i class="uil uil-estate"></i>
+                    </a>
+                </button>
+
+                <button id="search_close">
+              <span>
+                  <i class="uil uil-search"></i>
+              </span>
+                </button>
+
+                <button>
+                    <a href="">
+                        <i class="uil uil-compass"></i>
+                    </a>
+                </button>
+
+                <button>
+                    <a th:href="@{/chat/index}">
+                        <i class="uil uil-location-arrow"></i>
+                    </a>
+                </button>
+
+                <button id="alarm_close">
+              <span>
+                <i class="uil uil-heart"></i>
+              </span>
+                </button>
+
+                <button>
+              <span>
+                <i class="uil uil-plus-circle"> </i>
+              </span>
+                </button>
+
+                <button>
+                    <a th:href="@{/profile(username=${user.username})}">
+                        <span>
+                            <th:block th:if="${#strings.isEmpty(user.profileImg)}">
+                                <img th:src=@{/img/44884218_345707102882519_2446069589734326272_n.jpg}/>
+                            </th:block>
+                            <th:block th:unless="${#strings.isEmpty(user.profileImg)}">
+                                <img th:src=@{/thumb/{img}(img=${user.profileImg})}/>
+                            </th:block>
+                        </span>
+                    </a>
+                </button>
+
+                <button>
+                  <span>
+                    <i class="uil uil-bars"> </i>
+                  </span>
+                </button>
+            </nav>
+        </aside>
+        <!--검색창-->
+        <div class="sidesearch">
+            <div>
+                <h2>검색</h2>
+                <input type="text" name="search" id="searchAll" placeholder="검색"/>
+                <input type="hidden" name="user_no" th:value="${user.no}"/>
+                <button id="searchBtn"><img th:src="@{/img/search.png}" alt=""></button>
+            </div>
+            <div id="searchListRecent">
+                <h3>최근 검색 항목 <button id="deleteSearchAll">모두 지우기</button></h3>
+            </div>
+
+            <div class="searchListAll">
+                <th:block th:if="${not #lists.isEmpty(searchList)}" th:each="list:${searchList}">
+                    <!--검색결과가 계정일 경우-->
+                    <th:block th:if="${list.cate == 1}">
+                        <div class="searchlist">
+                            <a th:href="@{/profile(username=${list.username})}">
+                                <div>
+                                    <th:block th:if="${#strings.isEmpty(list.profileImg)}">
+                                        <img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="">
+                                    </th:block>
+                                    <th:block th:unless="${#strings.isEmpty(list.profileImg)}">
+                                        <img th:src="@{/thumb/{img}(img=${list.profileImg})}" alt="" class="searchProfile">
+                                    </th:block>
+                                </div>
+                                <div>
+                                    <div>
+                                        <h3>[[${list.username}]]</h3>
+                                    </div>
+                                    <div>
+                                        <th:block th:if="${#strings.isEmpty(list.profileText)}">
+                                            <h8></h8>
+                                        </th:block>
+                                        <th:block th:unless="${#strings.isEmpty(list.profileText)}">
+                                            <h8>[[${list.profileText}]]</h8>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </a>
+                            <div th:data-searchNo="${list.no}">
+                                <button class="searchDelete">
+                                    <img th:src="@{/img/aside_x.PNG}" alt="">
+                                </button>
+                            </div>
+                        </div>
+                    </th:block>
+                    <!--검색 결과가 해시태그일 경우-->
+                    <th:block th:unless="${list.cate == 1}">
+                        <div class="searchlist">
+                            <a th:href="@{/search(no=${list.searchResult})}">
+                                <div>
+                                    <img th:src="@{/img/hashtag.PNG}" alt="">
+                                </div>
+                                <div>
+                                    <div>
+                                        <h3>#[[${list.hashtag}]]</h3>
+                                    </div>
+                                    <div>
+                                        <h8>게시물 [[${list.hashtag_post_count}]]개</h8>
+                                    </div>
+                                </div>
+                            </a>
+                            <div th:data-searchNo="${list.no}">
+                                <button class="searchDelete">
+                                    <img th:src="@{/img/aside_x.PNG}" alt="">
+                                </button>
+                            </div>
+                        </div>
+                    </th:block>
+                </th:block>
+                <th:block th:unless="${not #lists.isEmpty(searchList)}">
+                    <div>검색기록이 없습니다.</div>
+                </th:block>
+            </div>
+
+        </div>
+        <!--알림창-->
+        <div class="sidealarm">
+            <div>
+                <h2>알림</h2>
+            </div>
+            <div class="alarmListAll">
+                <th:block th:if="${not #lists.isEmpty(notices)}" th:each="notice, i:${notices}">
+                    <th:block th:if="${notice.type == '1'}">
+                        <div class="alarmlist">
+                            <div>
+                                <a th:href="@{/profile(username=${notice.username})}">
+                                    <th:block th:if="${#strings.isEmpty(notice.profileImg)}">
+                                        <img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="">
+                                    </th:block>
+                                    <th:block th:unless="${#strings.isEmpty(notice.profileImg)}">
+                                        <img th:src="@{/thumb/{img}(img=${notice.profileImg})}" alt="">
+                                    </th:block>
+                                </a>
+                            </div>
+                            <div>
+                                <a th:href="@{/board/post(no = ${notice.content_no})}">
+                                    <h3>[[${notice.username}]]님이 회원님의 댓글을 좋아합니다.&nbsp;&nbsp;<span class="noticeTime"></span></h3>
+                                </a>
+                            </div>
+                            <div>
+                                <th:block th:if="${#strings.endsWith(notice.thumb, '.mp4')}==true">
+                                    <video th:src="@{/thumb/{video}(video=${notice.thumb})}" class="alarmVideo"></video>
+                                </th:block>
+                                <th:block th:unless="${#strings.endsWith(notice.thumb, '.mp4')}==true">
+                                    <img th:src="@{/thumb/{img}(img=${notice.thumb})}" alt="">
+                                </th:block>
+                            </div>
+                        </div>
+                    </th:block>
+                    <th:block th:if="${notice.type == '2'}">
+                        <div class="alarmlist">
+                            <div>
+                                <a th:href="@{/profile(username=${notice.username})}">
+                                    <th:block th:if="${#strings.isEmpty(notice.profileImg)}">
+                                        <img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="">
+                                    </th:block>
+                                    <th:block th:unless="${#strings.isEmpty(notice.profileImg)}">
+                                        <img th:src="@{/thumb/{img}(img=${notice.profileImg})}" alt="">
+                                    </th:block>
+                                </a>
+                            </div>
+                            <div>
+                                <a th:href="@{/board/post(no = ${notice.content_no})}">
+                                    <h3>[[${notice.username}]]님이 회원님의 사진을 좋아합니다.&nbsp;&nbsp;<span class="noticeTime"></span></h3>
+                                </a>
+                            </div>
+                            <div>
+                                <th:block th:if="${#strings.endsWith(notice.thumb, '.mp4')}==true">
+                                    <video th:src="@{/thumb/{video}(video=${notice.thumb})}" class="alarmVideo"></video>
+                                </th:block>
+                                <th:block th:unless="${#strings.endsWith(notice.thumb, '.mp4')}==true">
+                                    <img th:src="@{/thumb/{img}(img=${notice.thumb})}" alt="">
+                                </th:block>
+                            </div>
+                        </div>
+                    </th:block>
+                    <th:block th:if="${notice.type == '3'}">
+                        <div class="alarmlist">
+                            <div>
+                                <a th:href="@{/profile(username=${notice.username})}">
+                                    <th:block th:if="${#strings.isEmpty(notice.profileImg)}">
+                                        <img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="">
+                                    </th:block>
+                                    <th:block th:unless="${#strings.isEmpty(notice.profileImg)}">
+                                        <img th:src="@{/thumb/{img}(img=${notice.profileImg})}" alt="">
+                                    </th:block>
+                                </a>
+                            </div>
+                            <div>
+                                <a th:href="@{/profile(username=${notice.username})}">
+                                    <h3>[[${notice.username}]]님이 회원님을 팔로우하기 시작했습니다.&nbsp;&nbsp;<span class="noticeTime"></span></h3>
+                                </a>
+                            </div>
+                            <div th:data-userNo="${notice.user_no}" th:data-myNo="${notice.my_no}" th:data-status="${notice.count}">
+                                <th:block th:if="${notice.count == 0}">
+                                    <button class="followBtn">
+                                        <h5 class="followingStatus">팔로우</h5>
+                                        <span class="spinner"></span>
+                                    </button>
+                                    <button class="followingBtn" style="display:none">
+                                        <h5 class="followingStatus">팔로잉</h5>
+                                        <span class="spinner"></span>
+                                    </button>
+                                </th:block>
+                                <th:block th:unless="${notice.count == 0}">
+                                    <button class="followBtn" style="display:none">
+                                        <h5 class="followingStatus">팔로우</h5>
+                                        <span class="spinner"></span>
+                                    </button>
+                                    <button class="followingBtn">
+                                        <h5 class="followingStatus">팔로잉</h5>
+                                        <span class="spinner"></span>
+                                    </button>
+                                </th:block>
+                            </div>
+                        </div>
+                    </th:block>
+                    <th:block th:if="${notice.type == '4'}">
+                        <div class="alarmlist">
+                            <div>
+                                <a th:href="@{/profile/index(username = ${notice.username})}">
+                                    <th:block th:if="${#strings.isEmpty(notice.profileImg)}">
+                                        <img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="">
+                                    </th:block>
+                                    <th:block th:unless="${#strings.isEmpty(notice.profileImg)}">
+                                        <img th:src="@{/thumb/{img}(img=${notice.profileImg})}" alt="">
+                                    </th:block>
+                                </a>
+                            </div>
+                            <div>
+                                <a th:href="@{/board/post(no = ${notice.content_no})}">
+                                    <h3>[[${notice.username}]]님이 댓글을 남겼습니다.:[[${notice.content}]]&nbsp;&nbsp;<span class="noticeTime"></span></h3>
+                                </a>
+                            </div>
+                            <div>
+                                <th:block th:if="${#strings.endsWith(notice.thumb, '.mp4')}==true">
+                                    <video th:src="@{/thumb/{video}(video=${notice.thumb})}" class="alarmVideo"></video>
+                                </th:block>
+                                <th:block th:unless="${#strings.endsWith(notice.thumb, '.mp4')}==true">
+                                    <img th:src="@{/thumb/{img}(img=${notice.thumb})}" alt="">
+                                </th:block>
+                            </div>
+                        </div>
+                    </th:block>
+                </th:block>
+                <th:block th:unless="${not #lists.isEmpty(notices)}">
+                    <div class="alarmlist">
+                        알림 내용이 없습니다.
+                    </div>
+                </th:block>
+            </div>
+        </div>
+
+        <!--더보기 선택시 팝업-->
+        <div class="more_logout">
+            <a th:href="@{/member/logout}">로그아웃</a>
+        </div>
+        <div class="more_my">
+            <a th:href="@{/my/interaction/like}">내 활동</a>
+        </div>
+    </th:block>
+
+</html>

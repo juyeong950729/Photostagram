@@ -1,0 +1,2105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>chat index</title>
+    <!--
+        날짜 : 2023.02.28
+        이름 : 이왕근
+        내용 : 메시지 html 작업
+    -->
+<style>
+html {height: 100%;}
+        * {
+        box-sizing: border-box;
+      }
+
+      a:link{color:black; text-decoration: none;}
+      a:visited{color: black; text-decoration: none;}
+
+      body {
+        margin: 0;
+        background: #fafafa;
+        color: #262626;
+        font-family: BlinkMacSystemFont;
+        height: 100%;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 250px;
+        height: 100%;
+        padding: 40px 10px 30px 10px;
+        background: #ffffff;
+        border-right: 1px solid #dbdbdb;
+        transition: 0.3s;
+      }
+
+      .sidebar-header {
+        width: 100%;
+        margin-bottom: 44px;
+      }
+
+      .logo-icon {
+        display: none;
+        font-size: 28px;
+        height: 35px;
+        width: 51px;
+        text-align: center;
+      }
+
+      .logo-img {
+        margin-left: 14px;
+        height: 32px;
+      }
+
+      .sidebar button {
+        height: 60px;
+        background: transparent;
+        border: 0;
+        padding: 0;
+        font-family: inherit;
+        color: inherit;
+        cursor: pointer;
+      }
+
+      .sidebar button > span {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        height: 48px;
+        padding: 0 12px;
+        border-radius: 24px;
+        line-height: 1;
+      }
+
+      .sidebar button > a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        height: 48px;
+        padding: 0 12px;
+        border-radius: 24px;
+        line-height: 1;
+      }
+
+      .sidebar button:hover > span {
+        background: #f2f2f2;
+      }
+
+      .sidebar button:hover > a {
+        background: #f2f2f2;
+      }
+
+      .sidebar button:hover > span :is(i, img) {
+        scale: 1.05;
+      }
+
+      .sidebar button:hover > a :is(i, img) {
+        scale: 1.05;
+      }
+
+      .sidebar button > span > span {
+        transition: 0.3s;
+      }
+
+      .sidebar button > a > span {
+        transition: 0.3s;
+      }
+
+      @media (width < 580px) {
+        .logo-img {
+          display: none;
+        }
+
+        .logo-icon {
+          display: block;
+        }
+
+        .sidebar {
+          width: 72px;
+        }
+
+        .sidebar button > span {
+          width: 50px;
+        }
+
+        .sidebar button > a {
+          width: 50px;
+        }
+
+        .sidebar button > span > span {
+          opacity: 0;
+          visibility: hidden;
+        }
+
+        .sidebar button > a > span {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+
+      .sidebar button i {
+        position: relative;
+        font-size: 28px;
+        transition: 0.2s;
+      }
+
+      .sidebar button img {
+        width: 28px;
+        height: 28px;
+        transition: 0.2s;
+      }
+
+      .sidebar button i > span {
+        display: grid;
+        place-items: center;
+        height: 20px;
+        padding: 0 4px;
+        border-radius: 10px;
+        position: absolute;
+        top: -5px;
+        right: -10px;
+        border: 1px solid #ffffff;
+        background: #ff2f40;
+        color: #f9f9f9;
+        font-size: 12px;
+        font-family: BlinkMacSystemFont;
+        font-style: normal;
+      }
+
+      .sidebar button i > em {
+        display: block;
+        height: 10px;
+        width: 10px;
+        border-radius: 10px;
+        position: absolute;
+        top: 2px;
+        right: -1px;
+        border: 1px solid #ffffff;
+        background: #ff2f40;
+        color: #f9f9f9;
+        font-size: 12px;
+        font-family: BlinkMacSystemFont;
+        font-style: normal;
+      }
+
+      .sidebar button span {
+        font-size: 17px;
+      }
+
+      .sidebar > nav {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .sidebar > nav button:last-child {
+        margin-top: auto;
+      }
+
+      .side {
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 75px;
+        height: 100%;
+        padding: 40px 10px 30px 10px;
+        background: #ffffff;
+        border-right: 1px solid #dbdbdb;
+        transition: 0.3s;
+      }
+
+      .side.on {
+        display: flex;
+      }
+
+      .side-header {
+        width: 100%;
+        margin-bottom: 44px;
+      }
+
+      .side button {
+        height: 60px;
+        background: transparent;
+        border: 0;
+        padding: 0;
+        font-family: inherit;
+        color: inherit;
+        cursor: pointer;
+      }
+
+      .side button > span {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        height: 48px;
+        padding: 0 12px;
+        border-radius: 24px;
+        line-height: 1;
+      }
+
+      .side button > a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        height: 48px;
+        padding: 0 12px;
+        border-radius: 24px;
+        line-height: 1;
+      }
+
+      .side button:hover > span {
+        background: #f2f2f2;
+      }
+
+      .side button:hover > a {
+        background: #f2f2f2;
+      }
+
+      .side button:hover > span :is(i, img) {
+        scale: 1.05;
+      }
+
+      .side button:hover > a :is(i, img) {
+        scale: 1.05;
+      }
+
+      .side button > span > span {
+        transition: 0.3s;
+      }
+
+      .side button > a > span {
+        transition: 0.3s;
+      }
+
+      @media (width < 580px) {
+        .logo-img {
+          display: none;
+        }
+
+        .logo-icon {
+          display: block;
+        }
+
+        .side {
+          width: 72px;
+        }
+
+        .side button > span {
+          width: 50px;
+        }
+
+        .side button > a {
+          width: 50px;
+        }
+
+        .side button > span > span {
+          opacity: 0;
+          visibility: hidden;
+        }
+
+        .side button > a > span {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+
+      .side button i {
+        position: relative;
+        font-size: 28px;
+        transition: 0.2s;
+      }
+
+      .side button img {
+        width: 28px;
+        height: 28px;
+        transition: 0.2s;
+      }
+
+      .side button i > span {
+        display: grid;
+        place-items: center;
+        height: 20px;
+        padding: 0 4px;
+        border-radius: 10px;
+        position: absolute;
+        top: -5px;
+        right: -10px;
+        border: 1px solid #ffffff;
+        background: #ff2f40;
+        color: #f9f9f9;
+        font-size: 12px;
+        font-family: BlinkMacSystemFont;
+        font-style: normal;
+      }
+
+      .side button i > em {
+        display: block;
+        height: 10px;
+        width: 10px;
+        border-radius: 10px;
+        position: absolute;
+        top: 2px;
+        right: -1px;
+        border: 1px solid #ffffff;
+        background: #ff2f40;
+        color: #f9f9f9;
+        font-size: 12px;
+        font-family: BlinkMacSystemFont;
+        font-style: normal;
+      }
+
+      .side button span {
+        font-size: 17px;
+      }
+
+      .side > nav {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .side > nav button:last-child {
+        margin-top: auto;
+      }
+
+      
+      .sidesearch{
+        display: none;
+        width: 397px;
+        height: 100%;
+        position: relative;
+        top: 0;
+        left: 75px;
+        align-items: flex-start;
+        padding: 15px 10px 30px 10px;
+        background: #ffffff;
+        border-right: 1px solid #dbdbdb;
+        transition: 0.3s;
+        box-sizing: border-box;        
+      }
+      .sidesearch.on {
+        display: block;
+      }
+
+      .sidesearch > div>h2{margin-bottom: 50px;}
+
+      .sidesearch > div{
+        background: #ffffff;
+      }
+
+      .sidesearch > div:nth-child(1){display: block; box-sizing: border-box; border-bottom: #dbdbdb; position: absolute; margin-left: 10px;}
+
+      .sidesearch > div:nth-child(2){
+        position: relative;
+        top: 150px;
+        box-sizing: border-box;
+        margin-left: 10px;
+        width: 348px;
+        
+      }
+
+      .sidesearch > div:nth-child(2) > h3{
+        float: left;
+        width: 348px;
+        height: 24px;
+        box-sizing: border-box;
+      }
+
+      .sidesearch > div:nth-child(2) > h3 > button{
+        float: right;
+        background: none;
+        border: none;
+        color: aqua;
+        box-sizing: border-box;
+      }
+
+      #searchAll{
+        box-sizing: border-box;
+        width: 364px;
+        height: 40px;
+        background-color: #efefef;
+        font-size: 16px;
+        padding: 2px;
+        position: relative;
+        border: #efefef;
+      }
+
+      .sidesearch > div:nth-child(3){
+        position: relative;
+        top: 200px;
+        box-sizing: border-box;
+        margin-left: 10px;
+      }
+
+      .sidesearch > div:nth-child(3) > div:nth-of-type(1){
+        width: 54px;
+        height: 54px;
+        float: left;
+      }
+
+      .sidesearch > div:nth-child(3) > div:nth-child(2){
+        float: left;
+      }
+
+      .sidesearch > div:nth-child(3) > div:nth-of-type(1) > img{
+        width: 54px;
+        height: 54px;
+      }
+
+      #searchlist{
+        background: #ffffff;
+      }
+
+      .sidesearch > #searchlist > div:nth-child(2) > div {
+        width: 252px;
+        height: auto;
+        display: block;
+        box-sizing: border-box;
+        margin-left: 20px;
+      }
+
+      .sidesearch > #searchlist > div:nth-child(2) > div:nth-child(1) > h3 {
+        width: 252px;
+        height: 18px;
+        font-size: 14px;
+        margin-bottom: 3px;
+        margin-top: 5px;
+      }
+
+      .sidesearch > #searchlist > div:nth-child(2) > div:nth-child(2) > h8 {
+        width: 252px;
+        height: 18px;
+      }
+
+      .sidesearch > #searchlist > div:nth-child(3){
+        float: right;
+      }
+
+      .sidesearch > #searchlist > div:nth-child(3) > button{
+        margin-top: 5px;
+        background: none;
+        border: none;
+      }
+
+     
+      
+
+    .modal_image_upload > button{
+      position: relative;
+      top: 45%;
+      width: 150px;
+      height: 24px;
+      border: none;
+      color: #efefef;
+      background: #0095f6;
+      box-sizing: border-box;
+      border-radius: 5px;
+      
+    }
+
+    .modal_image_upload > button > label{
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      color: #efefef;
+      background: #0095f6;
+      cursor: pointer;
+    }
+
+    .modal_image_upload > button > input{width: 0; height: 0; opacity: 0;}
+
+    .main_body {
+        display: flex;
+        justify-content: center;
+        padding-top: 50px;
+        background-color: #FAFAFA;
+    }
+
+    .left_body {
+    {#background-color: skyblue;#} margin-right: 100px;
+        width: 600px;
+        height: 2000px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .right_body {
+    {#background-color: yellow;#} padding-top: 20px;
+        width: 300px;
+        height: 1000px;
+        left: 72%;
+        position: fixed
+    }
+
+    .feed_box {
+        background-color: white;
+        width: 580px;
+        margin: 10px;
+        min-height: auto;
+        padding-bottom: 10px;
+    }
+
+    .feed_img {
+        width: 100%;
+        object-fit: contain;
+    }
+
+    .feed_content {
+        padding: 0px 10px;
+    }
+
+    .feed_like {
+        padding: 0px 10px;
+    }
+
+    .feed_reply {
+        padding: 0px 10px;
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    .feed_txt {
+        font-size: 14px;
+    }
+
+
+    .feed_icon {
+        padding: 5px 5px 0px 5px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    span {
+        padding-right: 5px;
+    }
+
+    .feed_name {
+        padding: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .feed_name_txt {
+        font-size: 14px;
+        padding: 0px 10px;
+        font-weight: bold;
+    }
+
+    .profile_box {
+        width: 40px;
+        height: 40px;
+        border-radius: 70%;
+        overflow: hidden;
+    }
+
+    .profile_img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .name_content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .name_content_txt {
+        font-size: 12px;
+        padding: 0px 10px;
+        font-weight: bold;
+        color: lightgray;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 190px;
+    }
+
+    .big_profile_box {
+        width: 60px;
+        height: 60px;
+        border-radius: 70%;
+        overflow: hidden;
+    }
+
+    .link_txt {
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .recommend_box {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px;
+        font-size: 14px;
+        font-weight: bold;
+        align-items: center;
+    }
+
+    .comment_box {
+        margin: 40px 0 0 5px;
+        font-size: 12px;
+        font-weight: bold;
+        color: lightgray;
+        display: flex;
+        flex-direction: column;
+    }
+
+    @media screen and (max-width: 1280px) {
+        .right_body {
+            display: none;
+        }
+    }
+
+
+    .modal {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(1.5px);
+        -webkit-backdrop-filter: blur(1.5px);
+    }
+
+    .modal_window {
+        background: white;
+        backdrop-filter: blur(13.5px);
+        -webkit-backdrop-filter: blur(13.5px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        width: 800px;
+        height: 600px;
+        position: relative;
+    }
+
+    .modal_title{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font-weight: bold;
+        font-size: 20px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+    }
+
+    .modal_title_side{
+        margin: 5px;
+        flex: 0 0 40px;
+        text-align: center;
+    }
+
+    .modal_image_upload{
+        outline: 2px dashed black ;
+        outline-offset:-10px;
+        transition: all .15s ease-in-out;
+        width: 798px;
+        height: 548px;
+        text-align: center;
+        line-height: 548px;
+    }
+
+    .modal_image_upload_content{
+        outline: 2px dashed black ;
+        outline-offset:-10px;
+        text-align: center;
+        transition: all .15s ease-in-out;
+        width:500px;
+        height: 548px;
+    }
+
+    .modal_image_content{
+        display: flex;
+        flex-direction: row;
+    }
+
+    .modal_content_write{
+        display: flex;
+        flex-direction: column;
+        border-left: 1px solid rgba(0, 0, 0, 0.18);;
+    }
+
+    .feed_content_textarea{
+        resize: none;
+        width: 294px;
+        border: none;
+    }
+
+    /*메시지부분*/
+
+    /*중앙 화면 전체크기*/
+   ._aa5b {
+    align-items: center;
+    border: 1px solid;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    font: inherit;
+    font-size: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 20px;
+    position: relative;
+    vertical-align: baseline;
+    width: 100%;
+}
+    .aa6b{
+        height: 100%;
+        width: 100%;
+        max-width: 935px;
+        overflow: hidden;
+        flex: 1 1 auto;
+        min-height: 0;
+        min-width: 0;
+        justify-content: center;
+        flex-direction: row;
+        align-items: stretch;
+        display: flex;
+        border-radius: 4px;
+        border: 1px solid rgb(var(--ig-separator));
+        --ig-separator: 219, 219, 219;
+        box-sizing: border-box;
+        position: relative;
+
+    }
+
+    ._aa5c {
+    align-items: stretch;
+    background-color: rgb(var(--ig-primary-background));
+    border: 0;
+    border-right: 1px solid rgb(var(--ig-elevated-separator));
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    font: inherit;
+    font-size: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    position: relative;
+    vertical-align: baseline;
+    width: 350px;
+}
+
+._aa4j {
+    background-color: rgb(var(--ig-primary-background));
+    --ig-primary-background: 255, 255, 255;
+    border-bottom: 1px solid rgb(var(--ig-elevated-separator));
+    --ig-elevated-separator: 219, 219, 219;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    font-size: 16px;
+    font-weight: 600;
+    height: 60px;
+    padding: 0 20px;
+    width: 100%;
+    z-index: 2;
+}
+
+._aa4k {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    height: inherit;
+    justify-content: space-between;
+    width: 100%;
+}
+
+._aa4n {
+    margin-right: 8px;
+}
+
+._aa4m {
+    display: flex;
+    flex-basis: 32px;
+    flex-direction: row;
+}
+
+._aa4o {
+    align-items: center;
+    color: rgb(var(--ig-primary-text));
+    display: inline-block;
+    flex-basis: 0px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    justify-content: center;
+    min-width: 0;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+._aa03{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    position: relative;
+}
+
+._aa02{
+    -webkit-appearance: none;
+    background: none;
+    border: none;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    font-family: var(--font-family-system);
+    --font-family-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: var(--font-weight-system-semibold);
+    --font-weight-system-semibold: 600;
+    padding: 7px 16px!important;
+    pointer-events: auto;
+    text-align: center;
+    text-overflow: ellipsis;
+    text-transform: inherit;
+    -webkit-user-select: none;
+    width: auto;
+    border: 0;
+    color: rgb(var(--ig-primary-button));
+    --ig-primary-button: 0, 149, 246;
+    display: inline-block;
+    padding: 0!important;
+    position: relative;
+}
+
+._aa01{
+    display: flex;
+    align-content: stretch;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    position: relative;
+}
+
+._abyj {
+    align-items: stretch;
+    border: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 10;
+    font: inherit;
+    font-size: 100%;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+._aa00{
+    font-family: var(--font-family-system);
+    --font-family-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: var(--system-16-font-size);
+    line-height: var(--system-16-line-height);
+    margin: -6px 0 -6px;
+    font-weight: var(--font-weight-system-semibold);
+    --font-weight-system-semibold: 600;
+    color: rgb(var(--ig-primary-text));
+    --ig-primary-text: 38, 38, 38;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0;
+}
+
+._aa00_{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 0 0 auto;
+    padding-left: calc(var(--base-unit) * 2);
+    padding-right: calc(var(--base-unit) * 2);
+    padding-bottom: calc(var(--base-unit) * 2);
+    padding-top: calc(var(--base-unit) * 2);
+    --base-unit: 4px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+._ab6- {
+    display: block;
+    position: relative;
+}
+
+._aa01_{
+    display: flex;
+    flex-basis: 32px;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-left: 8px;
+}
+
+._aa02_{
+    align-items: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    padding: 8px;
+    padding: 0;
+}
+
+._abm0 {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+._aa03_{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 0 0 auto;
+    overflow: hidden;
+    box-sizing: border-box;
+    position: relative;
+}
+
+._aa04_{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+    box-sizing: border-box;
+    position: relative;
+}
+
+._abyl {
+    height: calc(100% - 44px);
+    overflow: hidden;
+}
+
+._abyk {
+    background: rgb(var(--ig-primary-background));
+    --ig-primary-background: 255, 255, 255;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    padding-top: 8px;
+}
+
+._aa05_{
+    background-color: rgb(var(--ig-primary-background));
+    --ig-primary-background: 255, 255, 255;
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    position: relative;
+}
+
+._abm4 {
+    cursor: pointer;
+    outline: none;
+}
+
+._aa06_{
+    display: flex;
+    align-content: stretch;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex: 0 0 auto;
+    padding-left: calc(var(--base-unit) * 5);
+    padding-right: calc(var(--base-unit) * 5);
+    padding-bottom: calc(var(--base-unit) * 2);
+    padding-top: calc(var(--base-unit) * 2);
+    --base-unit: 4px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+._aa07_{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 0 0 auto;
+    margin-right: calc(var(--base-unit) * 3);
+    --base-unit: 4px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+._aa08_{
+    display: flex;
+    align-content: stretch;
+    align-items: flex-end;
+    justify-content: flex-end;
+    flex-direction: row;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    position: relative;
+}
+
+._aa09_{
+    background-color: rgb(var(--ig-secondary-background));
+    --ig-secondary-background: 250, 250, 250;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+    border-bottom-left-radius: 50%;
+    box-sizing: border-box;
+    display: block;
+    flex-shrink: 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    position: relative;
+}
+
+.xt298gk::after {
+    border-bottom-left-radius: 50%;
+}
+.xougopr::after {
+    border-right: 1px solid rgba(var(--web-always-black),.0975);
+}
+.xnp5s1o::after {
+    border-left: 1px solid rgba(var(--web-always-black),.0975);
+}
+.xd7ygy7::after {
+    border-bottom-right-radius: 50%;
+}
+.x2q1x1w::after {
+    pointer-events: none;
+}
+.x1ykvv32::after {
+    border-top: 1px solid rgba(var(--web-always-black),.0975);
+}
+.x1xrz1ek::after {
+    bottom: 0;
+}
+.x1vzenxt::after {
+    border-top-right-radius: 50%;
+}
+.x1s928wv::after {
+    content: "";
+}
+.x1n449xj::after {
+    right: 0;
+}
+.x1m1drc7::after {
+    top: 0;
+}
+.x1j6awrg::after {
+    position: absolute;
+}
+.x194ut8o::after {
+    border-top-left-radius: 50%;
+}
+.x162n7g1::after {
+    left: 0;
+}
+.x159fomc::after {
+    border-bottom: 1px solid rgba(var(--web-always-black),.0975);
+}
+
+._aa10_{
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+    font-size: 100%;
+    height: 100%;
+    -webkit-touch-callout: none;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    vertical-align: baseline;
+    width: 100%;
+}
+
+.aa_00_{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: center;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.aa_01_{
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex: 0 0 auto;
+}
+
+.aa_02_{
+    font-family: var(--font-family-system);
+    --font-family-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: var(--system-14-font-size);
+    --system-14-font-size: 14px;
+    line-height: var(--system-14-line-height);
+    --system-14-line-height: 18px;
+    margin: -3px 0 -4px;
+    font-weight: var(--font-weight-system-regular);
+    --font-weight-system-regular: 400;
+    color: rgb(var(--ig-primary-text));
+    --ig-primary-text: 38, 38, 38;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    background-color: rgb(var(--ig-primary-button));
+    /*--ig-primary-button: 0, 149, 246;*/
+    border: none;
+}
+
+.aa_03_{
+    display: flex;
+    align-content: stretch;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.aa_04_{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 0 1 auto;
+    overflow: hidden;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.aa_05_{
+    display: inline!important;
+    margin: 0!important;
+    font-family: var(--font-family-system);
+    --font-family-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: var(--system-14-font-size);
+    --system-14-font-size: 14px;
+    line-height: var(--system-14-line-height);
+    --system-14-line-height: 18px;
+    margin: -3px 0 -4px;
+    font-weight: var(--font-weight-system-regular);
+    --font-weight-system-regular: 400;
+    color: rgb(var(--ig-primary-text));
+    --ig-primary-text: 38, 38, 38;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.aa_06_{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 0 0 auto;
+    margin-top: calc(var(--base-unit) * 2);
+    --base-unit: 4px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.aa_07_{
+    font-family: var(--font-family-system);
+    --font-family-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: var(--system-14-font-size);
+    --system-14-font-size: 14px;
+    line-height: var(--system-14-line-height);
+    --system-14-line-height: 18px;
+    margin: -3px 0 -4px;
+    font-weight: var(--font-weight-system-regular);
+    --font-weight-system-regular: 400;
+    color: rgb(var(--ig-secondary-text));
+    --ig-secondary-text: 142, 142, 142;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.aa_08_{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.aa_09_{
+    border: 0;
+    font: inherit;
+    font-size: 100%;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    text-overflow: ellipsis;
+    vertical-align: baseline;
+}
+
+.aa_10_{
+    font-family: var(--font-family-system);
+    --font-family-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    display: inline!important;
+    margin: 0!important;
+    font-size: var(--system-14-font-size);
+    --system-14-font-size: 14px;
+    line-height: var(--system-14-line-height);
+    --system-14-line-height: 18px;
+    margin: -3px 0 -4px;
+    color: rgb(var(--ig-secondary-text));
+    --ig-secondary-text: 142, 142, 142;
+}
+
+.aa_11_{
+    display: flex;
+    align-content: stretch;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex: 0 0 auto;
+    padding-bottom: calc(var(--base-unit) * 2);
+    padding-top: calc(var(--base-unit) * 2);
+    --base-unit: 4px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.aa_12_{
+    background-color: rgb(var(--ig-primary-background));
+    --ig-primary-background: 255, 255, 255;
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.ab_00_{
+    display: flex;
+    align-content: stretch;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex: 0 0 auto;
+    padding-left: calc(var(--base-unit) * 6);
+    padding-right: calc(var(--base-unit) * 6);
+    padding-bottom: calc(var(--base-unit) * 6);
+    padding-top: calc(var(--base-unit) * 6);
+    --base-unit: 4px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+._ab6- {
+    display: block;
+    position: relative;
+}
+
+.ab_01_{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 0 0 auto;
+    margin-top: calc(var(--base-unit) * 4);
+    --base-unit: 4px;
+    box-sizing: border-box;
+      position: relative;
+}
+
+.ab_02_{
+    display: block;
+    overflow-x: visible;
+    overflow-y: visible;
+    position: relative;
+    max-width: 100%;
+    min-width: 0;
+    white-space: pre-line;
+    word-break: break-word;
+    word-wrap: break-word;
+    font-family: var(--font-family-system);
+    --font-family-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: var(--system-20-font-size);
+    --system-20-font-size: 20px;
+    font-weight: 400;
+    color: rgb(var(--ig-primary-text));
+    --ig-primary-text: 38, 38, 38;
+    text-align: center;
+    margin-top: 0!important;
+    margin-right: 0!important;
+    margin-bottom: 0!important;
+    margin-left: 0!important;
+}
+.x4zkp8e::before {
+    margin-top: -4px;
+}
+.x1fgarty::before {
+    display: block;
+}
+.x1cpjm7i::before {
+    content: "";
+}
+.x1943h6x::before {
+    height: 0;
+}
+.xw06pyt::after {
+    margin-bottom: -6px;
+}
+.xhkezso::after {
+    display: block;
+}
+.x1s928wv::after {
+    content: "";
+}
+.x1gmr53x::after {
+    height: 0;
+}
+
+.ab_03_{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 0 0 auto;
+    margin-top: calc(var(--base-unit) * 4);
+    --base-unit: 4px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.ab_04_{
+    font-family: var(--font-family-system);
+    --font-family-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: var(--system-14-font-size);
+    --system-14-font-size: 14px;
+    line-height: var(--system-14-line-height);
+    --system-14-line-height: 18px;
+    margin: -3px 0 -4px;
+    font-weight: var(--font-weight-system-regular);
+    --font-weight-system-regular: 400;
+    color: rgb(var(--ig-secondary-text));
+    --ig-secondary-text: 142, 142, 142;
+    display: block;
+    text-align: center;
+}
+
+.ab_05_{
+    display: flex;
+    align-content: stretch;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex: 0 0 auto;
+    margin-top: calc(var(--base-unit) * 6);
+    --base-unit: 4px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.ab_06_{
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex: 0 0 auto;
+    padding-left: var(--base-unit);
+    padding-right: var(--base-unit);
+    padding-bottom: var(--base-unit);
+    padding-top: var(--base-unit);
+    --base-unit: 4px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.ab_07_{
+    -webkit-appearance: none;
+    background: none;
+    border: none;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    font-family: var(--font-family-system);
+    font-size: 14px;
+    font-weight: var(--font-weight-system-semibold);
+    padding: 7px 16px!important;
+    pointer-events: auto;
+    text-align: center;
+    text-overflow: ellipsis;
+    text-transform: inherit;
+    -webkit-user-select: none;
+    width: auto;
+    border: none;
+    border-radius: 8px;
+    color: rgb(var(--web-always-white));
+    --web-always-white: 255, 255, 255;
+    position: relative;
+    background-color: rgb(var(--ig-primary-button));
+    --ig-primary-button: 0, 149, 246;
+    border: none;
+    text-align: center;
+}
+_acas _aa02//////////////////////////////////////////////////
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script>   
+       function dragOver(e){
+        e.stopPropagation();
+        e.preventDefault();
+        
+        if (e.type == "dragover") {
+            $(e.target).css({
+                "background-color": "black",
+                "outline-offset": "-20px"
+            });
+        } else {
+            $(e.target).css({
+                "background-color": "white",
+                "outline-offset": "-10px"
+            });
+        }
+    }
+
+    function uploadFiles(e){
+        e.stopPropagation();
+        e.preventDefault();
+        console.log(e.dataTransfer)
+        console.log(e.originalEvent.dataTransfer)
+
+        e.dataTransfer = e.originalEvent.dataTransfer;
+
+        files = e.dataTransfer.files;
+        if (files.length > 1) {
+            alert('하나만 올려라.');
+            return;
+        }
+
+        if (files[0].type.match(/image.*/)) {
+            $('#modal_add_feed_content').css({
+                display : 'flex'
+            });
+            $('.modal_image_upload_content').css({
+                "background-image": "url(" + window.URL.createObjectURL(files[0]) + ")",
+                "outline": "none",
+                "background-size": "contain",
+                "background-repeat" : "no-repeat",
+                "background-position" : "center"
+            });
+            $('#modal_add_feed').css({
+                display: 'none'
+            })
+        }else{
+            alert('이미지가 아닙니다.');
+            return;
+        }
+    };
+
+    let num = 1;
+
+    function changePic(idx){
+      if(idx){
+
+      }
+    }
+
+      $(function(){
+
+          $('#search').on('click',function(){
+              $('.sidesearch').toggleClass('on');
+              $('.side').toggleClass('on');              
+          });
+        
+          let modal = $('#modal_add_feed');
+          let scroll = $(document).scrollTop();
+
+          console.log(scroll);
+          $('#add_feed').on('click', function(){
+              modal.css('top', scroll+'px');
+              modal.css('display', 'flex');
+              $('body').css('overflow-y', 'hidden');
+          });
+
+          $('#close_modal').on('click', function(){
+            modal.css('display', 'none');
+            $('body').css('overflow-y', 'visible');
+          });
+
+          
+          $('.modal_image_upload')
+            .on("dragover", dragOver)
+            .on("dragleave", dragOver)
+            .on("drop", uploadFiles);
+
+          $('#file_upload').on('change', function(){
+              //alert('dfsf');
+              let file = this.files;
+              //let url = createObjectURL(file);
+              console.log('file : ' +file);
+              let dataTransfer = new DataTransfer();
+
+              let fileArray = Array.from(file);
+              console.log('fileArray : ' +fileArray);
+              
+              fileArray.forEach(file => {
+                  dataTransfer.items.add(file);
+              });
+
+              let images= dataTransfer.files;
+              console.log(images);
+              
+              if (images[0].type.match(/image.*/)) {
+                  $('#modal_add_feed_content').css({
+                      display : 'flex'
+                  });
+                  $('.modal_image_upload_content').css({
+                      "background-image": "url(" + window.URL.createObjectURL(images[0]) + ")",
+                      "outline": "none",
+                      "background-size": "contain",
+                      "background-repeat" : "no-repeat",
+                      "background-position" : "center"
+                  });
+                  $('#modal_add_feed').css({
+                      display: 'none'
+                  })
+              }else{
+                  alert('이미지가 아닙니다.');
+                  return;
+              }
+              
+          });
+        
+          //게시글 업로드 버튼 클릭시(ajax추가하면 됨)
+          $('#button_write_feed').on('click', ()=>{
+            const image = $('#input_image').css("background-image").replace(/^url\(['"](.+)['"]\)/, '$1');
+            const content = $('#input_content').val();
+            const profile_image = $('#input_profile_image').attr('src');
+            const user_id = $('#input_user_id').text();
+
+            const file = files[0];
+
+            let fd = new FormData();
+
+            fd.append('file', file);
+            fd.append('image', image);
+            fd.append('content', content);
+            fd.append('profile_image', profile_image);
+            fd.append('user_id', user_id);
+
+            if(image.length <= 0)
+            {
+                alert("이미지가 비어있습니다.");
+            }
+            else if(content.length <= 0)
+            {
+                alert("설명을 입력하세요");
+            }
+            else if(profile_image.length <= 0)
+            {
+                alert("프로필 이미지가 비어있습니다.");
+            }
+            else if(user_id.length <= 0)
+            {
+                alert("사용자 id가 없습니다.");
+            }
+            else{
+                writeFeed(fd);
+                console.log(files[0]);
+            }
+        });
+
+          
+      });
+    </script>
+</head>
+<body>
+    <aside class="sidebar">
+        <header class="sidebar-header">
+          <img class="logo-img" src="./img/photostagram_logo.png" />
+          <i class="logo-icon uil uil-instagram"></i>
+        </header>
+        <nav>
+  
+          <button>
+              <a href="">
+                <i class="uil uil-estate"></i>
+                <span>홈</span>
+              </a>
+          </button>
+  
+          <button id="search">
+            <span>
+                <i class="uil uil-search"></i>
+                <span>검색</span>
+            </span>
+          </button>
+  
+          <button>
+            <a href="">
+              <i class="uil uil-compass"></i>
+              <span>탐색 탭</span>
+            </a>
+          </button>
+  
+          <button>
+            <a href="">
+              <i class="uil uil-location-arrow"></i>
+              <span>메시지</span>
+            </a>
+          </button>
+  
+          <button>
+            <span>
+              <i class="uil uil-heart"></i>
+              <span>알림</span>
+            </span>
+          </button>
+  
+          <button id="add_feed">
+            <span>
+              <i class="uil uil-plus-circle"> </i>
+              <span>만들기</span>
+            </span>
+          </button>
+  
+          <button>
+            <span>
+              <img src="https://raw.githubusercontent.com/zouraiz523/Instagram-Sidebar-/b2750eba8fa31cde49364428bf28fbb41b3a02f0/Instagram%20Sidebar%20Coding/Profile.svg" />
+              <span>프로필</span>
+            </span>
+          </button>
+  
+          <button>
+            <span>
+              <i class="uil uil-bars"> </i>
+              <span>더보기</span>
+            </span>
+          </button>
+        </nav>
+      </aside>
+  
+      <aside class="side">
+        <header class="sidebar-header">
+          <img class="logo-img" src="https://raw.githubusercontent.com/zouraiz523/Instagram-Sidebar-/b2750eba8fa31cde49364428bf28fbb41b3a02f0/Instagram%20Sidebar%20Coding/Profile.svg" />
+          <i class="logo-icon uil uil-instagram"></i>
+        </header>
+        <nav>
+  
+          <button>
+              <a href="">
+                <i class="uil uil-estate"></i>
+              </a>
+          </button>
+  
+          <button>
+            <span>
+                <i class="uil uil-search"></i>
+            </span>
+          </button>
+  
+          <button>
+            <a href="">
+              <i class="uil uil-compass"></i>
+            </a>
+          </button>
+  
+          <button>
+            <a href="">
+              <i class="uil uil-location-arrow"></i>
+            </a>
+          </button>
+  
+          <button>
+            <span>
+              <i class="uil uil-heart"></i>
+            </span>
+          </button>
+  
+          <button>
+            <span>
+              <i class="uil uil-plus-circle"> </i>
+            </span>
+          </button>
+  
+          <button>
+            <span>
+              <img src="https://raw.githubusercontent.com/zouraiz523/Instagram-Sidebar-/b2750eba8fa31cde49364428bf28fbb41b3a02f0/Instagram%20Sidebar%20Coding/Profile.svg" />
+            </span>
+          </button>
+  
+          <button>
+            <span>
+              <i class="uil uil-bars"> </i>
+            </span>
+          </button>
+        </nav>
+      </aside>
+      <div class="sidesearch">
+          <div>
+              <h2>검색</h2>
+              <form>
+                <input type="text" name="search" id="searchAll" placeholder="검색"/>              
+              </form>
+          </div>
+          <div>
+              <h3>최근 검색 항목 <button>모두 지우기</button></h3>
+          </div>
+          <div id="searchlist">
+            <div>
+              <img src="/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+              <div>
+                <h3>nickname</h3>
+              </div>
+              <div>
+                <h8>text</h8>
+              </div>
+            </div>
+            <div>
+              <button>
+                <img src="./aside_x.PNG" alt="">
+              </button>
+            </div>
+          </div>
+      </div>
+      
+    <div id="modal_add_feed" class="modal modal_overlay">
+      <div class="modal_window">
+          <div class="modal_title">
+              <div class="modal_title_side"></div>
+              <div> 새 게시물 </div>
+              <div class="modal_title_side">
+                  <span id="close_modal" class="close_modal material-icons-outlined" style="font-size: 30px">
+                      close
+                  </span>
+              </div>
+          </div>
+          <div class="modal_image_upload">
+            <button id="fileButton">
+              <label for="file_upload">컴퓨터에서 선택</label>
+              <input type="file" id="file_upload" accept="image/*" required multiple/>
+            </button>
+  
+          </div>
+      </div>
+  </div>
+    <div id="modal_add_feed_content" class="modal modal_overlay_content">
+      <div class="modal_window">
+          <div class="modal_title">
+              <div class="modal_title_side"></div>
+              <div style="margin: 5px"> 새 게시물 </div>
+              <div class="modal_title_side">
+                  <span id="close_modal" class="close_modal material-icons-outlined" style="font-size: 30px">
+                      close
+                  </span>
+              </div>
+          </div>
+          <div class="modal_image_content">
+              <div id="input_image" class="modal_image_upload_content">
+                  <button onclick="changePic(0);">이전</button>
+                  <button onclick="changePic(1);">다음</button>
+              </div>
+              <div class="modal_content_write">
+                  <div class="feed_name">
+                      <div class="profile_box">
+                          <img id="input_profile_image" class="profile_img" src="https://scontent-ssn1-1.xx.fbcdn.net/v/t1.6435-9/s1080x2048/165180104_277246477102900_6106347261862438192_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=730e14&_nc_ohc=1sN4d8i7rn8AX-7aKYN&_nc_ht=scontent-ssn1-1.xx&oh=5049b7cd176848e330b0f5ea95f28172&oe=615A08D1">
+                      </div>
+                      <span id="input_user_id" class="feed_name_txt"> jin.99 </span>
+                  </div>
+                  <div style="height: 440px">
+                      <textarea id="input_content" class="feed_content_textarea form-control col-sm-5" rows="10" placeholder="설명을 입력하세요..."></textarea>
+                  </div>
+                  <div style="width: 100%; text-align: center">
+                      <button id="button_write_feed" type="button" class="btn btn-primary" style="width: 268px"> 공유하기</button>
+                  </div>
+              </div>
+          </div>
+  
+      </div>
+  </div>
+
+   <div class="_aa5b">
+        <div class="_aa6b" style="height: 100%; width: 100%; max-width: 935px;">
+            <div class="_aa5c">
+                <div class="_aa4j">
+                    <div class="_aa4k">
+                        <div class="_aa4m _aa4n"></div>
+                        <div class="_aa4o">
+                            <div class="_aa03" style="width: 100%;">
+                                <button aria-label="계정 전환 - adfadfa123" class="_aa02" type="button">
+                                    <div class="_aa01" style="width: 100%;">
+                                        <div class="_abyj">
+                                            <div class="_aa00">adfadfa123</div>
+                                        </div>
+                                        <div class="_aa00_">
+                                            <span style="display: inline-block; transform: rotate(180deg);">
+                                                <svg aria-label="아래쪽 V자형 아이콘" class="_ab6-" color="rgb(38, 38, 38)" fill="rgb(38, 38, 38)" height="20" role="img" viewBox="0 0 24 24" width="20">
+                                                    <path d="M21 17.502a.997.997 0 0 1-.707-.293L12 8.913l-8.293 8.296a1 1 0 1 1-1.414-1.414l9-9.004a1.03 1.03 0 0 1 1.414 0l9 9.004A1 1 0 0 1 21 17.502Z"></path>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="_aa01_">
+                            <button class="_aa02_" type="button">
+                                <div class="_abm0">
+                                    <svg aria-label="새로운 메시지" class="_ab6-" color="rgb(38, 38, 38)" fill="rgb(38, 38, 38)" height="24" role="img" viewBox="0 0 24 24" width="24"><path d="M12.202 3.203H5.25a3 3 0 0 0-3 3V18.75a3 3 0 0 0 3 3h12.547a3 3 0 0 0 3-3v-6.952" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M10.002 17.226H6.774v-3.228L18.607 2.165a1.417 1.417 0 0 1 2.004 0l1.224 1.225a1.417 1.417 0 0 1 0 2.004Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="16.848" x2="20.076" y1="3.924" y2="7.153"></line>
+                                        <path d="M12.202 3.203H5.25a3 3 0 0 0-3 3V18.75a3 3 0 0 0 3 3h12.547a3 3 0 0 0 3-3v-6.952" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                                        <path d="M10.002 17.226H6.774v-3.228L18.607 2.165a1.417 1.417 0 0 1 2.004 0l1.224 1.225a1.417 1.417 0 0 1 0 2.004Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                                        <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="16.848" x2="20.076" y1="3.924" y2="7.153"></line>
+                                    </svg>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!--대화창 리스트-->
+                <div class="_aa03_" style="height: 100%;">
+                    <div class="_aa04_" style="height: 100%;">
+                        <div class="_abyl">
+                            <div class="_abyk" style="height: 100%; overflow: hidden auto;">
+                                <div style="position: relative; display: flex; flex-direction: column; padding-bottom: 0px; padding-top: 0px;">
+                                    <div class="_aa05_">
+                                        <div class="_abm4">
+                                            <a class="x1i10hfl xjbqb8w x6umtig x1b1mbwd xaqea5y xav7gou x9f619 x1ypdohk xt0psk2 xe8uvvx xdj266r x11i5rnm xat24cr x1mh8g0r xexx8yu x4uap5 x18d9i69 xkhd6sd x16tdsg8 x1hl2dhg xggy1nq x1a2a7pz _a6hd" href="#" role="link" tabindex="0">
+                                                <div aria-labelledby="fffaa612c35d4c f2713089ed66d5c f3cfb74b51fc53 f3a607f43101d24" 
+                                                class="_aa06_">
+                                                    <div class="_aa07_">
+                                                        <div class="_aa08_">
+                                                            <span class="_aa09_ x1ykvv32 xougopr x159fomc xnp5s1o x194ut8o x1vzenxt xd7ygy7 xt298gk x1xrz1ek x1s928wv x162n7g1 x2q1x1w x1j6awrg x1n449xj x1m1drc7" role="link" tabindex="-1" style="width: 56px; height: 56px;">
+                                                                <img alt="프로필 사진" class="_aa10_" crossorigin="anonymous" draggable="false" src="../profile/img/44884218_345707102882519_2446069589734326272_n.jpg" >
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="aa_00_">
+                                                        <div class="aa_01_" id="f2d079842e671ac">
+                                                            <div class="aa_02_">
+                                                                <div class="aa_03_">
+                                                                    <div class="aa_04_">
+                                                                        <div class="aa_05_">
+                                                                            김아무개</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="aa_06_" id="f30893537da3d08">
+                                                            <div class="aa_07_">
+                                                                <div class="aa_08_">
+                                                                    <span class="aa_09_">
+                                                                        <span class="aa_10_">최근 활동 : 오늘
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!--대화창 리스트-->
+                                    <div class="_aa03_" style="height: 100%;">
+                                        <div class="_aa04_" style="height: 100%;">
+                                            <div class="_abyl">
+                                                <div class="_abyk" style="height: 100%; overflow: hidden auto;">
+                                                    <div style="position: relative; display: flex; flex-direction: column; padding-bottom: 0px; padding-top: 0px;">
+                                                        <div class="_aa05_">
+                                                            <div class="_abm4">
+                                                                <a class="x1i10hfl xjbqb8w x6umtig x1b1mbwd xaqea5y xav7gou x9f619 x1ypdohk xt0psk2 xe8uvvx xdj266r x11i5rnm xat24cr x1mh8g0r xexx8yu x4uap5 x18d9i69 xkhd6sd x16tdsg8 x1hl2dhg xggy1nq x1a2a7pz _a6hd" href="#" role="link" tabindex="0">
+                                                                    <div aria-labelledby="fffaa612c35d4c f2713089ed66d5c f3cfb74b51fc53 f3a607f43101d24" 
+                                                                    class="_aa06_">
+                                                                        <div class="_aa07_">
+                                                                            <div class="_aa08_">
+                                                                                <span class="_aa09_ x1ykvv32 xougopr x159fomc xnp5s1o x194ut8o x1vzenxt xd7ygy7 xt298gk x1xrz1ek x1s928wv x162n7g1 x2q1x1w x1j6awrg x1n449xj x1m1drc7" role="link" tabindex="-1" style="width: 56px; height: 56px;">
+                                                                                    <img alt="프로필 사진" class="_aa10_" crossorigin="anonymous" draggable="false" src="../profile/img/44884218_345707102882519_2446069589734326272_n.jpg" >
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="aa_00_">
+                                                                            <div class="aa_01_" id="f2d079842e671ac">
+                                                                                <div class="aa_02_">
+                                                                                    <div class="aa_03_">
+                                                                                        <div class="aa_04_">
+                                                                                            <div class="aa_05_">
+                                                                                                이아무개</div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="aa_06_" id="f30893537da3d08">
+                                                                                <div class="aa_07_">
+                                                                                    <div class="aa_08_">
+                                                                                        <span class="aa_09_">
+                                                                                            <span class="aa_10_">최근 활동 : 오늘
+                                                                                            </span>
+                                                                                        </span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="aa_11_" style="height: 72px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="aa_12_" style="height: auto;">
+                <div class="ab_00_" style="height: 100%; width: 100%;">
+                    <svg aria-label="Direct" class="_ab6-" color="rgb(38, 38, 38)" fill="rgb(38, 38, 38)" height="96" role="img" viewBox="0 0 96 96" width="96">
+                        <circle cx="48" cy="48" fill="none" r="47" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle>
+                        <line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="69.286" x2="41.447" y1="33.21" y2="48.804"></line>
+                        <polygon fill="none" points="47.254 73.123 71.376 31.998 24.546 32.002 41.448 48.805 47.254 73.123" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></polygon>
+                    </svg>
+                    <div class="ab_01_">
+                        <span class="ab_02_ x4zkp8e x1fgarty x1cpjm7i x1943h6x xw06pyt xhkezso x1s928wv x1gmr53x" style="line-height: var(--base-line-clamp-line-height); --base-line-clamp-line-height:25px;">내 메시지</span>
+                    </div>
+                    <div class="ab_03_">
+                        <div class="ab_04_">
+                            친구나 그룹에 비공개 사진과 메시지를 보내보세요.</div>
+                    </div>
+                    <div class="ab_05_">
+                        <div class="ab_06_">
+                            <button class="ab_07_" type="button">메시지 보내기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </div>
+</body>
+</html>
+<!-- 메시지 보내기 모달 -->
+<div class="container">
+  <div class="mes-wrap">
+    <div class="popup-mes">
+      <div class="popup-head">
+       
+        <div class="_ac7b _ac7c">
+          <div class="_ab8w  _ab94 _ab99 _ab9f _ab9m _ab9p  _ab9- _abcm">
+            <button class="_abl- _abm2" type="button">
+              <div class="_abm0">
+                <svg aria-label="닫기" class="_ab6-" color="rgb(38, 38, 38)" fill="rgb(38, 38, 38)" height="18" role="img" viewBox="0 0 24 24" width="18"><polyline fill="none" points="20.643 3.357 12 12 3.353 20.647" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></polyline><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" x1="20.649" x2="3.354" y1="20.649" y2="3.354"></line>
+                </svg>
+              </div>
+            </button>
+          </div>
+        </div>
+        <h1 class="_ac78" tabindex="-1" style="width: calc(100% - 0px);">
+          <div class="_ac7a">새로운 메시지</div>
+        </h1>
+        <div class="_ac7b _ac7d">
+          <div class="_ab8w  _ab94 _ab99 _ab9f _ab9m _ab9p  _ab9- _abcm">
+            <button class="_acan _acao _acas _acav _aj1-" disabled type="button">
+              <div class="_aagz">다음</div>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="popup-body1">
+        <div class="">받는 사람:</div>
+        <div class="search">
+          <input type="text" class="popup-search" autocomplete="off" name="queryBox" placeholder="검색..." spellcheck="false">
+        </div>
+      </div>
+      <div class="popup-body2">
+        <div class="recommend1">
+          <div class="recommend2">
+            추천
+          </div>
+          <div class="f-list">
+            <ul>
+              <li>
+                  <img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="프로필사진">
+                  <div class="profile">
+                      <p>dlafjd</p>
+                      <p>안녕하세요.</p>
+                  </div>
+                  <div>
+                    <button class="mes-btn0"></button>
+                  </div>
+              </li>
+            </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

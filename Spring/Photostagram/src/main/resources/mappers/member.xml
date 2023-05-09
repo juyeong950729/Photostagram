@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.photostagram.dao.MemberDAO">
+
+    <!--
+    이름 : 김진우
+    날짜 : 2023/03/24
+    내용 : member mappers
+    -->
+
+    <insert id="insertMember">
+        INSERT INTO `user` SET
+                `username`= #{username},
+                `name`= #{name},
+                `password`= #{password},
+                `email`= #{email},
+                `birth` = #{birth}
+    </insert>
+
+    <select id="chkUserName" resultType="int">
+        select count(`no`) from `user` where `username` = #{userName}
+    </select>
+    <select id="chkEmail" resultType="int">
+        select count(`no`) from `user` where `email` = #{email}
+    </select>
+
+    <select id="searchId" resultType="String">
+        select `username` from `user` where `name` = #{name} and `email` = #{email}
+    </select>
+
+    <select id="searchPass" resultType="String">
+        select `name` from `user` where `username` = #{userName} and `email` = #{email}
+    </select>
+
+    <update id="changePass">
+        update `user` set password = #{pass} where `username` = #{userName}
+    </update>
+
+</mapper>

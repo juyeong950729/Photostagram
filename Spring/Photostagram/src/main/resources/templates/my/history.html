@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!--/*
+날짜 : 2023/03/31
+이름 : 조주영
+내용 : 반응 화면
+*/-->
+<html xmlns:th="http://www.thymleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/myLayout}">
+<th:block layout:fragment="main">
+    <div id="myHistory">
+        <div class="historyTop">
+            <span>계정 내역 정보</span><br/>
+            계정을 만든 이후 적용한 변경 사항을 검토해보세요.
+        </div>
+        <div class="historyContents">
+            <div>
+                <h1 class="mySortTitle">최신순</h1>
+                <a class="mySort">정렬 및 필터</a>
+            </div>
+            <div>
+                <div class="historyBox">
+                    <h3>이전 활동</h3>
+                    <ul>
+                        <th:block th:each="h:${history}">
+                            <li>
+                                <img th:src="@{/img/history_{type}.png(type=${h.type})}"/>
+                                <th:block th:switch="${h.type}">
+                                    <div th:case="join">
+                                        <div>계정 생성됨</div>
+                                        <div><span>[[${h.rdate}]]</span>에 계정을 생성했습니다. <span class="myTimeStamp" th:data-value="${h.rdate}"></span></div>
+                                    </div>
+                                    <div th:case="pass">
+                                        <div>비밀번호 변경</div>
+                                        <div>계정 비밀번호를 변경했습니다. <span class="myTimeStamp" th:data-value="${h.rdate}"></span></div>
+                                    </div>
+                                    <div th:case="id">
+                                        <div>사용자 이름</div>
+                                        <div>사용자 이름을 <span>[[${h.detail}]]</span>로 변경했습니다. <span class="myTimeStamp" th:data-value="${h.rdate}"></span></div>
+                                    </div>
+                                    <div th:case="name">
+                                        <div>이름</div>
+                                        <div>이름을 <span>[[${h.detail}]]</span>로 변경했습니다. <span class="myTimeStamp" th:data-value="${h.rdate}"></span></div>
+                                    </div>
+                                    <div th:case="intro">
+                                        <div>소개</div>
+                                        <div>소개를 <span>[[${h.detail}]]</span>로 변경했습니다. <span class="myTimeStamp" th:data-value="${h.rdate}"></span></div>
+                                    </div>
+                                    <div th:case="phone">
+                                        <div>연락처</div>
+                                        <div>연락처를 <span>[[${h.detail}]]</span>로 변경했습니다. <span class="myTimeStamp" th:data-value="${h.rdate}"></span></div>
+                                    </div>
+                                </th:block>
+                                <img th:src="@{/img/arrowR_8x13.png}">
+                            </li>
+                        </th:block>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>
+<script th:inline="javascript">
+/*<![CDATA[*/
+$(document).ready(function(){
+    setDateSelectBox();
+});
+
+function setDateSelectBox(){
+
+   let now = new Date();
+   let now_year = now.getFullYear();       // 현재 년도
+   let now_month = now.getMonth() + 1;     // 현재 월
+   let now_day = now.getDate();            // 현재 일
+
+   let year = [[${startYear}]];            // 계정이 생성된 년도
+   let month = [[${startMonth}]];           // 계정이 생성된 월
+   let day = [[${startDay}]];              // 계정이 생성된 날
+
+   for(i = now_year; i >= 1910; i--){
+       if (i == year){
+           $("#startYearBox").append("<option selected>"+ i +"</option>");
+       } else {
+           $("#startYearBox").append("<option>"+ i +"</option>");
+       }
+   }
+
+   for(i = now_year; i >= 1910; i--){
+        $("#endYearBox").append("<option>"+ i +"</option>");
+   }
+
+    for(i = 1; i <= 12; i++){
+       if (i == month){
+           $("#startMonthBox").append("<option value=" + i +" selected>"+ i + "월</option>");
+       } else {
+           $("#startMonthBox").append("<option value=" + i +">"+ i + "월</option>");
+       }
+   }
+
+    for(i = 1; i <= 12; i++){
+       if (i == now_month){
+           $("#endMonthBox").append("<option value=" + i +" selected>"+ i + "월</option>");
+       } else {
+           $("#endMonthBox").append("<option value=" + i +">"+ i + "월</option>");
+       }
+   }
+}
+/*]]*/
+</script>
+<script>
+$(function(){
+    $("#goSorting").on('click', function(){
+        let sortValue = $('.buttonOn').attr('data-value');
+        let year1 = $('select[name="startYear"]').val();
+        let year2 = $('select[name="endYear"]').val();
+        let month1 = $('select[name="startMonth"]').val();
+        let month2 = $('select[name="endMonth"]').val();
+        let day1 = $('select[name="startDay"]').val();
+        let day2 = $('select[name="endDay"]').val();
+
+        console.log("sortValue : " + sortValue);
+        console.log("start : " + year1, month1, day1);
+        console.log("end : " + year2, month2, day2);
+
+        let jsonData = {
+            "sortValue" : sortValue ,
+            "startYear" : year1 ,
+            "startMonth" : month1 ,
+            "startDay" : day1 ,
+            "endYear" : year2 ,
+            "endMonth" : month2 ,
+            "endDay" : day2
+        };
+
+        $.ajax({
+            url: '/Photostagram/my/history',
+            type: 'post',
+            data: jsonData,
+            dataType: 'json',
+            success: function(data){
+                console.log(data);
+            }
+        });
+    });
+});
+</script>

@@ -1,0 +1,185 @@
+* {
+    margin: 0;
+    padding: 0;
+    font: normal 'Arial';
+}
+
+ul, ol {list-style: none;}
+a {text-decoration: none; color: #111;}
+input, textarea {outline: none;}
+
+#hash {
+    width: 1000px;
+    margin-top:20px;
+    margin-left:500px;
+}
+#hash > section {width: 100%;}
+#hash > section > div {display: block; margin-top: 6px;}
+
+#hash > section > .myProfile {
+    width: 100%;
+    height: 200px;
+    position: relative;
+    display: block;
+}
+#hash > section > .myProfile > .proPhoto {
+    float: left;
+    margin-top: 20px;
+    width: 200px;
+}
+#hash > section > .myProfile > .proPhoto > div {width: 150px; height: 150px; border-radius: 70%; overflow: hidden;}
+#hash > section > .myProfile > .proPhoto > div > img {width: 100%; height: 100%; object-fit: cover;}
+#hash > section > .myProfile > .proPhoto > div > video {width: 100%; height: 100%; object-fit: cover;}
+#hash > section > .myProfile > .proPhoto > div > a > img {width: 100%; height: 100%; object-fit: cover;}
+#hash > section > .myProfile > .proPhoto > div > a > video {width: 100%; height: 100%; object-fit: cover;}
+#hash > section > .myProfile > .detail {float:left; width:500px;}
+#hash > section > .myProfile > .detail > .pTop {
+    display: block;
+    margin-top: 30px;
+    position: relative;
+    width: auto;
+    height: 40px;
+}
+#hash > section > .myProfile > .detail > .pTop > .userName {
+    float:left;
+    padding-right:15px;
+    font-size: 24px;
+    height: 40px;
+    line-height: 40px;
+}
+#hash > section > .myProfile > .detail > .pTop > .button {
+    margin: 2px;
+    padding: 9px 15px;
+    background: #e9e9e9;
+    font-size: 13px;
+    top: 10px;
+    position: inherit;
+}
+#hash > section > .myProfile > .detail > .pTop > #follow {
+    background: #32a4ff;
+    color: aliceblue;
+    font-weight: bold;
+}
+#hash > section > .myProfile > .detail > .pMiddle {
+    display: block;
+    margin-top: 20px;
+    width: 500px;
+    height: 40px;
+    overflow: hidden;
+}
+#hash > section > .myProfile > .detail > .pMiddle > li {
+    box-sizing: border-box;
+    margin-right:35px;
+    float: left;
+    font-size:15px;
+    width: 100px;
+}
+#hash > section > .myProfile > .detail > .pMiddle > li > span {
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+#hash > section > .myProfile > .detail > .followBtn {
+    width: 728px;
+    height: 30px;
+    border-radius: 4px;
+    color: aliceblue;
+    font-weight: bold;
+    background: #32a4ff;
+    border: 0;
+    text-align: center;
+}
+
+.unFollowBtn {
+    width: 728px;
+    height: 30px;
+    border-radius: 4px;
+    font-weight: bold;
+    background: #e9e9e9;
+    border: 0;
+    text-align: center;
+}
+
+/* #hash > section > .myProfile > .detail > .pAbout > .notice {font-size: 15px;} */
+
+#hash > section > .myNav {
+    font-size: 15px;
+    font-weight: bold;
+    color: gray;
+    /* position: relative; */
+    margin-top: 13px;
+}
+#hash > section > .myNav > div {
+    padding-left: 7px;
+}
+#hash > section > .myList {
+    width: 1000px;
+    height: 959px;
+}
+
+#hash > section > .myList > .pic {
+    float:left;
+    margin: 5px;
+    overflow: hidden;
+}
+#hash > section > .myList > .pic > a {display: block; width:300px; height:300px;}
+#hash > section > .myList > .pic > a > img {width: 300px; height: 300px;}
+#hash > section > .myList > .pic > a > video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: relative;
+}
+
+
+  #following {display: none;}
+
+  .fModal {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0,0,0,0.4);
+    -ms-overflow-style: none;
+  }
+  .fModal::-webkit-scrollbar {display: none;}
+
+  .fContents {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 400px;
+    border-radius: 10px;
+  }
+
+  .fContents > #fTop {margin-left: 135px; width:55px; position: relative; text-align: center;padding: 20px;}
+  .fContents > #fTop > img {display: inline-block; width: 55px; height: auto; vertical-align: middle;}
+  .fContents > #fTop > span {display: inline-block; width: 55px; height: auto; vertical-align: middle; font-size: 14px; font-weight: bold; margin-top: 5px;}
+  .fContents > #fBottom {border-top: 1px solid #e9e9e9;}
+  .fContents > #fBottom > li {display: block; height: 40px; box-sizing: border-box;}
+  .fContents > #fBottom > li > a {top: 14px; position: relative; float: left; display: block; width: 350px; font-size: 14px; }
+  .fContents > #fBottom > li > a > span {float:left; font-size:14px;}
+  .fContents > #fBottom > li > a > i {float: right;}
+
+  .fClose {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+  }
+
+  .fClose:hover,
+  .fClose:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .addProf:hover,
+  .addProf:focus {
+    cursor: pointer;
+  }

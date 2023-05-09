@@ -1,0 +1,340 @@
+    * {
+    margin: 0;
+    padding: 0;
+    font: normal 12px 'Arial';
+    }
+
+    ul, ol {list-style: none;}
+    a {text-decoration: none; color: #111;}
+    input, textarea {outline: none;}
+
+    #wrapper {
+        width: 1200px;
+        margin-left: 500px;
+        margin-top: 50px;
+    }
+
+    #post {
+        width: auto;
+        height: 712px;
+        display: block;
+        border: 1px solid #e9e9e9;
+        margin-bottom: 50px;
+    }
+
+    #post > .picture {float: left; width: 700px; max-height: 700px;}
+    #post > .contents {float: right; width: 490px; height: 700px;}
+
+    #post > .contents > nav {
+      height: 50px;
+      display: block;
+      border-bottom: 1px solid #e9e9e9;
+    }
+    #post > .contents > nav > #profile {display: block; float: left;}
+    #post > .contents > nav > #profile > img {
+      float: left;
+      margin: 10px;
+      width: 30px;
+      height: 30px;
+      border-radius:70%;
+      overflow:hidden;
+    }
+    #post > .contents > nav > #profile > .postTop {
+      position: relative;
+      top: 10px;
+      float: left;
+      font-size: 25px;
+    }
+    #post > .contents > nav > #profile > .postTop > span {
+      position: relative;
+      font-size: 13px;
+      font-weight: bold;
+      bottom: 5px;
+    }
+    #post > .contents > nav > #profile > .postTop > #postFollow {
+      position: relative;
+      margin-left: 1px;
+      font-size: 14px;
+      font-weight: bold; color:#0095f6;
+      bottom: 3px;
+    }
+    #post > .contents > nav > #profile > .postTop > #postFollowing {
+      position: relative;
+      margin-left: 1px;
+      font-size: 14px;
+      font-weight: bold; color:#a9a9a9;
+      bottom: 3px;
+      display: none;
+    }
+    #post > .contents > nav > a {
+      float: right;
+      position: relative;
+      top: 15px;
+      margin-right: 10px;
+      background-image: url('../img/background01.png');
+      font-size: 0;
+      width: 20px;
+      height: 10px;
+      background-position: -297px -213px;
+    }
+
+    #post > .contents > ul {
+      overflow-y: scroll;
+      height: 500px;
+      border-bottom:1px solid #e9e9e9;
+      -ms-overflow-style: none;
+    }
+    #post > .contents > ul::-webkit-scrollbar {display: none;}
+    #post > .contents > ul > li {
+      width: auto;
+      height: 47px;
+      display: block;
+      margin-left: 10px;
+      margin-top: 10px;
+      margin-bottom: 0px;
+    }
+    #post > .contents > ul > li > .reply {width: 410px;}
+    #post > .contents > ul > li > label > a {float: left; color: #a9a9a9; font-weight: bold;}
+    #post > .contents > ul > li > .showReply > a {float: left; color: #a9a9a9; font-weight: bold;}
+    #post > .contents > div {position: relative;}
+    #post > .contents > div > div:nth-child(1) {
+      width: 100%;
+      height: 40px;
+      margin-top: 10px;
+      box-sizing: border-box;
+    }
+    #post > .contents > div > div:nth-child(1) > a {
+      display: block;
+      margin-right: 10px;
+      background-image: url(../img/background01.png);
+      width: 25px;
+      height: 25px;
+    }
+    #post > .contents > div > div:nth-child(1) > .unlike {float: left; background-position: -52px -260px;}
+    #post > .contents > div > div:nth-child(1) > .like {float: left; background-position: -26px -260px;}
+    #post > .contents > div > div:nth-child(1) > a:nth-child(2) {float: left; background-position: -238px -201px;}
+    #post > .contents > div > div:nth-child(1) > a:nth-child(3) {float: left; background-position: -155px -229px;}
+    #post > .contents > div > div:nth-child(1) > .remove {float: right; background-position: -231px -284px;}
+    #post > .contents > div > div:nth-child(1) > .mark {float: right; background-position: -153px -284px;}
+
+    #post > .contents > div > div:nth-child(2) > div:nth-child(1) {font-size: 14px; font-weight: bold;}
+    #post > .contents > div > div:nth-child(2) > div:nth-child(1) > span {font-size: 14px; font-weight: bold;}
+    #post > .contents > div > div:nth-child(2) > div:nth-child(2) {font-size: 10px; color: #a9a9a9;}
+
+    #post > .contents > div > div:nth-child(3) {
+      position: absolute;
+      top: 90px;
+      width: 100%;
+      height: 87%;
+      border-top: 1px solid #e9e9e9;
+    }
+    #post > .contents > div > div:nth-child(3) > a:nth-child(1) {float: left;}
+    #post > .contents > div > div:nth-child(3) > a > i {position: relative; top: 10px; left: 2px;}
+
+    #post > .contents > div > div:nth-child(3) > textarea {
+      width: 410px;
+      height: 100%;
+      resize: none;
+      margin-left: 8px;
+      border-left: 1px solid #e9e9e9;
+      border-right: 1px solid #e9e9e9;
+      border-top: none;
+      border-bottom: none;
+      padding-left: 4px;
+      padding-top: 2px;
+    }
+    #post > .contents > div > div:nth-child(3) > a:nth-child(3) {
+      float: right;
+      margin-top: 18px;
+      margin-right: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #32a4ff;
+    }
+
+
+
+    .listReply {
+        width: 450px;
+        margin-top: 20px;
+        display: block;
+        height: auto;
+        position: relative;
+        float: left;
+    }
+    .listReply > ul > li {
+      width: 450px;
+      display: block;
+      float: left;
+      margin-bottom: 8px;
+    }
+    .listReply > ul > li > .reply {width: 380px; margin-bottom: 3px;}
+    .listReply > ul > li > .reply .favorite > span {}
+    .listReply > ul > li > .reply h1 {
+        width: 100%;
+    }
+    .proImg {
+      margin-right: 10px;
+      float: left;
+      height: 30px;
+      width:30px;
+      border-radius:70%;
+      overflow:hidden;
+    }
+
+    .reply > h1 {word-break: break-all;}
+    .reply {
+      position: relative;
+      display: block;
+      float: left;
+      top: 3px;
+    }
+    .reply > h1 > span {
+      float: left;
+      font-size: 13px;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    .reply > h1 {float: left; margin-right: 4px; }
+    .reply > a {color: #0095f6; width: 350px; }
+    .reply > div {
+      margin-left: 1px;
+      color: #a9a9a9;
+      font-weight: bold;
+    }
+    .reply > .comment_width {
+      width: 100%;
+    }
+    .reply  .comment_more {
+      cursor: pointer;
+      margin-left: 1px;
+      color: #a9a9a9;
+      font-weight: bold
+    }
+    .reply > div > a {color: #a9a9a9; font-weight: bold;}
+
+    .reReply {
+        height: auto;
+        float: left;
+        width: 450px;
+    }
+    .reHide {display: none;}
+    .reWhite {background-position: -323px -274px; }
+    .reRed {background-position: -323px -287px;}
+
+    .showReply {
+      position: relative;
+      top: 12px;
+      margin-left: 30px;
+      width: 450px;
+      display: block;
+      float: left;
+      margin-bottom: 20px;
+    }
+
+    #reHeart {
+      position: relative;
+      float: right;
+      top: 9px;
+      background-image: url(../img/background01.png);
+      margin-right: 13px;
+      width: 12px;
+      height: 11px;
+      font-size: 0;
+    }
+
+
+
+
+    /*********** 더보기 스타일 ***********/
+
+    #more {
+      border-top: 1px solid #e9e9e9;
+      padding-top: 50px;
+    }
+    #more > div {
+      font-size: 13px;
+      color: #a9a9a9;
+      font-weight: bold;
+      margin-bottom: 10px;
+      padding: 15px;
+    }
+    #more > a {
+      float: left;
+      display: block;
+      width: 300px;
+      height: auto;
+      padding: 15px;
+      margin-right: 50px;
+      margin-left: 25px;
+    }
+
+
+    /*********** 모달 스타일 ***********/
+
+    .pModal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: rgba(0,0,0,0.4);
+      -ms-overflow-style: none;
+    }
+    .pModal::-webkit-scrollbar {display: none;}
+
+    #pCancel > .pContents {
+      background-color: #fefefe;
+      margin: 15% auto;
+      border: 1px solid #888;
+      width: 400px;
+      border-radius: 10px;
+      box-sizing: border-box;
+    }
+    .pContents > div {display: block; width:400px; height: 150px; position: relative; text-align: center; padding: 20px; box-sizing: border-box;}
+    .pContents > div > img {display: inline-block; width: 75px; height: auto;}
+    .pContents > div > h1 {text-align: center; font-size: 14px; margin-top: 5px;}
+    .pContents > div > h1 > span {font-weight: bold;}
+
+    .pContents > ul {text-align: center;}
+    .pContents > ul > li {text-align: center; border-top:1px solid #e9e9e9; display: block; height: 50px; line-height: 50px; box-sizing: border-box;}
+    .pContents > ul > li > a {font-size: 14px; font-weight: bold;}
+    .pContents > ul > li:nth-child(1) > a {color: red;}
+
+    /*** 사진 비율 ***/
+    .mySlides{width:700px; height:700px;}
+    .picture-size{max-width:100%; height:100%; object-fit: cover;}
+
+    /*** 게시물 더보기 ***/
+    .plusimg{
+        max-width:100%;
+        height:100%;
+    }
+
+    .plusimg > img{
+        width:300px;
+        height:300px;
+        object-fit: cover;
+    }
+
+    #post > .picture .bx-pager {top: 93%;}
+
+    #wrapper .picture .bx-wrapper .bx-controls-direction a {
+        position: absolute;
+        top: 50%;
+        margin-top: -16px;
+        outline: 0;
+        width: 32px;
+        height: 32px;
+        text-indent: -9999px;
+        z-index:0;
+    }
+
+
+
+
+
+

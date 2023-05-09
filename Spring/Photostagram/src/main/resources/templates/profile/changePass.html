@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--/*
+날짜 : 2023/03/08
+이름 : 조주영
+내용 : 비밀번호 변경 화면
+*/-->
+<html xmlns:th="http://www.thymleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/profileLayout}">
+    <th:block layout:fragment="main">
+        <div id="modi">
+          <div id="mySelect">
+              <div>
+                  <a th:href="@{/profile (username=${user.username})}">프로필</a>
+              </div>
+              <div>
+                  <a th:href="@{/profile/modify}">프로필 변경</a>
+              </div>
+              <div class="currentMenu">
+                  <a th:href="@{/profile/changePass}" class="currentSet">비밀번호 변경</a>
+              </div>
+              <div>
+                  <a th:href="@{/profile/deleteUser}">탈퇴하기</a>
+              </div>
+          </div>
+          <div id="myPass">
+              <div>
+                  <div>
+                      <th:block th:if="${not #strings.isEmpty(user.profileImg)}">
+                          <img th:src="|@{/}thumb/${user.profileImg}" alt="profile" class="addProf"/>
+                      </th:block>
+                      <th:block th:unless="${not #strings.isEmpty(user.profileImg)}">
+                          <img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="profile" class="addProf"/>
+                      </th:block>
+                  </div>
+                  <div>
+                      <span>[[${user.username}]]</span>
+                  </div>
+
+              </div>
+              <form th:action="@{/profile/changePass}" method="post" id="passForm">
+                  <input type="hidden" name="no" th:value="${user.no}"/>
+                  <table>
+                      <tbody>
+                      <tr>
+                          <td>
+                              <span>이전 비밀번호</span>
+                          </td>
+                          <td>
+                              <input type="password" name="prePass"/>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <span>새 비밀번호</span>
+                          </td>
+                          <td>
+                              <input type="password" name="pass1"/>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <span>새 비밀번호 확인</span>
+                          </td>
+                          <td>
+                              <input type="password" name="pass2"/>
+                          </td>
+                      </tr>
+                      </tbody>
+                  </table>
+                  <input id="passChange" type="submit" value="비밀번호 변경">
+              </form>
+              <a th:href="@{/member/checkPass}">비밀번호를 잊으셨나요?</a>
+          </div>
+        </div>
+    </th:block>
+</html>
+<script>
+
+
+
+</script>

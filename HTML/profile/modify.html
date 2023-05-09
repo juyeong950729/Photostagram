@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Instagram</title>
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
+    />
+    <link
+            href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+            rel="stylesheet"/>
+    <link rel="stylesheet" href="../css/aside.css">
+    <link rel="stylesheet" href="./css/profile.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="../js/aside.js"></script>
+    <script>
+      $(function(){
+        //게시글 업로드 버튼 클릭시(ajax추가하면 됨)
+      $('#button_write_feed').on('click', ()=>{
+        const image = $('#input_image').css("background-image").replace(/^url\(['"](.+)['"]\)/, '$1');
+        const content = $('#input_content').val();
+        const profile_image = $('#input_profile_image').attr('src');
+        const user_id = $('#input_user_id').text();
+
+        const file = files[0];
+
+        let fd = new FormData();
+
+        fd.append('file', file);
+        fd.append('image', image);
+        fd.append('content', content);
+        fd.append('profile_image', profile_image);
+        fd.append('user_id', user_id);
+
+        if(image.length <= 0)
+        {
+            alert("이미지가 비어있습니다.");
+        }
+        else if(content.length <= 0)
+        {
+            alert("설명을 입력하세요");
+        }
+        else if(profile_image.length <= 0)
+        {
+            alert("프로필 이미지가 비어있습니다.");
+        }
+        else if(user_id.length <= 0)
+        {
+            alert("사용자 id가 없습니다.");
+        }
+        else{
+            writeFeed(fd);
+            console.log(files[0]);
+        }
+      });
+      });
+    </script>
+  <style>
+  * {
+    margin: 0;
+    padding: 0;
+    font: normal 12px 'Arial';
+    }
+
+    ul, ol {list-style: none;}
+    a {text-decoration: none; color: #111;}
+    input, textarea {outline: none;}
+
+    #wrapper {
+        width: 1200px; 
+        margin-left: 500px;
+        margin-top: 50px;
+    }
+
+    #wrapper > #myInfo {
+        width: 800px;
+        height: auto;
+        border: 1px solid #e9e9e9;
+        background: white;
+        margin-bottom: 100px;
+    }
+    #myInfo > div {margin-left: 100px; margin-top:30px; width:400px; height:80px; top: 20px; position: relative; left: 15px;}
+    #myInfo > div > img {float: left; width: 45px; height: auto;}
+    #myInfo > div > div {margin-left: 20px; margin-top:5px; float: left; width: 150px; position: relative;}
+    #myInfo > div > div > span {float: left; font-size: 18px;}
+    #myInfo > div > div > a {float: left; color: #32a4ff; font-weight: bold; font-size: 15px;}
+    #myInfo > form {margin-left: 10px; border-collapse:collapse;}
+    #myInfo > form > table > tbody > tr {position: relative;}
+    #myInfo > form > table > tbody > tr > td:nth-child(1) {width: 150px; text-align:right;}
+    #myInfo > form > table > tbody > tr > td:nth-child(2) {padding: 15px;}
+    #myInfo > form > table > tbody > tr > td:nth-child(2) > input {width: 350px; height: 35px; border: 1px solid #dcdcdc; font-size: 15px;}
+    #myInfo > form > table > tbody > tr > td:nth-child(2) > textarea {width: 350px; height: 50px; border: 1px solid #dcdcdc; font-size: 15px; resize: none;}
+    #myInfo > form > table > tbody > tr > td:nth-child(2) > #check {width: 15px; height: 15px;}
+    #myInfo > form > table > tbody > tr > #private {color: #808080; font-size: 12px; width: 350px;}
+    #myInfo > form > table > tbody > tr > td:nth-child(1) > span {font-weight: bold; font-size: 17px;}
+    #myInfo > form > table > tbody > tr > td:nth-child(2) > span {display: block; color: #808080; width: 350px; font-size: 12px; margin-top: 10px;}
+    #myInfo > form > table > tbody > tr:nth-child(1) > td:nth-child(1) {position:relative; display: block; top: 20px;}
+    #myInfo > form > table > tbody > tr:nth-child(4) > td:nth-child(1) {position:relative; display: block; top: 20px;}
+    #myInfo > form > table > tbody > tr:nth-child(9) > td:nth-child(2) > span {float: left;}
+    #myInfo > form > table > tbody > tr:nth-child(9) > td:nth-child(2) {display: block;}
+    #myInfo > form > input {margin-left:400px; margin-top:50px; width: 50px; height: 30px; border: none; background: #32a4ff; color: #fff; font-weight: bold;}
+    #myInfo > a {margin-left:500px; font-weight: bold; color: #32a4ff; padding: 10px; font-size: 14px;}
+    #check {float: left;}
+  </style>
+  </head>
+  <body>
+    <!--sidebar 기본-->
+    <aside class="sidebar">
+      <header class="sidebar-header">
+        <img class="logo-img" src="./img/photostagram_logo.png" />
+        <i class="logo-icon uil uil-instagram"></i>
+      </header>
+      <nav>
+
+        <button>
+            <a href="">
+              <i class="uil uil-estate"></i>
+              <span>홈</span>
+            </a>
+        </button>
+
+        <button id="search">
+          <span>
+              <i class="uil uil-search"></i>
+              <span>검색</span>
+          </span>
+        </button>
+
+        <button>
+          <a href="">
+            <i class="uil uil-compass"></i>
+            <span>탐색 탭</span>
+          </a>
+        </button>
+
+        <button>
+          <a href="">
+            <i class="uil uil-location-arrow"></i>
+            <span>메시지</span>
+          </a>
+        </button>
+
+        <button id="alarm">
+          <span>
+            <i class="uil uil-heart"></i>
+            <span>알림</span>
+          </span>
+        </button>
+
+        <button id="add_feed">
+          <span>
+            <i class="uil uil-plus-circle"> </i>
+            <span>만들기</span>
+          </span>
+        </button>
+
+        <button>
+          <span>
+            <img src="https://raw.githubusercontent.com/zouraiz523/Instagram-Sidebar-/b2750eba8fa31cde49364428bf28fbb41b3a02f0/Instagram%20Sidebar%20Coding/Profile.svg" />
+            <span>프로필</span>
+          </span>
+        </button>
+
+        <button id="more_view">
+          <span>
+            <i class="uil uil-bars"> </i>
+            <span>더보기</span>
+          </span>
+        </button>
+      </nav>
+    </aside>
+    <!--sidebar 축소(검색, 알람창 선택시)-->
+    <aside class="side">
+      <header class="sidebar-header">
+        <img class="logo-img" src="https://raw.githubusercontent.com/zouraiz523/Instagram-Sidebar-/b2750eba8fa31cde49364428bf28fbb41b3a02f0/Instagram%20Sidebar%20Coding/Profile.svg" />
+        <i class="logo-icon uil uil-instagram"></i>
+      </header>
+      <nav>
+
+        <button>
+            <a href="">
+              <i class="uil uil-estate"></i>
+            </a>
+        </button>
+
+        <button id="search_close">
+          <span>
+              <i class="uil uil-search"></i>
+          </span>
+        </button>
+
+        <button>
+          <a href="">
+            <i class="uil uil-compass"></i>
+          </a>
+        </button>
+
+        <button>
+          <a href="">
+            <i class="uil uil-location-arrow"></i>
+          </a>
+        </button>
+
+        <button id="alarm_close">
+          <span>
+            <i class="uil uil-heart"></i>
+          </span>
+        </button>
+
+        <button>
+          <span>
+            <i class="uil uil-plus-circle"> </i>
+          </span>
+        </button>
+
+        <button>
+          <span>
+            <img src="https://raw.githubusercontent.com/zouraiz523/Instagram-Sidebar-/b2750eba8fa31cde49364428bf28fbb41b3a02f0/Instagram%20Sidebar%20Coding/Profile.svg" />
+          </span>
+        </button>
+
+        <button>
+          <span>
+            <i class="uil uil-bars"> </i>
+          </span>
+        </button>
+      </nav>
+    </aside>
+    <!--검색창-->
+    <div class="sidesearch">
+        <div>
+            <h2>검색</h2>
+            <input type="text" name="search" id="searchAll" placeholder="검색"></input>   
+            <button><img src="./img/search.png" alt=""></button>    
+        </div>
+        <div>
+            <h3>최근 검색 항목 <button>모두 지우기</button></h3>
+        </div>
+    
+        <div class="searchListAll">
+          <div class="searchlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+              <div>
+                <h3>nickname</h3>
+              </div>
+              <div>
+                <h8>text</h8>
+              </div>
+            </div>
+            <div>
+              <button>
+                <img src="./img/aside_x.PNG" alt="">
+              </button>
+            </div>
+          </div>
+          <div class="searchlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+              <div>
+                <h3>nickname</h3>
+              </div>
+              <div>
+                <h8>text</h8>
+              </div>
+            </div>
+            <div>
+              <button>
+                <img src="./img/aside_x.PNG" alt="">
+              </button>
+            </div>
+          </div>
+          <div class="searchlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+              <div>
+                <h3>nickname</h3>
+              </div>
+              <div>
+                <h8>text</h8>
+              </div>
+            </div>
+            <div>
+              <button>
+                <img src="./img/aside_x.PNG" alt="">
+              </button>
+            </div>
+          </div>
+          <div class="searchlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+              <div>
+                <h3>nickname</h3>
+              </div>
+              <div>
+                <h8>text</h8>
+              </div>
+            </div>
+            <div>
+              <button>
+                <img src="./img/aside_x.PNG" alt="">
+              </button>
+            </div>
+          </div>
+          <div class="searchlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+              <div>
+                <h3>nickname</h3>
+              </div>
+              <div>
+                <h8>text</h8>
+              </div>
+            </div>
+            <div>
+              <button>
+                <img src="./img/aside_x.PNG" alt="">
+              </button>
+            </div>
+          </div>
+          <div class="searchlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+              <div>
+                <h3>nickname</h3>
+              </div>
+              <div>
+                <h8>text</h8>
+              </div>
+            </div>
+            <div>
+              <button>
+                <img src="./img/aside_x.PNG" alt="">
+              </button>
+            </div>
+          </div>
+          <div class="searchlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+              <div>
+                <h3>nickname</h3>
+              </div>
+              <div>
+                <h8>text</h8>
+              </div>
+            </div>
+            <div>
+              <button>
+                <img src="./img/aside_x.PNG" alt="">
+              </button>
+            </div>
+          </div>
+          <div class="searchlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+              <div>
+                <h3>nickname</h3>
+              </div>
+              <div>
+                <h8>text</h8>
+              </div>
+            </div>
+            <div>
+              <button>
+                <img src="./img/aside_x.PNG" alt="">
+              </button>
+            </div>
+          </div>
+          <div class="searchlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+              <div>
+                <h3>nickname</h3>
+              </div>
+              <div>
+                <h8>text</h8>
+              </div>
+            </div>
+            <div>
+              <button>
+                <img src="./img/aside_x.PNG" alt="">
+              </button>
+            </div>
+          </div>
+          <div class="searchlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+              <div>
+                <h3>nickname</h3>
+              </div>
+              <div>
+                <h8>text</h8>
+              </div>
+            </div>
+            <div>
+              <button>
+                <img src="./img/aside_x.PNG" alt="">
+              </button>
+            </div>
+          </div>
+          <div class="searchlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+              <div>
+                <h3>nickname</h3>
+              </div>
+              <div>
+                <h8>text</h8>
+              </div>
+            </div>
+            <div>
+              <button>
+                <img src="./img/aside_x.PNG" alt="">
+              </button>
+            </div>
+          </div>
+          <div class="searchlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+              <div>
+                <h3>nickname</h3>
+              </div>
+              <div>
+                <h8>text</h8>
+              </div>
+            </div>
+            <div>
+              <button>
+                <img src="./img/aside_x.PNG" alt="">
+              </button>
+            </div>
+          </div>
+          <div class="searchlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+              <div>
+                <h3>nickname</h3>
+              </div>
+              <div>
+                <h8>text</h8>
+              </div>
+            </div>
+            <div>
+              <button>
+                <img src="./img/aside_x.PNG" alt="">
+              </button>
+            </div>
+          </div>
+          <div class="searchlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+              <div>
+                <h3>nickname</h3>
+              </div>
+              <div>
+                <h8>text</h8>
+              </div>
+            </div>
+            <div>
+              <button>
+                <img src="./img/aside_x.PNG" alt="">
+              </button>
+            </div>
+          </div>
+         
+          <div class="searchlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+              <div>
+                <h3>nickname</h3>
+              </div>
+              <div>
+                <h8>text</h8>
+              </div>
+            </div>
+            <div>
+              <button>
+                <img src="./img/aside_x.PNG" alt="">
+              </button>
+            </div>
+          </div>
+        </div>
+        
+    </div>
+
+    <!--알림창-->
+    <div class="sidealarm">
+        <div>
+            <h2>알림</h2>
+        </div>
+        <div class="alarmListAll">
+          <div class="alarmlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+                <h3>seller님이 회원님의 사진을 좋아합니다.</h3>
+            </div>
+            <div>
+                <img src="./img/aside_x.PNG" alt="">
+            </div>
+          </div>
+          <div class="alarmlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+                <h3>seller님이 회원님의 사진을 좋아합니다.</h3>
+            </div>
+            <div>
+                <img src="./img/aside_x.PNG" alt="">
+            </div>
+          </div>
+          <div class="alarmlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+                <h3>seller님이 회원님의 사진을 좋아합니다.</h3>
+            </div>
+            <div>
+                <img src="./img/aside_x.PNG" alt="">
+            </div>
+          </div>
+          <div class="alarmlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+                <h3>seller님이 회원님의 사진을 좋아합니다.</h3>
+            </div>
+            <div>
+                <img src="./img/aside_x.PNG" alt="">
+            </div>
+          </div>
+          <div class="alarmlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+                <h3>seller님이 회원님의 사진을 좋아합니다.</h3>
+            </div>
+            <div>
+                <img src="./img/aside_x.PNG" alt="">
+            </div>
+          </div>
+          <div class="alarmlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+                <h3>seller님이 회원님의 사진을 좋아합니다.</h3>
+            </div>
+            <div>
+                <img src="./img/aside_x.PNG" alt="">
+            </div>
+          </div>
+          <div class="alarmlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+                <h3>seller님이 회원님의 사진을 좋아합니다.</h3>
+            </div>
+            <div>
+                <img src="./img/aside_x.PNG" alt="">
+            </div>
+          </div>
+          <div class="alarmlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+                <h3>seller님이 회원님의 사진을 좋아합니다.</h3>
+            </div>
+            <div>
+                <img src="./img/aside_x.PNG" alt="">
+            </div>
+          </div>
+          <div class="alarmlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+                <h3>seller님이 회원님의 사진을 좋아합니다.</h3>
+            </div>
+            <div>
+                <img src="./img/aside_x.PNG" alt="">
+            </div>
+          </div>
+          <div class="alarmlist">
+            <div>
+              <img src="./img/aside_seller_ico.PNG" alt="">
+            </div>
+            <div>
+                <h3>seller님이 회원님의 사진을 좋아합니다.</h3>
+            </div>
+            <div>
+                <img src="./img/aside_x.PNG" alt="">
+            </div>
+          </div>
+        </div>
+    </div>
+    
+    <!--더보기 선택시 팝업-->
+    <div class="more_logout">
+      <a href="">로그아웃</a>
+    </div>
+
+<main id="wrapper">
+  <div id="myInfo">
+      <div>
+          <img src="./img/44884218_345707102882519_2446069589734326272_n.jpg" alt="profile">
+          <div>
+              <span>gildong</span>
+              <a href="#">프로필 사진 바꾸기</a>
+          </div>
+      </div>
+      <form action="#" method="">
+          <table>
+              <tbody>
+                  <tr>
+                      <td>
+                          <span>이름</span>
+                      </td>
+                      <td>
+                          <input type="text" value="홍길동"><br/>
+                          <span>사람들이 이름, 별명 또는 비즈니스 이름 등 회원님의 알려진 이름을 사용하여 회원님의 계정을 찾을 수 있도록 도와주세요.</span>
+                          <span>이름은 14일 안에 두 번만 변경할 수 있습니다.</span>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          <span>사용자 이름</span>
+                      </td>
+                      <td>
+                          <input type="text" value="gildong">
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          <span>웹사이트</span>
+                      </td>
+                      <td>
+                          <input type="text" value="웹사이트">
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          <span>소개</span>
+                      </td>
+                      <td>
+                          <textarea name="intro" id="intro"></textarea>
+                          <span>0 / 150</span>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td></td>
+                      <td id="private">
+                          개인 정보 <br/>
+                          비즈니스나 반려동물 등에 사용된 계정인 경우에도 회원님의 정보를 입력하세요. 공개 프로필에는 포함되지 않습니다.
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          <span>이메일</span>
+                      </td>
+                      <td>
+                          <input type="email" value="gildong@gmail.com">
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          <span>전화번호</span>
+                      </td>
+                      <td>
+                          <input type="text" placeholder="전화번호">
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          <span>성별</span>
+                      </td>
+                      <td>
+                          <input type="text" value="밝히고 싶지 않음">
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          <span>프로필에 계정 추천 표시</span>
+                      </td>
+                      <td>
+                          <input type="checkbox" value="1" id="check">
+                          <span>사람들이 회원님의 프로필에서 비슷한 계정 추천을 볼 수 있는지와 회원님의 계정이 다른 프로필에서 추천될 수 있는지를 선택하세요.</span>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+          <input type="submit" value="제출">
+      </form>
+      <a href="#">일시적으로 내 계정 비활성화하기</a>
+  </div>
+</main>
+  <footer></footer>
+  </body>
+  <!--게시글 작성 선택시 모달 팝업(바깥부분에배치)-->
+  <div id="modal_add_feed" class="modal modal_overlay">
+    <div class="modal_window">
+        <div class="modal_title">
+            <div class="modal_title_side"></div>
+            <div> 새 게시물 </div>
+            <div class="modal_title_side">
+                <span id="close_modal" class="close_modal material-icons-outlined" style="font-size: 30px">
+                    close
+                </span>
+            </div>
+        </div>
+        <div class="modal_image_upload">
+          <button id="fileButton">
+            <label for="file_upload">컴퓨터에서 선택</label>
+            <input type="file" id="file_upload" accept="image/*" required multiple/>
+          </button>
+
+        </div>
+    </div>
+</div>
+  <div id="modal_add_feed_content" class="modal modal_overlay_content">
+    <div class="modal_window">
+        <div class="modal_title">
+            <div class="modal_title_side"></div>
+            <div style="margin: 5px"> 새 게시물 </div>
+            <div class="modal_title_side">
+                <span id="close_modal_feed" class="close_modal material-icons-outlined" style="font-size: 30px">
+                    close
+                </span>
+            </div>
+        </div>
+        <div class="modal_image_content">
+            <div id="input_image" class="modal_image_upload_content">
+                <button class="beforeBtn"><img src="./img/arrowL.png" alt=""></button>
+                <button class="afterBtn"><img src="./img/arrowR_8x13.png" alt=""></button>
+            </div>
+            <div class="modal_content_write">
+                <div class="feed_name">
+                    <div class="profile_box">
+                        <img id="input_profile_image" class="profile_img" src="https://scontent-ssn1-1.xx.fbcdn.net/v/t1.6435-9/s1080x2048/165180104_277246477102900_6106347261862438192_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=730e14&_nc_ohc=1sN4d8i7rn8AX-7aKYN&_nc_ht=scontent-ssn1-1.xx&oh=5049b7cd176848e330b0f5ea95f28172&oe=615A08D1">
+                    </div>
+                    <span id="input_user_id" class="feed_name_txt"> jin.99 </span>
+                </div>
+                <div style="height: 440px">
+                    <textarea id="input_content" class="feed_content_textarea form-control col-sm-5" rows="10" placeholder="설명을 입력하세요..."></textarea>
+                </div>
+                <div style="width: 100%; text-align: center">
+                    <button id="button_write_feed" type="button" class="btn btn-primary" style="width: 268px"> 공유하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

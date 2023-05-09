@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.photostagram.dao.BoardDAO">
+
+    <select id="selectMember" resultType="kr.co.photostagram.vo.BoardVO">
+        <!--SELECT
+        a.*,
+        b.username,
+        b.profileImg
+        FROM `post` AS a
+        JOIN `user` AS b ON a.user_no = b.`no`
+        WHERE a.`no`=#{no};
+        -->
+        SELECT * FROM `user` WHERE `username`=#{username};
+    </select>
+
+    <select id="selectPost" resultType="kr.co.photostagram.vo.BoardVO">
+        SELECT * FROM `post` as a
+            JOIN `user` as b
+            ON a.`user_no` = b.`no`
+            WHERE a.`no`=#{no};
+    </select>
+
+    <select id="selectPostLike" resultType="kr.co.photostagram.vo.Post_likeVO">
+        SELECT * FROM `post_like` WHERE post_no = #{no} AND user_no = #{user_no}
+    </select>
+
+    <select id="selectPostHashTag" resultType="kr.co.photostagram.vo.Board1VO">
+        SELECT
+        a.*,
+        b.`hashtag`
+        FROM `post_hashtag` AS a
+        JOIN `hashtag` AS b ON a.`hashtag_no` = b.`no`
+        WHERE a.`post_no`=#{no};
+    </select>
+
+<!--    <select id="selectcomments" resultType="kr.co.photostagram.vo.CommentVO">-->
+<!--       select `comment` from `comment` where post_no=#{no};-->
+<!--    </select>-->
+
+    <select id="selectimages" resultType="kr.co.photostagram.vo.ImageVO">
+        select * from `image` where `post_no`=#{no};
+    </select>
+
+    <select id="selectcommentlist" resultType="kr.co.photostagram.vo.Board2VO">
+        <!--
+        SELECT
+        a.`content`,
+        a.`rdate`,
+        a.`like`,
+        b.`comment`,
+        c.`profileImg`,
+        c.`username`
+        from `post` as a
+        join `comment` as b on a.`no` = b.`post_no`
+        left join `user` as c on a.`user_no` = c.`no`;
+        -->
+        SELECT a.*,
+        b.username,
+        b.profileImg,
+        COUNT(c.`no`) AS `like_count`
+        FROM `comment` AS a
+        JOIN `user` AS b ON a.user_no = b.`no`
+        left JOIN `comment_like` AS c ON a.`no`=c.comment_no
+        WHERE a.`post_no`= #{postNo}
+        GROUP BY a.`no`;
+    </select>
+
+    <select id="selectNoticesTime" resultType="kr.co.photostagram.vo.NoticeVO">
+        (SELECT
+        t2.`post_no` AS content_no,
+        t1.`user_no` AS user_no,
+        t2.user_no AS my_no,
+        t2.`comment` AS content,
+        t1.`rdate` AS rdate,
+        t3.`username` AS username,
+        t3.`profileImg` AS profileImg,
+        t5.thumb AS thumb,
+        '1' AS type
+        FROM `comment_like` AS t1
+        JOIN `comment` AS t2 ON t1.`comment_no` = t2.`no`
+        JOIN `user`    AS t3 ON t1.`user_no` = t3.`no`
+        JOIN `post` AS t4 ON t2.post_no=t4.`no`
+        JOIN `image` AS t5 ON t4.`no`=t5.post_no
+        WHERE t2.user_no=#{user_no}
+        AND t1.rdate > DATE_SUB(NOW(), INTERVAL 6 MONTH)
+        GROUP BY content_no
+        )
+        UNION ALL
+        (SELECT
+        t1.`post_no` AS content_no,
+        t1.`user_no` AS user_no,
+        t2.user_no AS my_no,
+        t2.`content` AS content,
+        t1.`rdate` AS rdate,
+        t3.`username` AS username,
+        t3.`profileImg` AS profileImg,
+        t4.thumb AS thumb,
+        '2' AS type
+        FROM `post_like` AS t1
+        JOIN `post` AS t2 ON t1.`post_no` = t2.`no`
+        JOIN `user` AS t3 ON t1.`user_no` = t3.`no`
+        JOIN `image` AS t4 ON t2.`no`=t4.post_no
+        WHERE t2.user_no=#{user_no}
+        AND t1.rdate > DATE_SUB(NOW(), INTERVAL 6 MONTH)
+        GROUP BY content_no
+        )
+        UNION ALL
+        (SELECT
+        NULL AS content_no,
+        `follower` AS user_no,
+        `following` AS my_no,
+        NULL AS content,
+        t1.`rdate` AS rdate,
+        t2.`username` AS username,
+        t2.`profileImg` AS profileImg,
+        NULL AS thumb,
+        '3' AS type
+        FROM `follow` AS t1
+        JOIN `user`   AS t2 ON t1.`follower` = t2.`no`
+        WHERE `following`=#{user_no}
+        AND t1.rdate > DATE_SUB(NOW(), INTERVAL 6 MONTH)
+        )
+        UNION ALL
+        (SELECT
+        t2.`no` AS content_no,
+        t1.`user_no` AS user_no,
+        t2.`user_no` AS my_no,
+        t1.`comment` AS content,
+        t1.`rdate` AS rdate,
+        t3.`username` AS username,
+        t3.`profileImg` AS profileImg,
+        t4.thumb AS thumb,
+        '4' AS type
+        FROM `comment` AS t1
+        JOIN `post` AS t2 ON t1.`post_no`=t2.`no`
+        JOIN `user` AS t3 ON t3.`no`=t1.user_no
+        JOIN `image` AS t4 ON t2.`no`=t4.post_no
+        WHERE t2.`user_no`=#{user_no}
+        AND t1.rdate > DATE_SUB(NOW(), INTERVAL 6 MONTH)
+        GROUP BY content_no
+        )
+        ORDER BY rdate DESC;
+    </select>
+
+
+    <select id="selectContentLikeTime" resultType="kr.co.photostagram.vo.PostVO">
+        SELECT * FROM `post` WHERE `no`=#{no};
+    </select>
+
+    <insert id="insertComment">
+        insert into `comment` set
+            `comment`=#{comment},
+            `post_no`=#{post_no},
+            `user_no`=#{user_no},
+            `rdate`=NOW();
+    </insert>
+
+    <insert id="insertRespComment">
+        insert into `comment` set
+        `comment`=#{comment},
+        `post_no`=#{post_no},
+        `user_no`=#{user_no},
+        `parent` =#{parent},
+        `rdate`=NOW();
+    </insert>
+
+    <select id="selectPlusImg" resultType="kr.co.photostagram.vo.PostVO">
+        SELECT
+        a.`no`,
+        a.`content`,
+        b.`thumb`,
+        a.`user_no`,
+        a.`like`,
+        a.`rdate`
+        FROM `post` AS a
+        JOIN `image` AS b ON a.`no` = b.`post_no`
+        WHERE `user_no`=(SELECT `user_no` FROM `post` WHERE `no`=#{no})
+        GROUP BY a.`no`
+        order BY a.`no` DESC LIMIT 6;
+    </select>
+    <!-- 게시글 좋아요 -->
+    <insert id="detailPostLikeAdd">
+        INSERT INTO `post_like` SET
+        `post_no` = #{no},
+        `user_no` = #{user_no},
+        `rdate`=NOW();
+    </insert>
+    <update id="detailPostLikeUpdate">
+        UPDATE `post` SET
+        `like` = `like`+1
+        WHERE `no` = #{no};
+    </update>
+    <update id="detailPostDelLikeUpdate">
+        UPDATE `post` SET
+        `like` = `like`-1
+        WHERE `no` = #{no};
+    </update>
+
+    <delete id="detailPostDelAdd">
+        DELETE FROM `post_like`
+        WHERE
+        `post_no` = #{no} AND
+        `user_no` = #{user_no};
+    </delete>
+    <!-- -->
+
+    <insert id="detailPostCommentLikeAdd">
+        INSERT INTO `comment_like` SET
+        `user_no` = #{user_no},
+        `comment_no` = #{comment_no},
+        `rdate`=NOW();
+    </insert>
+    <delete id="detailPostCommentLikeDel">
+        DELETE FROM `comment_like`
+        WHERE
+        `user_no` = #{user_no} AND
+        `comment_no` = #{comment_no};
+    </delete>
+
+    <!--게시물 삭제-->
+    <select id="selectComment" resultType="kr.co.photostagram.vo.CommentVO">
+        select * from `comment` where `post_no`=#{post_no};
+    </select>
+    <delete id="deleteCommentLike">
+        delete from `comment_like` where `comment_no`=#{comment_no};
+    </delete>
+    <delete id="deletePosts">
+        <!--댓글 삭제-->
+        delete from `comment` where `post_no`=#{post_no};
+        <!--태그된 해시태그 삭제-->
+        delete from `post_hashtag` where `post_no`=#{post_no};
+        <!--포스트 좋아요 삭제-->
+        delete from `post_like` where `post_no`=#{post_no};
+        <!--포스트 태그유저 삭제-->
+        delete from `post_usertag` where `post_no`=#{post_no};
+        <!--이미지 삭제-->
+        delete from `image` where `post_no`=#{post_no};
+    </delete>
+    <delete id="deletePost">
+        <!--게시물 삭제-->
+        delete from `post` where `no`=#{post_no};
+    </delete>
+    <select id="selectUserTags" resultType="kr.co.photostagram.vo.UserTagVO">
+        SELECT a.*, b.username from `post_usertag` AS a
+        JOIN `user` AS b ON a.tag_user_no=b.`no`
+        where `post_no`=#{post_no};
+    </select>
+    <!--게시물 수정-->
+    <delete id="deleteUserTags">
+        delete from `post_usertag` where `post_no`=#{post_no};
+    </delete>
+    <insert id="insertTagNewUser">
+        insert into `post_usertag` set `post_no`=#{post_no}, `tag_user_no`=#{tag_no}, `top`=#{top}, `left`=#{left}, `page`=#{page};
+    </insert>
+    <delete id="deleteHashes">
+        delete from `post_hashtag` where `post_no`=#{post_no};
+    </delete>
+    <update id="updatePost">
+        update `post` set `content`=#{content} where `no`=#{post_no};
+    </update>
+</mapper>

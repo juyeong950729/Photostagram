@@ -1,0 +1,292 @@
+div.resp_comment_section{
+   margin-left: 14px;
+   /* margin-top: 12px; */
+   width: 100%;
+}
+div.resp_comment_section img {
+    width: 32px;
+    height: 32px;
+    border-radius: 20px;
+    margin-right: 12px;
+    cursor: pointer;
+}
+
+div.resp_comment_section > ul li > div > .modal_comment_id {
+    font-size: 14px;
+    font-weight: bold;
+    font-family: "nsM";
+}
+div.resp_comment_section > ul li > div > .resp_id {
+    font-size: 13px;
+    font-weight: bold;
+}
+div.resp_comment_section > ul li > div > .modal_comment {
+    font-size: 14px;
+    font-family: "nsM";
+}
+
+div.resp_comment_section > div {
+    width: 366px;
+}
+div.resp_comment_section > div > a {
+    font-size: 14px;
+    font-weight: bold;
+    font-family: "nsM";
+}
+div.resp_comment_section > div > span {
+    font-size: 14px;
+    font-family: "nsM";
+}
+
+div.modal-post div.commentInfo span.resp_comment {
+    cursor: pointer;
+}
+
+div.resp_comment_section > ul li {
+    padding-top: 10px;
+}
+div.resp_comment_section > ul li > div {
+    width: 86.7%
+}
+div.modal-post div.posting {
+    display: inline-block;
+    width: 410px;
+    margin-bottom: 8px;
+}
+
+a.respCommentOpen {
+    color: #737373;
+    position: relative;
+    margin-left: 7%;
+}
+
+div.modal-post div.commentInfo button.comment_option {
+    display: none;
+    background: url(../img/background01.png) no-repeat -301px -186px;
+    margin-left: 8px;
+    width: 21px;
+    height: 13px;
+    border: 0;
+    cursor: pointer;
+}
+
+
+/* 댓글 삭제여부 modal */
+.modalPost {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(1.5px);
+    -webkit-backdrop-filter: blur(1.5px);
+    z-index: 16;
+}
+
+.modal_post_window {
+    background: white;
+    backdrop-filter: blur(13.5px);
+    -webkit-backdrop-filter: blur(13.5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    width: 295px;
+    height: 96px;
+    position: relative;
+    left: 38%;
+    top: 37%;
+}
+
+.modal_post_title{
+    display: block;
+    flex-direction: row;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+}
+
+.modal_postDelete{
+    width:290px;
+    height:48px;
+    border-bottom:1px solid gray;
+    text-align:center;
+}
+
+.modal_postDelete > span{
+    color:#ed4956;
+    line-height:48px;
+    font-size:14px;
+    font-weight:bold;
+    cursor: pointer;
+}
+
+.modal_postCancel{
+    width:297px;
+    height:48px;
+    text-align:center;
+}
+
+.modal_postCancel > span{
+    color:black;
+    font-size:14px;
+    line-height:48px;
+    cursor:pointer;
+}
+
+/* 삭제 버튼클릭시 확인창*/
+.modal_post_window_delete {
+    background: white;
+    backdrop-filter: blur(13.5px);
+    -webkit-backdrop-filter: blur(13.5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    width: 400px;
+    height: 202px;
+    position: relative;
+    left: 32%;
+    top: 29%;
+}
+
+.confirm_delete {
+    height:106px;
+    width:400px;
+    text-align:center;
+    border-bottom:1px solid #737373;
+    display:block;
+}
+
+.post_delete{
+    width:400px;
+    height:48px;
+    text-align:center;
+    border-bottom:1px solid #737373;
+}
+
+.post_delete_cancel{
+    width:400px;
+    height:48px;
+    text-align:center;
+}
+
+.confirm_delete > span:nth-child(1){
+    color:#000000;
+    font-size:20px;
+    position: absolute;
+    top: 25px;
+    left: 29%;
+}
+
+.confirm_delete > span:nth-child(2){
+    color:#737373;
+    font-size:14px;
+    position: absolute;
+    top: 55px;
+    left: 27%;
+}
+
+.post_delete > span{
+    color:#ed4956;
+    line-height:48px;
+    font-size:14px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.post_delete_cancel > span{
+    color:#000000;
+    line-height:48px;
+    font-size:14px;
+    cursor:pointer;
+}
+
+/*수정버튼 클릭시 수정창*/
+.modal_postModify_window{
+    background: white;
+    backdrop-filter: blur(13.5px);
+    -webkit-backdrop-filter: blur(13.5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    width: 800px;
+    height: 600px;
+    position: relative;
+}
+.modal_postModify_title{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+}
+
+.modal_postModify_title > div:nth-child(2){
+   font-weight: bold;
+   font-size: 20px;
+   margin-top: 5px;
+ }
+
+.modal_title_side_post_cancel{
+    margin: 8px;
+    flex: 0 0 40px;
+    text-align: center;
+    font-size:14px;
+}
+
+.modal_title_side_post_modify{
+    margin: 8px;
+    flex: 0 0 40px;
+    text-align: center;
+    font-size:14px;
+    color:#0095f6;
+}
+
+.modal_image_content_post{
+    display: flex;
+    flex-direction: row;
+}
+.modal_image_upload_content_post{
+    text-align: center;
+    transition: all .15s ease-in-out;
+    width:500px;
+    height: 548px;
+    overflow: hidden;
+    position: relative;
+}
+
+.modal_image_upload_content_post > img{
+    object-fit:cover;
+    width:500px;
+    height:548px;
+}
+
+#input_image_post > .beforeBtn{
+  position: fixed;
+  top: 45%;
+  left: 9px;
+  background: #4e4e4e;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  color:white;
+  border: none;
+  visibility: hidden;
+}
+#input_image_post > .afterBtn{
+  position: fixed;
+  top: 45%;
+  right: 305px;
+  background: #4e4e4e;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  color:white;
+  border: none;
+  visibility: hidden;
+}
+
+

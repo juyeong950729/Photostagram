@@ -1,0 +1,59 @@
+<script th:src="@{/js/member.js}"></script>
+<script th:src="@{/js/searchPass.js}"></script>
+<div class="form-container">
+    <div class="form-content box">
+        <div class="pass-logo">
+            <img th:src="@{/img/password.png}" alt="pass logo" class="logo-light">
+        </div>
+        <div class="signin-form-reg" id="signin-form">
+            <div class="checkId">
+                <p>비밀번호 찾기</p>
+            </div>
+            <div class="form-group">
+                <div class="animate-input">
+                    <span class="in-out">
+                        아이디 입력
+                    </span>
+                    <input type="text" name="userName">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="animate-input">
+                    <span class="in-out">
+                        이메일 입력
+                    </span>
+                    <input type="text" name="email">
+                </div>
+            </div>
+            <div class="checking">
+                <div class="check-txt nEx">존재하지 않는 회원입니다.</div>
+                <div class="check-txt nId">아이디를 입력하여주세요.</div>
+                <div class="check-txt id">아이디 형식이 올바르지않습니다.</div>
+                <div class="check-txt email">이메일 형식이 올바르지않습니다.</div>
+                <div class="check-txt nEmail">이메일을 입력하여주세요.</div>
+            </div>
+            <div class="code">
+                <button type="submit" class="btn-code" id="checkPass-next">
+                    코드 보내기
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="box goto">
+        <p>
+            계정이 있으신가요?
+            <a th:href="@{/member/login}">로그인</a>
+        </p>
+    </div>
+    <div class="app-download">
+        <p>앱을 다운로드 하세요.</p>
+        <div class="store-link">
+            <a href="#">
+                <img th:src="@{/img/appDownload.png}" alt="app store">
+            </a>
+            <a href="#">
+                <img th:src="@{/img/googlePlay.png}" alt="google play">
+            </a>
+        </div>
+    </div>
+</div>

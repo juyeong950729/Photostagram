@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/chatLayout}">
+<th:block layout:fragment="main">
+    <script th:inline="javascript">
+      
+     $(function(){
+
+          $("#confirm").click(function(){
+              modalClose();
+              //컨펌 이벤트 처리
+          });
+          $("#modal-open").click(function(){
+            $("#overlay").css('display','flex').hide().fadeIn();
+          });
+
+          function modalClose(){
+            $("#overlay").fadeOut();
+          }
+
+          $("#lay").click(function(){
+            console.log('click!!!');
+            $("#overlay").css('display','flex').hide().fadeIn();
+          });
+
+            $('.chatMember').on('click', function(){
+                let ul = $(this).parent('ul');
+                let room_no =ul.children('input').val();
+
+                location.href='/Photostagram/chat/content?room_no='+room_no;
+            });
+  });
+  
+    </script>
+  <div class="fullscreen">
+    <div class="left">
+        <div class="up">
+            <div class="src1">
+                <p>[[${user.username}]]</p>
+            </div>
+            <div class="src2">
+                <img id="lay" th:src="@{/img/free-icon-writing-6570264.png}" alt="">
+            </div>
+        </div>
+        <div class="dir2">
+            <th:block th:if="${not #lists.isEmpty(rooms)}" th:each="room:${rooms}">
+                <ul>
+                    <input type="hidden" th:value="${room.no}" name="user_no"/>
+                    <li class="chatMember" >
+                        <th:block th:if="${#strings.isEmpty(room.members[0].profileImg)}">
+                            <img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="프로필사진">
+                        </th:block>
+                        <th:block th:unless="${#strings.isEmpty(room.members[0].profileImg)}">
+                            <img th:src="@{/thumb/{img}(img=${room.members[0].profileImg})}" alt="프로필사진">
+                        </th:block>
+                        <div class="profile">
+                            <p><span th:each="member:${room.members}">[[${member.username}]]&nbsp;</span></p>
+                            <p></p>
+                        </div>
+                    </li>
+                </ul>
+            </th:block>
+            <th:block th:if="${not #lists.isEmpty(rooms2)}" th:each="room2:${rooms2}">
+                <ul>
+                    <input type="hidden" th:value="${room2.no}" name="user_no"/>
+                    <li class="chatMember" >
+                        <th:block th:if="${#strings.isEmpty(room2.members[0].profileImg)}">
+                            <img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="프로필사진">
+                        </th:block>
+                        <th:block th:unless="${#strings.isEmpty(room2.members[0].profileImg)}">
+                            <th:block th:if="${room2.members[0].profileImg != user.profileImg}">
+                                <img th:src="@{/thumb/{img}(img=${room2.members[0].profileImg})}" alt="프로필사진">
+                            </th:block>
+                            <th:block th:unless="${room2.members[0].profileImg != user.profileImg}">
+                                <img th:src="@{/thumb/{img}(img=${room2.members[1].profileImg})}" alt="프로필사진">
+                            </th:block>
+                        </th:block>
+                        <div class="profile">
+                            <p><span th:each="member:${room2.members}" th:if="${member.username != user.username}">[[${member.username}]]&nbsp;</span></p>
+                            <p></p>
+                        </div>
+                    </li>
+                </ul>
+            </th:block>
+
+        </div>
+    </div>
+    <div class="right">
+      <div class="newdir1">
+        <img th:src="@{/img/free-icon-send-3482493.png}" alt="보내기">
+        <span class="mydir">내 메시지</span>
+        <div class="fgbsm">친구나 그룹에 비공개 사진과 메시지를 보내세요.</div>
+        <button class="mes" id="modal-open" type="button">메세지 보내기</button>
+      </div>
+    </div>
+  </div>
+</th:block>
+</html>

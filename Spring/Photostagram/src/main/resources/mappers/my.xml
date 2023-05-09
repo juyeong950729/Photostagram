@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.photostagram.dao.MyDAO">
+
+    <insert id="insertType">
+        INSERT INTO `history`
+            SET `user_no` = #{no},
+            `type` = #{type},
+            `rdate` = NOW();
+    </insert>
+
+    <insert id="insertDetail">
+        INSERT INTO `history`
+            SET `user_no` = #{no},
+            `type` = #{type},
+            `detail` = #{detail},
+            `rdate` = NOW();
+    </insert>
+
+    <select id="selectUserRecent" resultType="int">
+        SELECT `no` FROM `user` ORDER BY `no` DESC LIMIT 1;
+    </select>
+
+    <select id="selectPosts" resultType="kr.co.photostagram.vo.PostVO">
+        SELECT *,COUNT(`thumb`) AS 'thumbs'
+            FROM `post` AS a
+            JOIN `image` AS b
+            ON a.`no`=b.`post_no`
+            WHERE a.`user_no`=#{no}
+            GROUP BY a.`no` DESC;
+            <!--DESC LIMIT #{index}, 25 ;       무한스크롤 페이징 처리하며 추가 -->
+    </select>
+
+    <select id="selectPost" resultType="kr.co.photostagram.vo.PostVO">
+        SELECT a.`no`, `thumb` AS 'firstThumb'
+            FROM `post` AS a
+            JOIN `image` AS b
+            ON a.`no` = b.`post_no`
+            WHERE a.`no`=#{no} LIMIT 1;
+    </select>
+
+    <select id="selectLikePostNo" resultType="int">
+        SELECT `post_no` FROM `post_like`
+            WHERE `user_no`=#{no};
+    </select>
+
+    <select id="selectCommentNo" resultType="int">
+        SELECT `no` FROM `comment` WHERE `post_no`=#{no};
+    </select>
+
+    <select id="selectMyCommentPosts" resultType="kr.co.photostagram.vo.PostVO">
+        SELECT a.`no`, a.`content`, a.`rdate`, b.`thumb` AS 'firstThumb',
+            COUNT(DISTINCT c.`hashtag_no`) AS 'hashtags',
+            d.`profileImg`, d.`username`,
+            COUNT(DISTINCT e.`no`) AS 'commentCount'
+            FROM `post` AS a
+            LEFT JOIN `image` AS b
+                ON a.`no` = b.`post_no`
+            LEFT JOIN `post_hashtag` AS c
+                ON a.`no` = c.`post_no`
+            LEFT JOIN `user` AS d
+                ON a.`user_no` = d.`no`
+            LEFT JOIN `comment` AS e
+                ON a.`no` = e.`post_no`
+            WHERE e.`user_no` = #{no}
+            GROUP BY a.`no`;
+    </select>
+
+    <!--<select id="selectMyComments" resultType="kr.co.photostagram.vo.CommentVO">
+        SELECT a.`no`, a.`post_no`, a.`comment`, a.`rdate`, b.`content`
+            FROM `comment` AS a
+            JOIN `post` AS b
+            on a.`post_no` = b.`no`
+            WHERE a.`post_no` = #{postNo} AND a.`user_no` = #{userNo}
+            ORDER BY a.`rdate` DESC LIMIT 3;
+    </select>-->
+
+    <select id="selectMyComments" resultType="kr.co.photostagram.vo.CommentVO">
+        SELECT * FROM `comment`
+            WHERE `post_no` = ${postNo} AND `user_no` = ${userNo}
+            ORDER BY `rdate` DESC LIMIT 3;
+    </select>
+
+    <select id="selectHistory" resultType="kr.co.photostagram.vo.HistoryVO">
+        SELECT * FROM `history`
+            WHERE `user_no` = #{no}
+            ORDER BY `rdate` DESC;
+    </select>
+
+    <select id="sortSelectLikePostNo" resultType="int">
+        SELECT `post_no` FROM `post_like`
+            WHERE `user_no` = #{no}
+            AND `rdate` BETWEEN #{start} AND #{end}
+            ORDER BY `rdate`
+            <choose>
+                <when test= "sort == 'recent'">
+                    DESC;
+                </when>
+                <when test= "sort == 'oldest'">
+                    ASC;
+                </when>
+                <otherwise>
+                    ;
+                </otherwise>
+            </choose>
+    </select>
+
+    <select id="sortSelectMyCommentPosts" resultType="kr.co.photostagram.vo.PostVO">
+        SELECT a.`no`, a.`content`, a.`rdate`, b.`thumb` AS 'firstThumb',
+            COUNT(DISTINCT c.`hashtag_no`) AS 'hashtags',
+            d.`profileImg`, d.`username`,
+            COUNT(DISTINCT e.`no`) AS 'commentCount'
+            FROM `post` AS a
+            LEFT JOIN `image` AS b
+                ON a.`no` = b.`post_no`
+            LEFT JOIN `post_hashtag` AS c
+                ON a.`no` = c.`post_no`
+            LEFT JOIN `user` AS d
+                ON a.`user_no` = d.`no`
+            LEFT JOIN `comment` AS e
+                ON a.`no` = e.`post_no`
+            WHERE e.`user_no` = #{no}
+            AND e.`rdate` BETWEEN #{start} AND #{end}
+            GROUP BY a.`no`
+            <choose>
+                <when test= "sort == 'recent'">
+                    DESC;
+                </when>
+                <when test= "sort == 'oldest'">
+                    ASC;
+                </when>
+                <otherwise>
+                    ;
+                </otherwise>
+            </choose>
+    </select>
+
+    <select id="sortSelectPosts" resultType="kr.co.photostagram.vo.PostVO">
+        SELECT *,COUNT(`thumb`) AS 'thumbs'
+            FROM `post` AS a
+            JOIN `image` AS b
+            ON a.`no`=b.`post_no`
+            WHERE a.`user_no`=#{no}
+            AND `rdate` BETWEEN #{start} AND #{end}
+            GROUP BY a.`no`
+            <choose>
+                <when test= "sort == 'recent'">
+                    DESC;
+                </when>
+                <when test= "sort == 'oldest'">
+                    ASC;
+                </when>
+                <otherwise>
+                    ;
+                </otherwise>
+            </choose>
+            <!--DESC LIMIT #{index}, 25 ;       무한스크롤 페이징 처리하며 추가 -->
+    </select>
+
+    <select id="sortSelectHistory" resultType="kr.co.photostagram.vo.HistoryVO">
+        SELECT * FROM `history`
+            WHERE `user_no` = #{no}
+            AND `rdate` BETWEEN #{start} AND #{end}
+            ORDER BY `rdate`
+            <choose>
+                <when test= "sort == 'recent'">
+                    DESC;
+                </when>
+                <when test= "sort == 'oldest'">
+                    ASC;
+                </when>
+                <otherwise>
+                    ;
+                </otherwise>
+            </choose>
+    </select>
+
+    <select id="selectJoinDate" resultType="String">
+        SELECT `rdate` FROM `history`
+            WHERE `type`='join' AND `user_no`=#{no};
+    </select>
+
+    <update id="updateRemoveLike">
+        UPDATE `post` SET
+            `like` = `like` - 1
+            WHERE `no`=#{no};
+    </update>
+
+    <delete id="deleteComment">
+        <!-- 댓글 좋아요 삭제 -->
+        DELETE FROM `comment_like`
+            WHERE `comment_no` = #{no};
+        <!-- 댓글 삭제 -->
+        DELETE FROM `comment`
+            WHERE `no` = #{no};
+    </delete>
+
+    <delete id="deleteCommentLike">
+        <!-- 게시글에 달린 댓글 좋아요 삭제 -->
+        DELETE FROM `comment_like`
+            WHERE `comment_no` = #{no};
+    </delete>
+
+    <delete id="deleteLike">
+        DELETE FROM `post_like`
+            WHERE `post_no` = #{postNo} AND `user_no` =#{userNo};
+    </delete>
+
+    <delete id="deletePost">
+        <!-- 게시글 좋아요 삭제 -->
+        DELETE FROM `post_like`
+            WHERE `post_no` = #{no};
+        <!-- 게시글 댓글 삭제 -->
+        DELETE FROM `comment`
+            WHERE `post_no` = #{no};
+        <!-- 게시글에 달린 해시태그 삭제 -->
+        DELETE FROM `post_hashtag`
+            WHERE `post_no` = #{no};
+        <!-- 게시글에 달린 유저태그 삭제 -->
+        DELETE FROM `post_usertag`
+            WHERE `post_no` = #{no};
+        <!-- 게시글에 첨부된 사진 삭제 -->
+        DELETE FROM `image`
+            WHERE `post_no` = #{no};
+        <!-- 게시글 삭제 -->
+        DELETE FROM `post`
+            WHERE `no` = #{no};
+    </delete>
+
+
+</mapper>

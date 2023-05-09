@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.photostagram.dao.IndexDAO">
+
+    <insert id="insertPostSave">
+        INSERT INTO `post_save` SET
+            `user_no` = #{user_no},
+            `post_no` = #{post_no},
+            `rdate` = NOW();
+    </insert>
+
+    <insert id="insertComment" useGeneratedKeys="true" keyColumn="no" keyProperty="no" parameterType="kr.co.photostagram.vo.CommentVO">
+        INSERT INTO `comment` SET
+            `comment` = #{comment},
+            `post_no` = #{post_no},
+            `user_no` = #{user_no},
+            `rdate`= NOW();
+    </insert>
+
+    <insert id="insertRespComment" useGeneratedKeys="true" keyColumn="no" keyProperty="no" parameterType="kr.co.photostagram.vo.CommentVO">
+        INSERT INTO `comment` SET
+            `comment` = #{comment},
+            `post_no` = #{post_no},
+            `user_no` = #{user_no},
+            `parent`  = #{parent},
+            `rdate`   = NOW();
+    </insert>
+
+    <insert id="insertArticleLikeAdd">
+        INSERT INTO `post_like` SET
+            `post_no` = #{no},
+            `user_no` = #{user_no},
+            `rdate`=NOW();
+    </insert>
+
+    <insert id="insertCommentLikeAdd">
+        INSERT INTO `comment_like` SET
+            `user_no`    = #{user_no},
+            `comment_no` = #{comment_no},
+            `rdate`=NOW();
+    </insert>
+
+    <select id="selectArticles"  resultMap="selectArticleResultMap">
+        SELECT
+        a.no, a.content, a.user_no AS post_user_no, a.like, a.rdate AS post_rdate,
+        b.username, b.name, b.profileImg, b.profileText,
+        c.thumb,
+        d.post_no AS postlike_no, d.user_no AS postlike_user_no, d.rdate AS postlike_rdate,
+        f.no AS hash_no, f.`hashtag`,
+        g.user_no AS postSave_user
+        FROM `post` AS a
+
+        JOIN `user` AS b ON a.user_no = b.no
+        JOIN `image` AS c ON a.no = c.post_no
+        LEFT JOIN `post_like` AS d ON a.no = d.post_no
+        LEFT JOIN `post_hashtag` AS e ON a.no = e.post_no
+        LEFT JOIN `hashtag` AS f ON e.hashtag_no = f.`no`
+        LEFT JOIN `post_save` AS g ON g.post_no = a.no
+
+        WHERE a.
+<!--        no = 134-->
+            `user_no`
+            IN
+            <foreach collection="usersNo" item="following" index="index" separator="," open="(" close=")">
+                 #{following},0
+            </foreach>
+
+
+        ORDER BY a.`no` DESC;
+    </select>
+    <select id="selectUser" resultType="kr.co.photostagram.vo.MemberVO">
+        SELECT * FROM `user`;
+    </select>
+
+
+
+    <select id="selectFollowing" resultType="kr.co.photostagram.vo.MemberVO">
+        SELECT b.* FROM `follow` AS a
+        JOIN `user` AS b
+        ON a.`following` = b.`no`
+        WHERE  `follower`= #{no};
+    </select>
+
+    <select id="selectComment" resultMap="selectCommentResultMap">
+        SELECT a.no,
+        a.comment,
+        a.post_no,
+        a.user_no AS commentUser,
+        a.parent,
+        a.rdate AS commentRdate,
+        b.username,b.profileImg,
+        c.user_no AS commentLikeUser,
+        c.comment_no,
+        c.rdate AS commentLikeRdate
+
+        FROM `comment` AS a
+        JOIN `user` AS b ON a.user_no = b.no
+        LEFT JOIN `comment_like` AS c ON a.no = c.comment_no
+        ORDER BY a.post_no DESC;
+    </select>
+
+    <select id="selectCommentCountNum" resultType="int">
+        SELECT COUNT(`no`) FROM `comment` WHERE `post_no`=#{post_no};
+    </select>
+
+    <select id="selectModalCommentlikeCount" resultType="int">
+        SELECT COUNT(`no`) FROM `comment_like` WHERE `comment_no` = #{comment_no};
+    </select>
+    <update id="postLikeAddUpdate">
+        UPDATE `post` SET
+        `like` = `like`+1
+        WHERE `no` = #{no};
+    </update>
+
+    <update id="postLikeDelUpdate">
+        UPDATE `post` SET
+        `like` = `like`-1
+        WHERE `no` = #{no};
+    </update>
+
+    <delete id="deleteArticleLike">
+        DELETE FROM `post_like`
+        WHERE
+        `post_no` = #{no} AND
+        `user_no` = #{user_no};
+    </delete>
+
+    <delete id="deleteCommentLike">
+        DELETE FROM `comment_like`
+        WHERE
+        `user_no` = #{user_no} AND
+        `comment_no` = #{comment_no};
+    </delete>
+
+    <delete id="deleteComment">
+        DELETE FROM `comment_like`
+        WHERE `comment_no`= #{comment_no};
+
+        <!-- 코멘트 삭제 -->
+        DELETE FROM `comment`
+        WHERE `no`= #{comment_no};
+    </delete>
+
+    <delete id="deleteBookmark">
+        DELETE FROM `post_save` WHERE user_no = #{user_no} AND post_no = #{post_no}
+    </delete>
+    <resultMap id="selectArticleResultMap" type="kr.co.photostagram.vo.PostVO">
+        <result column="no" property="no"/>
+        <result column="content" property="content"/>
+        <result column="post_user_no" property="user_no"/>
+        <result column="post_rdate" property="rdate"/>
+        <result column="like" property="like"/>
+        <association property="memberVO" javaType="kr.co.photostagram.vo.MemberVO">
+            <result column="username" property="username"/>
+            <result column="name" property="name"/>
+            <result column="profileImg" property="profileImg"/>
+            <result column="profileText" property="profileText"/>
+        </association>
+
+        <association property="post_likeVO" javaType="kr.co.photostagram.vo.Post_likeVO">
+            <result column="no" property="no"/>
+            <result column="postlike_no" property="post_no"/>
+            <result column="postlike_user_no" property="user_no"/>
+            <result column="postlike_rdate" property="rdate"/>
+        </association>
+        <association property="post_saveVO" javaType="kr.co.photostagram.vo.Post_saveVO">
+            <result column="postSave_user" property="user_no"/>
+        </association>
+        <collection property="imageVO" ofType="kr.co.photostagram.vo.ImageVO">
+            <result column="thumb" property="thumb"/>
+            <result column="post_no" property="post_no"/>
+        </collection>
+        <collection property="hashTagVO" ofType="kr.co.photostagram.vo.HashTagVO">
+            <result column="hash_no" property="no"/>
+            <result column="hashtag" property="hashtag"/>
+        </collection>
+
+    </resultMap>
+
+    <resultMap id="selectCommentResultMap" type="kr.co.photostagram.vo.CommentVO">
+        <id column="no" property="no"/>
+        <result column="comment" property="comment"/>
+        <result column="post_no" property="post_no"/>
+        <result column="commentUser" property="user_no"/>
+        <result column="parent" property="parent"/>
+        <result column="commentRdate" property="rdate"/>
+        <result column="username" property="username"/>
+        <result column="profileImg" property="profileImg"/>
+
+        <collection property="memberVO" ofType="kr.co.photostagram.vo.MemberVO">
+            <result column="username" property="username"/>
+            <result column="profileImg" property="profileImg"/>
+        </collection>
+        <collection property="comment_likeVO" ofType="kr.co.photostagram.vo.Comment_likeVO">
+            <id column="no" property="no"/>
+            <result column="commentLikeUser" property="user_no"/>
+            <result column="comment_no" property="comment_no"/>
+            <result column="commentLikeRdate" property="rdate"/>
+        </collection>
+    </resultMap>
+
+</mapper>

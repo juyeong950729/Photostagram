@@ -1,0 +1,72 @@
+<script th:src="@{/js/searchId.js}"></script>
+<script th:src="@{/js/member.js}"></script>
+<div class="form-container">
+    <div class="form-content box">
+        <div class="id-logo">
+            <img th:src="@{/img/id.png}" alt="Id logo" class="logo-light">
+        </div>
+        <div class="signin-form-reg" id="signin-form">
+            <div class="checkId">
+                <p>아이디 찾기</p>
+            </div>
+            <div class="emailDiv">
+                <div class="form-group">
+                    <div class="animate-input">
+                        <span class="in-out">
+                            성명 입력
+                        </span>
+                        <input type="text" name="chkName" class="checkId name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="animate-input">
+                        <span class="in-out">
+                            이메일 입력
+                        </span>
+                        <input type="text" name="chkEmail" class="checkId email">
+                    </div>
+                </div>
+                <div class="checking">
+                    <div class="check-txt nEx">존재하지 않는 회원입니다.</div>
+                    <div class="check-txt email">이메일 형식이 올바르지않습니다.</div>
+                    <div class="check-txt name">이름 형식이 올바르지않습니다.</div>
+                    <div class="check-txt nName">이름을 입력하여주세요.</div>
+                    <div class="check-txt nEmail">이메일을 입력하여주세요.</div>
+                </div>
+                <div class="code">
+                    <button type="submit" class="btn-code" id="checkIdCode">
+                        코드 보내기
+                    </button>
+                </div>
+            </div>
+            <div class="codeDiv">
+                <div class="email-input">
+                    <input type="text" placeholder="인증코드" name="inputCode">
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn-login" id="checkId-next">
+                        다음
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box goto">
+        <p>
+            계정이 있으신가요?
+            <a th:href="@{/member/login}">로그인</a>
+        </p>
+    </div>
+
+    <div class="app-download">
+        <p>앱을 다운로드 하세요.</p>
+        <div class="store-link">
+            <a href="#">
+                <img th:src="@{/img/appDownload.png}" alt="app store">
+            </a>
+            <a href="#">
+                <img th:src="@{/img/googlePlay.png}" alt="google play">
+            </a>
+        </div>
+    </div>
+</div>

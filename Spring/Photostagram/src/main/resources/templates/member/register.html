@@ -1,0 +1,103 @@
+<script th:src="@{/js/register.js}"></script>
+<script th:src="@{/js/member.js}"></script>
+<div class="form-container">
+    <div class="form-content box">
+        <div class="logo">
+            <img th:src="@{/img/logo_light.png}" alt="Instagram logo" class="logo-light">
+            <img th:src="@{/img/logo_dark.png}" alt="Instagram logo" class="logo-dark">
+        </div>
+        <div class="signin-form-reg" id="signin-form">
+            <div class="btn-group">
+            <p>친구들의 사진과 동영상을 보려면 가입하세요.</p>
+            <button class="btn-fb">
+                <img th:src="@{/img/facebook-icon.png}" alt="">
+                <span>Facebook으로 로그인</span>
+            </button>
+            </div>
+            <div class="divine">
+            <div></div>
+            <div>또는</div>
+            <div></div>
+            </div>
+            <form action="#" method="post">
+                <div class="form-group">
+                    <div class="animate-input">
+                        <span class="in-out">
+                            아이디 입력
+                        </span>
+                        <input type="text" name="username" class="able" id="userName">
+                        <span class="chkImg">
+                            <img class="result-img id result-check" th:src="@{/img/check-button.png}">
+                            <img class="result-img id result-delete" th:src="@{/img/delete-button.png}">
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="animate-input">
+                        <span class="in-out">
+                            성명
+                        </span>
+                        <input type="text" name="name">
+                        <span class="chkImg">
+                            <img class="result-img name result-check" th:src="@{/img/check-button.png}">
+                            <img class="result-img name result-delete" th:src="@{/img/delete-button.png}">
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="animate-input">
+                        <span class="in-out">
+                            이메일 입력
+                        </span>
+                        <input type="text" name="email" class="able">
+                        <span class="chkImg">
+                            <img class="result-img eml result-check" th:src="@{/img/check-button.png}">
+                            <img class="result-img eml result-delete" th:src="@{/img/delete-button.png}">
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="animate-input">
+                        <span class="in-out">
+                            비밀번호
+                        </span>
+                        <input type="password" name="password" class="able">
+                        <button type="button" class="passView">비밀번호 표시</button>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn-login" id="register-next" disabled>
+                        다음
+                    </button>
+                </div>
+                <div class="checking">
+                    <div class="result-txt unId">사용할 수 없는 아이디입니다.</br>5자 이상, 영문자와 숫자가 포함되어야합니다.</div>
+                    <div class="result-txt exId">이미 가입되어있는 아이디입니다.</br>다른 아이디를 사용하세요.</div>
+                    <div class="result-txt name">이름이 올바르지 않습니다.</br>한글만 입력, 2자 ~ 15자 사이</div>
+                    <div class="result-txt unEmail">이메일 형식이 올바르지 않습니다.</div>
+                    <div class="result-txt exEmail">이미 존재하는 이메일입니다.</br>다른 이메일을 사용하세요.</div>
+                    <div class="result-txt pass">이 비밀번호는 추측하기가 너무 쉽습니다.</br>다른 비밀번호를 사용하세요.</br>8자 이상, 영문, 숫자, 특수문자 조합</div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="box goto">
+        <p>
+            계정이 있으신가요?
+            <a th:href="@{/member/login}">로그인</a>
+        </p>
+    </div>
+    <div class="app-download">
+        <p>앱을 다운로드 하세요.</p>
+        <div class="store-link">
+            <a href="#">
+                <img th:src="@{/img/appDownload.png}" alt="app store">
+            </a>
+            <a href="#">
+                <img th:src="@{/img/googlePlay.png}" alt="google play">
+            </a>
+        </div>
+    </div>
+
+</div>
+

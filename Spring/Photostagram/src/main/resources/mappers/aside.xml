@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.photostagram.dao.MainDAO">
+    <!--게시글 업로드-->
+    <insert id="insertPost" useGeneratedKeys="true" keyColumn="no" keyProperty="no" parameterType="kr.co.photostagram.vo.PostVO">
+        insert into `post` set `content`=#{content}, `user_no`=#{user_no}, `rdate`=NOW();
+    </insert>
+    <!--이미지 업로드-->
+    <insert id="insertImage">
+        insert into `image` set `thumb`=#{thumb}, `post_no`=#{post_no};
+    </insert>
+    <!--해시태그 존재여부 확인-->
+    <select id="findTagByContent" resultType="int">
+        select count(`no`) from `hashtag` where `hashtag`=#{hashtag};
+    </select>
+    <!--해시태그 추가-->
+    <insert id="saveTag" useGeneratedKeys="true" keyColumn="no" keyProperty="no" parameterType="kr.co.photostagram.vo.HashTagVO">
+        insert into `hashtag` set `hashtag`=#{hashtag};
+    </insert>
+    <!--해시태그 번호 조회-->
+    <select id="selectHashTagNo" resultType="int">
+        select `no` from `hashtag` where `hashtag`=#{hashtag};
+    </select>
+    <!--태그-포스트 매핑 테이블 추가-->
+    <insert id="saveTagAndPost">
+        insert into `post_hashtag` set `hashtag_no`=#{hashtag_no}, `post_no`=#{post_no};
+    </insert>
+    <!--검색(해시태그)-->
+    <select id="selectHashTag" resultType="kr.co.photostagram.vo.HashTagVO">
+        SELECT * FROM `hashtag` WHERE `hashtag` LIKE CONCAT(#{searchItem},'%');
+    </select>
+    <select id="selectCountHashTag" resultType="int">
+        select count(`post_no`) from `post_hashtag` where `hashtag_no`=#{hashtag_no};
+    </select>
+    <!--검색(유저)-->
+    <select id="selectUser" resultType="kr.co.photostagram.vo.MemberVO">
+        SELECT * FROM `user` WHERE `username` LIKE CONCAT(#{searchItem},'%');
+    </select>
+    <!--검색(검색기록 삽입)-->
+    <select id="selectSearchResult" resultType="int">
+        select count(`no`) from `searchList` where `user_no`=#{user_no} and `cate`=#{cate} and `searchResult`=#{searchResult};
+    </select>
+    <insert id="insertSearchItem">
+        insert into `searchList` set
+        `user_no`=#{user_no},
+        `searchItem`=#{searchItem},
+        `rdate`=NOW(),
+        `cate`=#{cate},
+        `searchResult`=#{searchResult};
+    </insert>
+    <!--검색기록 요청-->
+    <select id="selectSearchItemRecentUser" resultType="kr.co.photostagram.vo.SearchListVO">
+        SELECT a.*, b.username, b.profileImg, b.profileText, c.hashtag
+        FROM `searchList` AS a
+        left JOIN `user` AS b ON a.searchResult=b.`no`
+        left JOIN `hashtag` AS c ON a.searchResult=c.`no`
+        WHERE `user_no`=#{user_no}
+        ORDER BY `rdate` DESC;
+    </select>
+    <!--검색기록 삭제-->
+    <delete id="deleteSearch">
+        delete from `searchList` where `no`=#{no};
+    </delete>
+    <!--검색기록 모두 삭제-->
+    <delete id="deleteSearchAll">
+        delete from `searchList` where `user_no`=#{user_no};
+    </delete>
+    <!--알림 조회-->
+    <select id="selectNotices" resultType="kr.co.photostagram.vo.NoticeVO">
+        (SELECT
+        t2.`post_no` AS content_no,
+        t1.`user_no` AS user_no,
+        t2.user_no AS my_no,
+        t2.`comment` AS content,
+        t1.`rdate` AS rdate,
+        t3.`username` AS username,
+        t3.`profileImg` AS profileImg,
+        t5.thumb AS thumb,
+        '1' AS type
+        FROM `comment_like` AS t1
+        JOIN `comment` AS t2 ON t1.`comment_no` = t2.`no`
+        JOIN `user`    AS t3 ON t1.`user_no` = t3.`no`
+        JOIN `post` AS t4 ON t2.post_no=t4.`no`
+        JOIN `image` AS t5 ON t4.`no`=t5.post_no
+        WHERE t2.user_no=#{user_no}
+        AND t1.rdate > DATE_SUB(NOW(), INTERVAL 6 MONTH)
+        GROUP BY content_no
+        )
+        UNION ALL
+        (SELECT
+        t1.`post_no` AS content_no,
+        t1.`user_no` AS user_no,
+        t2.user_no AS my_no,
+        t2.`content` AS content,
+        t1.`rdate` AS rdate,
+        t3.`username` AS username,
+        t3.`profileImg` AS profileImg,
+        t4.thumb AS thumb,
+        '2' AS type
+        FROM `post_like` AS t1
+        JOIN `post` AS t2 ON t1.`post_no` = t2.`no`
+        JOIN `user` AS t3 ON t1.`user_no` = t3.`no`
+        JOIN `image` AS t4 ON t2.`no`=t4.post_no
+        WHERE t2.user_no=#{user_no}
+        AND t1.rdate > DATE_SUB(NOW(), INTERVAL 6 MONTH)
+        GROUP BY content_no
+        )
+        UNION ALL
+        (SELECT
+        NULL AS content_no,
+        `follower` AS user_no,
+        `following` AS my_no,
+        NULL AS content,
+        t1.`rdate` AS rdate,
+        t2.`username` AS username,
+        t2.`profileImg` AS profileImg,
+        NULL AS thumb,
+        '3' AS type
+        FROM `follow` AS t1
+        JOIN `user`   AS t2 ON t1.`follower` = t2.`no`
+        WHERE `following`=#{user_no}
+        AND t1.rdate > DATE_SUB(NOW(), INTERVAL 6 MONTH)
+        )
+        UNION ALL
+        (SELECT
+        t2.`no` AS content_no,
+        t1.`user_no` AS user_no,
+        t2.`user_no` AS my_no,
+        t1.`comment` AS content,
+        t1.`rdate` AS rdate,
+        t3.`username` AS username,
+        t3.`profileImg` AS profileImg,
+        t4.thumb AS thumb,
+        '4' AS type
+        FROM `comment` AS t1
+        JOIN `post` AS t2 ON t1.`post_no`=t2.`no`
+        JOIN `user` AS t3 ON t3.`no`=t1.user_no
+        JOIN `image` AS t4 ON t2.`no`=t4.post_no
+        WHERE t2.`user_no`=#{user_no}
+        AND t1.rdate > DATE_SUB(NOW(), INTERVAL 6 MONTH)
+        GROUP BY content_no
+        )
+        ORDER BY rdate DESC;
+    </select>
+    <!--알림창에서 팔로우 팔로잉 상태값구하기-->
+    <select id="selectFollowingStatus" resultType="int">
+        SELECT COUNT(`no`) FROM `follow` WHERE `follower`=#{my_no} AND `following`=#{user_no};
+    </select>
+    <!--팔로잉-->
+    <insert id="insertFollow">
+        insert into `follow` set `follower`=#{my_no}, `following`=#{user_no}, `rdate`=NOW();
+    </insert>
+    <!--팔로잉 취소-->
+    <delete id="deleteFollow">
+        delete from `follow` where `follower`=#{my_no} and `following`=#{user_no};
+    </delete>
+    <!--태그 유저 검색-->
+    <select id="selectTagUsers" resultType="kr.co.photostagram.vo.MemberVO">
+        select * from `user` where `username` like CONCAT(#{search},'%');
+    </select>
+    <!--태그 유저 삽입-->
+    <insert id="insertTagUser">
+        insert into `post_usertag` set `post_no`=#{post_no}, `tag_user_no`=#{tag_no}, `top`=#{top}, `left`=#{left}, `page`=#{page};
+    </insert>
+</mapper>

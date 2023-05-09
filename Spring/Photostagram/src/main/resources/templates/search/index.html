@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/searchLayout}">
+<th:block layout:fragment="main">
+    <div id="hash">
+        <section>
+            <div class="myProfile">
+                <div class="proPhoto">
+                    <div>
+                        <th:block th:if="${#strings.endsWith(postLikeList[0].imageVO[0].thumb, '.mp4')} == true">
+                            <video th:src="|@{/}thumb/${postLikeList[0].imageVO[0].thumb}" class="addProf"></video>
+                        </th:block>
+                        <th:block th:unless="${#strings.endsWith(postLikeList[0].imageVO[0].thumb, '.mp4')} == true">
+                            <img th:src="@{/thumb/{img}(img=${postLikeList[0].imageVO[0].thumb})}" alt="profile" class="addProf"/>
+                        </th:block>
+                    </div>
+                </div>
+                <div class="detail">
+                    <div class="pTop">
+                        <div class="userName">#[[${hashtagName}]]</div>
+                    </div>
+                    <ul class="pMiddle">
+                        <li>
+                            게시물<span>[[${countHashTag}]]</span>개
+                        </li>
+                    </ul>
+                    <th:block th:if="${result} > 0">
+                        <input type="button" class="followBtn" value="팔로우" style="display: none;">
+                        <input type="button" class="unFollowBtn" value="팔로잉">
+                    </th:block>
+                    <th:block th:unless="${result} > 0">
+                        <input type="button" class="followBtn" value="팔로우">
+                        <input type="button" class="unFollowBtn" value="팔로잉" style="display: none;">
+                    </th:block>
+                </div>
+            </div>
+
+            <div class="myNav">
+                <div>인기 게시물</div>
+            </div>
+            <div class="myList">
+                <th:block th:if="${#lists.isEmpty(postLikeList)}">
+                    <div class="pic">
+                        인기 게시물이 없습니다.
+                    </div>
+                </th:block>
+                <th:block th:unless="${#lists.isEmpty(postLikeList)}" th:each="like:${postLikeList}">
+                    <div class="pic">
+                        <a th:href="@{/board/post(no=${like.no})}">
+                            <th:block th:if="${#strings.endsWith(like.imageVO[0].thumb, '.mp4')} == true">
+                                <video th:src="|@{/}thumb/${like.imageVO[0].thumb}"></video>
+                            </th:block>
+                            <th:block th:unless="${#strings.endsWith(like.imageVO[0].thumb, '.mp4')} == true">
+                                <img th:src="@{/thumb/{img}(img=${like.imageVO[0].thumb})}">
+                            </th:block>
+                        </a>
+                    </div>
+                </th:block>
+            </div>
+
+            <div class="myNav">
+                <div>최근 사진</div>
+            </div>
+            <div class="myList">
+                <th:block th:if="${#lists.isEmpty(posts)}">
+                    <div class="pic">
+                        게시물이 없습니다.
+                    </div>
+                </th:block>
+                <th:block th:unless="${#lists.isEmpty(posts)}" th:each="post:${posts}">
+                    <div class="pic">
+                        <a th:href="@{/board/post(no=${post.no})}">
+                            <th:block th:if="${#strings.endsWith(post.imageVO[0].thumb, '.mp4')} == true">
+                                <video height="300" width="300" th:src="|@{/}thumb/${post.imageVO[0].thumb}"></video>
+                            </th:block>
+                            <th:block th:unless="${#strings.endsWith(post.imageVO[0].thumb, '.mp4')} == true">
+                                <img th:src="@{/thumb/{img}(img=${post.imageVO[0].thumb})}">
+                            </th:block>
+                        </a>
+                    </div>
+                </th:block>
+            </div>
+        </section>
+    </div>
+</th:block>
+</html>
+<script>
+$(function(){
+    $('.followBtn').on('click', function(e){
+        e.preventDefault();
+
+        let location = window.location.href;
+        console.log(location);
+
+        const url = new URL(location);
+        const urlParams = url.searchParams;
+        console.log(url);
+        console.log(urlParams.get('no'));
+
+        let no = urlParams.get('no');
+        let tag = $(this);
+        console.log(no);
+
+        $.ajax({
+            url: '/Photostagram/profile/followHashTag',
+            type: 'post',
+            dataType: 'json',
+            data: {'tagNo':no, 'type':'insert'},
+            success: function(data){
+                if (data.result > 0) {
+                    tag.hide();
+                    tag.next().show();
+                }
+            }
+        });
+    });
+
+    $('.unFollowBtn').on('click', function(e){
+        e.preventDefault();
+
+        let location = window.location.href;
+        const url = new URL(location);
+        const urlParams = url.searchParams;
+
+        let no = urlParams.get('no');
+        let tag = $(this);
+
+        $.ajax({
+            url: '/Photostagram/profile/followHashTag',
+            type: 'post',
+            dataType: 'json',
+            data: {'tagNo':no, 'type':'delete'},
+            success: function(data){
+                if (data.result > 0) {
+                    tag.hide();
+                    tag.prev().show();
+                }
+            }
+        });
+    });
+});
+</script>
+
+

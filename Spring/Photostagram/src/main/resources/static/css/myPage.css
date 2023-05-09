@@ -1,0 +1,461 @@
+
+    /*** 공통 ***/
+
+  * {
+    margin: 0;
+    padding: 0;
+    font: normal 12px 'Arial';
+    }
+
+    ul, ol {list-style: none;}
+    a {text-decoration: none; color: #111;}
+    input, textarea {outline: none;}
+
+    #myPage {
+        float: left;
+        width: 1200px;
+        display: block;
+        margin-left: 500px;
+        margin-top: 50px;
+    }
+
+    .mySortTitle {font-size: 18px; font-weight: bold; width: 75px; float: left; line-height: 40px;}
+    .mySort {float: left; border:1px solid #e9e9e9; width: 130px; font-size: 15px; line-height: 30px; text-align: center; font-weight : bold;}
+    .mySortSelect {
+        color: #32a4ff;
+        float: right;
+        margin-right: 50px;
+        margin-top: 10px;
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    /*** interaction ***/
+
+    #myPage > #myActivity {
+        float: left;
+        width: 800px;
+        height: 600px;
+        border: 1px solid #e9e9e9;
+        background: white;
+        margin-bottom: 100px;
+    }
+    #myActivity > div {
+       position: relative;
+    }
+    /***
+    #pro > section > .myProfile > .proPhoto > div {width: 150px; height: 150px; border-radius: 70%; overflow: hidden;}
+    #pro > section > .myProfile > .proPhoto > div > img {width: 100%; height: 100%; object-fit: cover;}
+    ***/
+    #myActivity > div > div > img {width: 100%; height: 100%; object-fit: cover;}
+    #myActivity > div > div {display: inline-block;}
+    #myActivity > div > div > span {float: left; font-size: 18px;}
+    #myActivity > form {
+       margin-left: 100px;
+       border-collapse: collapse;
+       margin-top: 100px;
+    }
+    #myActivity > form > table > tbody > tr {position: relative;}
+    #myActivity > form > table > tbody > tr > td:nth-child(1) {width: 150px; text-align:right;}
+    #myActivity > form > table > tbody > tr > td:nth-child(2) {padding: 15px;}
+    #myActivity > form > table > tbody > tr > td:nth-child(2) > input {width: 350px; height: 35px; border: 1px solid #dcdcdc; font-size: 15px;}
+    #myActivity > form > table > tbody > tr > td:nth-child(2) > textarea {width: 350px; height: 50px; border: 1px solid #dcdcdc; font-size: 15px; resize: none;}
+    #myActivity > form > table > tbody > tr > td:nth-child(2) > #check {width: 15px; height: 15px;}
+    #myActivity > form > table > tbody > tr > #private {color: #808080; font-size: 12px; width: 350px;}
+    #myActivity > form > table > tbody > tr > td:nth-child(1) > span {font-weight: bold; font-size: 17px;}
+    #myActivity > form > table > tbody > tr > td:nth-child(2) > span {display: block; color: #808080; width: 350px; font-size: 12px; margin-top: 10px;}
+    #myActivity > form > table > tbody > tr:nth-child(1) > td:nth-child(1) {position:relative; display: block; top: 20px;}
+    #myActivity > form > table > tbody > tr:nth-child(4) > td:nth-child(1) {position:relative; display: block; top: 20px;}
+    #myActivity > form > table > tbody > tr:nth-child(9) > td:nth-child(2) > span {float: left;}
+    #myActivity > form > table > tbody > tr:nth-child(9) > td:nth-child(2) {display: block;}
+    #myActivity > a {margin-left:500px; font-weight: bold; color: #32a4ff; padding: 10px; font-size: 14px;}
+
+    #mySelect {
+        width: 200px;
+        height: 600px;
+        float: left;
+        border: 1px solid #e9e9e9;
+        background: white;
+    }
+
+    #mySelect > div:nth-child(1) {
+      line-height: 50px;
+      font-size: 16px;
+      margin-left: 10px;
+      font-weight: bold;
+    }
+
+    #mySelect > div:nth-child(2) {border-top: 1px solid #e9e9e9;}
+    #mySelect > .selectMenu {height: 100px; margin-bottom: 10px;}
+
+    #mySelect > div > a {
+        /* width: 100%; */
+        font-size: 15px;
+        line-height: 50px;
+        /* text-align: center; */
+        /* margin-left: 10px; */
+        height: 100%;
+        display: block;
+        text-align: left;
+    }
+
+    #mySelect > div:hover:not(.currentMenu, div:nth-child(1)) {cursor: pointer; background: #fafafa; border-left: 2px solid #a4a4a4;}
+    #mySelect > .currentMenu {border-left: 2px solid black;}
+    #mySelect > div > .currentSet {font-weight: bold;}
+
+    #myActivity > div:nth-child(1) {height: 50px; border-bottom: 1px solid #e9e9e9;}
+    #myActivity > div:nth-child(2) {
+        overflow-y: scroll;
+        height: 550px;
+        overflow-x: hidden;
+    }
+
+    #myActivity > div > a {
+      font-weight: bold;
+      margin-left: 250px;
+      font-size: 14px;
+      line-height: 50px;
+    }
+
+
+
+    /*** history ***/
+
+    #myHistory > div {
+       position: relative;
+    }
+
+    #myPage > #myHistory {
+        float: left;
+        width: 800px;
+        height: 600px;
+        border: 1px solid #e9e9e9;
+        background: white;
+        margin-bottom: 100px;
+        overflow: scroll;
+    }
+
+    .historyTop {text-align: center; font-size: 14px; margin-top: 20px;}
+    .historyTop > span {font-weight: bold; font-size: 14px;}
+
+    .historyContents {margin: 20px;}
+    .historyContents > div:nth-child(1) {height: 40px;}
+    .historyContents > div:nth-child(2) {}
+    .historyBox {margin-top: 15px; border-top: 1px solid #e9e9e9;}
+    .historyBox > h3 {font-size: 14px; font-weight: bold; margin-bottom: 20px; margin-top: 20px;}
+    .historyBox > ul > li {margin: 10px; height: 50px;}
+    .historyBox > ul > li > img {line-height: 50px;}
+    .historyBox > ul > li > img:nth-child(1) {float: left; width: 25px;}
+    .historyBox > ul > li > img:nth-of-type(2) {float: right; width: 10px;}
+    .historyBox > ul > li > div {float: left; margin-left: 20px; line-height: 50px;}
+    .historyBox > ul > li > div > div:nth-child(1) {font-size: 16px;}
+    .historyBox > ul > li > div > div:nth-child(2) {font-size: 14px; color: #888;}
+
+    #mySelect > div > a > i {margin-top: 25px; margin-left: 10px; float:left; margin-right: 20px;}
+    #mySelect > div > a > p {margin-left: 50px; text-align: left; color: #888;}
+
+    .activityTop {width: 100%; height: 40px; margin-left: 20px; margin-top:5px; float: left; position: relative;}
+    .activityContents {margin-top: 20px; margin-left: 20px;}
+    .activityContents > a {margin: 10px; float: left; width:125px; height:125px;}
+
+    .activityContents > a > img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+    }
+    .activityContents > a > video {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+    }
+
+    .activityContents > a > input[type="checkbox"] + label {
+        top: -30px;
+        left: 100px;
+     }
+     .activityContents > a > input[type="checkbox"]:checked + label {
+        top: -30px;
+        left: 100px;
+     }
+
+    .replyContent > input[type="checkbox"] + label {
+        float: right;
+        right: 25px;
+        vertical-align: middle;
+        top: -30px;
+    }
+    .replyContent > input[type="checkbox"]:checked + label {
+        float: right;
+        right: 25px;
+        vertical-align: middle;
+        top: -30px;
+    }
+
+
+    input[type="checkbox"] {display: none;}
+    input[type="checkbox"] + label {
+        width: 20px;
+        height: 20px;
+        position: relative;
+        border-radius: 70%;
+        background-image: url("../img/check_none.png");
+        background-size: cover;
+    }
+    input[type="checkbox"]:checked + label {
+        font-size: 18px;
+        text-align: center;
+        position: relative;
+        border-radius: 70%;
+        background-image: url("../img/check_click.png");
+        background-size: cover;
+    }
+
+    .activityBox {
+        margin-bottom : 20px;
+    }
+
+    .activityBox > .oriContent {
+        display: block;
+        width: 750px;
+        height: 60px;
+    }
+    .activityBox > .oriContent > div {float: left;}
+    .activityBox > .oriContent > div:nth-child(1) {
+        width: 50px;
+        height: 50px;
+        border-radius: 70%;
+        overflow: hidden;
+    }
+    .activityBox > .oriContent > div:nth-child(2) {
+        margin-left: 10px;
+        width: 600px;
+        display: inline-block;
+
+    }
+    .activityBox > .oriContent > div > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .activityBox > .oriContent > div > h3 {
+        font-size: 14px;
+        text-overflow: ellipsis;
+        max-height: 55px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
+    }
+    .activityBox > .oriContent > div > h3 > p {
+        font-size: 14px;
+        display: inline-block;
+        font-weight: bold;
+    }
+    .activityBox > .oriContent > img {
+        float: right;
+        width: 55px;
+        height: 55px;
+    }
+    .activityBox > .oriContent > video {
+        float: right;
+        width: 55px;
+        height: 55px;
+    }
+    .activityBox > .oriContent > span {
+        display: block;
+        color: #888;
+        margin-left: 60px;
+    }
+    .activityBox > .replyContent {
+        margin-left: 60px;
+        margin-top: 10px;
+    }
+    .activityBox > .replyContent > div {float: left;}
+
+    .activityBox > .replyContent > div:nth-child(1) {
+       width: 40px;
+       height: 40px;
+       border-radius: 70%;
+       overflow: hidden;
+    }
+    .activityBox > .replyContent > div:nth-child(2) {
+        margin-left: 10px;
+        width: 550px;
+        display: inline-block;
+
+    }
+    .activityBox > .replyContent > div > img {
+        width: 100%;
+        height: 100%;
+    }
+    .activityBox > .replyContent > div > h3 {
+        font-size: 14px;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
+    }
+    .activityBox > .replyContent > div > h3 > p {
+       font-size: 14px;
+       display: inline-block;
+       font-weight: bold;
+    }
+    .activityBox > .replyContent > span {
+        display: block;
+        color: #888;
+        margin-left: 50px;
+    }
+
+    .myCheckOn {display: block;}
+    .myCheckOff {display: none;}
+    .activityPop {
+        top: -30px;
+        width: 100%;
+        height: 30px;
+        background-color: white;
+        border-top: 1px solid #e9e9e9;
+        border-bottom: 1px solid #e9e9e9;
+    }
+    .activityPop > span {
+        float: left;
+        display: block;
+        width: 15px;
+        font-size: 15px;
+        /* font-weight: bold; */
+        margin-left: 10px;
+        line-height: 30px;
+    }
+    .activityPop > h1 {
+       float: left;
+       display: block;
+       width: 100px;
+       font-size: 16px;
+       margin-left: 15px;
+       line-height: 30px;
+    }
+    .activityPop > h1 > span {font-size: 16px; font-weight: bold; line-height: 30px;}
+    .activityPop > button {
+        float: right;
+        border:none;
+        background: none;
+        font-size: 15px;
+        color: red;
+        margin-right: 20px;
+        line-height: 30px;
+    }
+    .moreRe {
+        font-size: 14px;
+        top: 10px;
+        position: relative;
+        right: 35px;
+    }
+
+    .myModalClass {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-color: rgba(0,0,0,0.4);
+        -ms-overflow-style: none;
+      }
+      .myModalClass::-webkit-scrollbar {display: none;}
+
+      .myModalContents {
+        background-color: #fefefe;
+        margin: 15% auto;
+        border: 1px solid #888;
+        width: 400px;
+        border-radius: 10px;
+        height: 400px;
+        display: block;
+      }
+
+      .myModalContents > #myModalTop {
+        width: 397px;
+        position: relative;
+        text-align: center;
+        height: 50px;
+        border-bottom: 1px solid #e9e9e9;
+        line-height: 50px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .myModalContents > #myModalMiddle {
+        height: 290px;
+        display: block;
+      }
+      .myModalContents > #myModalMiddle > div {height: 80px;}
+
+      .myModalContents > #myModalMiddle > div > h2 {
+        font-size: 16px;
+        color: #888;
+        margin-left: 10px;
+        margin-top: 10px;
+      }
+      .myModalContents > #myModalMiddle > div > div {
+        float: left;
+        border-radius: 10px;
+        background: #f2f2f2;
+        margin-top: 10px;
+        width: 70px;
+        height: 40px;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 40px;
+        margin-left: 20px;
+      }
+      .myModalContents > #myModalMiddle > div > div:hover {cursor: pointer;}
+      .myModalContents > #myModalMiddle > div > .buttonOn {
+        background: #e5f0f9;
+        color: #4b9ae4;
+      }
+
+      .myModalContents > #myModalBottom {
+        border-top: 1px solid #e9e9e9;
+        width: 397px;
+        height: 50px;
+      }
+
+      .myModalContents > #myModalBottom > button {
+        width: 300px;
+        height: 30px;
+        background: #32a4ff;
+        color: white;
+        margin-left: 50px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 10px;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 15px;
+      }
+
+      .myModalClose {
+        color: #aaa;
+        float: left;
+        font-size: 40px;
+        margin-left: 10px;
+        margin-top: 5px;
+      }
+
+      #myModalMiddle > div > select {
+        margin-left: 20px;
+        margin-top: 10px;
+        height: 35px;
+        width: 60px;
+        border: 1px solid #e9e9e9;
+        color: #888;
+      }
+
+      .myTimeStamp {width: 75px;}
+
+      #myActivity > h1 {}
+      #myActivity > h2 {}
+
+      #myHistory > .historyContents > div > div > ul > li > div > div > span:nth-child(1) {font-size: 15px; font-weight: bold;}

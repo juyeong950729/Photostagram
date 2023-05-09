@@ -1,0 +1,311 @@
+.modalPost {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(1.5px);
+    -webkit-backdrop-filter: blur(1.5px);
+    z-index: 16;
+}
+
+.modal_post_window {
+    background: white;
+    backdrop-filter: blur(13.5px);
+    -webkit-backdrop-filter: blur(13.5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    width: 295px;
+    height: 144px;
+    position: relative;
+}
+
+.modal_post_title{
+    display: block;
+    flex-direction: row;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+}
+
+.modal_postDelete{
+    width:290px;
+    height:48px;
+    border-bottom:1px solid gray;
+    text-align:center;
+}
+
+.modal_postDelete > span{
+    color:#ed4956;
+    line-height:48px;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.modal_postModify{
+    width:290px;
+    height:48px;
+    border-bottom:1px solid gray;
+    text-align:center;
+}
+
+.modal_postModify > span{
+    color:blue;
+    font-size:14px;
+    line-height:48px;
+}
+
+.modal_postCancel{
+    width:290px;
+    height:48px;
+    text-align:center;
+}
+
+.modal_postCancel > span{
+    color:black;
+    font-size:14px;
+    line-height:48px;
+}
+
+/*삭제버튼클릭시 확인창*/
+
+.modal_post_window_delete {
+    background: white;
+    backdrop-filter: blur(13.5px);
+    -webkit-backdrop-filter: blur(13.5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    width: 400px;
+    height: 202px;
+    position: relative;
+}
+
+.confirm_delete {
+    height:106px;
+    width:400px;
+    text-align:center;
+    border-bottom:1px solid #737373;
+    display:block;
+}
+
+.post_delete{
+    width:400px;
+    height:48px;
+    text-align:center;
+    border-bottom:1px solid #737373;
+}
+
+.post_delete_cancel{
+    width:400px;
+    height:48px;
+    text-align:center;
+}
+
+.confirm_delete > span:nth-child(1){
+    color:#000000;
+    font-size:20px;
+    position: absolute;
+    top: 25px;
+    left: 26%;
+}
+
+.confirm_delete > span:nth-child(2){
+    color:#737373;
+    font-size:14px;
+    position: absolute;
+    top: 55px;
+    left: 27%;
+}
+
+.post_delete > span{
+    color:#ed4956;
+    line-height:48px;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.post_delete_cancel > span{
+    color:#000000;
+    line-height:48px;
+    font-size:14px;
+}
+
+/*수정버튼 클릭시 수정창*/
+.modal_postModify_window{
+    background: white;
+    backdrop-filter: blur(13.5px);
+    -webkit-backdrop-filter: blur(13.5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    width: 800px;
+    height: 600px;
+    position: relative;
+}
+.modal_postModify_title{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+}
+
+.modal_postModify_title > div:nth-child(2){
+   font-weight: bold;
+   font-size: 20px;
+   margin-top: 5px;
+ }
+
+.modal_title_side_post_cancel{
+    margin: 8px;
+    flex: 0 0 40px;
+    text-align: center;
+    font-size:14px;
+}
+
+.modal_title_side_post_modify{
+    margin: 8px;
+    flex: 0 0 40px;
+    text-align: center;
+    font-size:14px;
+    color:#0095f6;
+}
+
+.modal_image_content_post{
+    display: flex;
+    flex-direction: row;
+}
+.modal_image_upload_content_post{
+    text-align: center;
+    transition: all .15s ease-in-out;
+    width:500px;
+    height: 548px;
+    overflow: visible;
+    position: relative;
+}
+
+#input_image_post > .beforeBtnPost{
+  position: fixed;
+  top: 45%;
+  left: 9px;
+  background: #4e4e4e;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  color:white;
+  border: none;
+  visibility: hidden;
+  cursor:auto;
+  z-index:20;
+}
+#input_image_post > .afterBtnPost{
+  position: fixed;
+  top: 45%;
+  right: 305px;
+  background: #4e4e4e;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  color:white;
+  border: none;
+  visibility: visible;
+  z-index:20;
+}
+
+.feed_content_textarea_post{
+     resize: none;
+     width: 294px;
+     border: none;
+ }
+
+#tooltipArea_post{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.tagModalPost{
+    width:338px;
+    height:226px;
+    z-index:18;
+    background: white;
+    position:absolute;
+    display:none;
+    border-radius:15px;
+    box-shadow:3px 3px 3px 3px #d0d0d0;
+}
+
+.tagModalPost > div:nth-child(1){
+    width: 20px;
+    height: 15px;
+    background: white;
+    transform: rotate(90deg);
+    position: absolute;
+    left: 18px;
+    top: -5px;
+    clip-path: path( 'M8 0C8 4 9.32406e-08 7.819 1.25211e-07 10.5C1.57188e-07 13.1815 8 17.0005 8 21L8 0Z' );
+}
+
+.tagUserListPost{
+    overflow-y:scroll;
+    width:338px;
+    height:180px;
+}
+
+.tagSearchPost {
+    padding:10px 8px;
+    border-bottom:1px solid black;
+    width:338px;
+    height:46px;
+}
+
+.tagSearchPost > div{
+    float:left;
+}
+
+.tagSearchPost > div > input{
+    border: none;
+}
+
+.tagSearchesPost{
+    padding: 5px;
+    display:flex;
+    width:321px;
+    height:62px;
+}
+
+.tagSearchUserPost{
+    display:flex;
+}
+
+.tagSearchUserPost > img{
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    object-fit: cover;
+}
+
+.tagUserInfoPost{
+    padding:8px;
+}
+
+.tagUserInfoPost > div{
+    text-align: left;
+    font-size:14px;
+    color:#000000;
+    font-weight:bold;
+}
+.tagUserInfoPost > span{
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
+    font-size:14px;
+    color:#737373;
+}
+

@@ -1,0 +1,90 @@
+<script th:src="@{/js/register.js}"></script>
+<div class="form-container">
+    <div class="form-content box">
+        <div class="signin-form-reg" id="signin-form">
+            <div class="birth">
+                <p>이용 약관에 동의</p>
+                <div>
+                    Photostagram은 회원님의 개인 정보를 안전하게 보호합<br>니다.
+                    새 계정을 만들려면 모든 약관에 동의하세요.
+                </div>
+            </div>
+            <!-- 이용약관 동의 -->
+
+            <ul class="join_box">
+                <li class="checkBox check01">
+                    <ul class="clearfix" id="clearfix">
+                        <li>
+                            이용약관 3개에 모두 동의
+                        </li>
+                        <li class="checkAllBtn">
+                            <input type="checkbox" class="chkAll" onclick="selectAll(this)">
+                        </li>
+                    </ul>
+                </li>
+                <li class="checkBox check02">
+                    <ul class="clearfix">
+                        <li>
+                            이용약관(필수)<br>
+                            <a href="#">더 알아보기</a>
+                        </li>
+                        <li class="checkAllBtn">
+                            <input type="checkbox" name="check" class="terms">
+                        </li>
+                    </ul>
+                </li>
+                <li class="checkBox check03">
+                    <ul class="clearfix">
+                        <li>
+                            데이터 정책(필수)<br>
+                            <a href="#">더 알아보기</a>
+                        </li>
+                        <li class="checkAllBtn">
+                            <input type="checkbox" name="check" class="data">
+                        </li>
+                    </ul>
+                </li>
+                <li class="checkBox check04">
+                    <ul class="clearfix">
+                        <li>
+                            위치 기반 기능(필수)<br>
+                            <a href="#">더 알아보기</a>
+                        </li>
+                        <li class="checkAllBtn">
+                            <input type="checkbox" name="check" class="locate">
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="btn-group">
+                <button type="submit" class="btn-login" id="terms-signUp">
+                    가입
+                </button>
+            </div>
+
+            <div class="birth">
+                <div>
+                    <a th:href="@{/member/register}">돌아가기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box goto">
+        <p>
+            계정이 있으신가요?
+            <a th:href="@{/member/login}">로그인</a>
+        </p>
+    </div>
+
+    <div class="app-download">
+        <p>앱을 다운로드 하세요.</p>
+        <div class="store-link">
+            <a href="#">
+                <img th:src="@{/img/appDownload.png}" alt="app store">
+            </a>
+            <a href="#">
+                <img th:src="@{/img/googlePlay.png}" alt="google play">
+            </a>
+        </div>
+    </div>
+</div>

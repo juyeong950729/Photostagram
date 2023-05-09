@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <title>Photostagram</title>
+  <link rel="shortcut icon" th:href="@{/img/favicon.png}" type="image/png">
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link
+          rel="stylesheet"
+          href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
+  />
+  <link
+          href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+          rel="stylesheet"
+  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+  <link rel="stylesheet" th:href="@{/css/aside.css}" />
+  <link rel="stylesheet" th:href="@{/css/quest.css}"/>
+  <script th:src="@{/js/aside.js}"></script>
+
+
+</head>
+<body>
+<main>
+  <!--/*** aside ***/-->
+  <th:block th:replace="~{fragments/_aside::asideFragment}"></th:block>
+  <!--/*** 본문 ***/-->
+  <th:block layout:fragment="main"></th:block>
+</main>
+</body>
+<!--/*** aside modal ***/-->
+<th:block th:replace="~{fragments/profile/_modal::modalFragment}"></th:block>
+<th:block layout:fragment="script"></th:block>
+
+</html>

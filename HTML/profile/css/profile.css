@@ -1,0 +1,151 @@
+* {
+    margin: 0;
+    padding: 0;
+    font: normal 'Arial';
+}
+
+ul, ol {list-style: none;}
+a {text-decoration: none; color: #111;}
+input, textarea {outline: none;}
+
+#wrapper {
+    width: 1000px;
+    margin-top:20px;
+}
+#wrapper > section {width: 100%;}
+#wrapper > section > div {display: block;}
+
+#wrapper > section > .myProfile {
+    width: 100%;
+    height: 200px;
+    position: relative; 
+    display: block; 
+    border-bottom: 1px solid #e9e9e9; 
+}
+#wrapper > section > .myProfile > .proPhoto {
+    float: left; 
+    margin-top: 20px; 
+    margin-left:100px; 
+    margin-right:100px; 
+    width: 200px;
+}
+#wrapper > section > .myProfile > .proPhoto > div {width: 150px; height: 150px; border-radius: 70%; overflow: hidden;}
+#wrapper > section > .myProfile > .proPhoto > div > img {width: 100%; height: 100%; object-fit: cover;}
+#wrapper > section > .myProfile > .detail {float:left; width:500px;}
+#wrapper > section > .myProfile > .detail > .pTop {
+    display: block; 
+    margin-top: 30px; 
+    position: relative; 
+    width: auto; 
+    height: 40px;
+}
+#wrapper > section > .myProfile > .detail > .pTop > .userName {
+    float:left; 
+    padding-right:15px; 
+    font-size: 24px;
+}
+#wrapper > section > .myProfile > .detail > .pTop > .button {
+    margin: 2px;
+    padding: 9px 15px;
+    background: #e9e9e9;
+    font-size: 13px;
+    top: 10px;
+    position: inherit;
+}
+#wrapper > section > .myProfile > .detail > .pTop > #follow {
+    background: #32a4ff; 
+    color: aliceblue; 
+    font-weight: bold;
+}
+#wrapper > section > .myProfile > .detail > .pMiddle {
+    display: block; 
+    margin-top: 20px; 
+    width: 500px; 
+    height: 40px; 
+    overflow: hidden;
+}
+#wrapper > section > .myProfile > .detail > .pMiddle > li {
+    box-sizing: border-box; 
+    margin-right:35px; 
+    float: left; 
+    font-size: 16px; 
+    font-weight: bold;
+}
+#wrapper > section > .myProfile > .detail > .pMiddle > li > span {
+    font-size:15px; 
+    width: 100px; 
+    margin-right: 5px;
+}
+#wrapper > section > .myProfile > .detail > .pAbout > .notice {font-size: 15px;}
+
+#wrapper > section > .myNav {
+    padding-top: 30px; 
+    width: 400px; 
+    margin-right: 300px; 
+    margin-left: 300px; 
+    text-align: center;
+}
+#wrapper > section > .myNav > div:nth-child(1) {margin-left: 50px;}
+#wrapper > section > .myNav > div {
+    float: left; 
+    padding-left: 30px; 
+    padding-right: 30px;
+}
+#wrapper > section > .myNav > div > a {color: #888;}
+#wrapper > section > .myNav > div > a:hover {color: #111;}
+
+#wrapper > section > .myList > .pic {
+    float:left; 
+    margin: 5px; 
+    overflow: hidden;
+}
+#wrapper > section > .myList > .pic > a {display: block;} 
+#wrapper > section > .myList > .pic > a > img {max-width: 300px; max-height: 300px;}
+#wrapper > section > .myList {margin-top: 50px;}
+
+  #following {display: none;}
+
+  .fModal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0,0,0,0.4);
+    -ms-overflow-style: none;
+  }
+  .fModal::-webkit-scrollbar {display: none;}
+
+  .fContents {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 400px;
+    border-radius: 10px;
+  }
+
+  .fContents > #fTop {margin-left: 135px; width:55px; position: relative; text-align: center;padding: 20px;}
+  .fContents > #fTop > img {display: inline-block; width: 55px; height: auto; vertical-align: middle;}
+  .fContents > #fTop > span {display: inline-block; width: 55px; height: auto; vertical-align: middle; font-size: 14px; font-weight: bold; margin-top: 5px;}
+  .fContents > #fBottom {border-top: 1px solid #e9e9e9;}
+  .fContents > #fBottom > li {display: block; height: 40px; box-sizing: border-box;}
+  .fContents > #fBottom > li > a {top: 14px; position: relative; float: left; display: block; width: 350px; font-size: 14px; }
+  .fContents > #fBottom > li > a > span {float:left;}
+  .fContents > #fBottom > li > a > i {float: right;}
+
+  .fClose {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+  }
+
+  .fClose:hover,
+  .fClose:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }

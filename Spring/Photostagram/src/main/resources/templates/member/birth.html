@@ -1,0 +1,62 @@
+<script th:src="@{/js/birth.js}"></script>
+<script th:src="@{/js/register.js}"></script>
+<div class="form-container">
+    <div class="form-content box">
+        <div class="birth-logo">
+            <img th:src="@{/img/birthday-cake.png}" alt="Instagram logo" class="logo-light">
+        </div>
+        <div class="signin-form-reg" id="signin-form">
+            <div class="birth">
+                <p>생일 추가</p>
+                <div>
+                    공개프로필에 포함되지 않습니다. <br>
+                    <a href="#">왜 생일 정보를 입력해야하나요?</a>
+                </div>
+            </div>
+            <form th:action="@{/member/birth}" method="post">
+
+                <div class="info" id="info__birth">
+                    <select class="box" name="year" id="select_year" onchange="javascript:lastday();"></select>
+                    <select class="box" name="month" id="select_month" onchange="javascript:lastday();"></select>
+                    <select class="box" name="day" id="select_day" ></select>
+                </div>
+                <div class="birth2">
+                    <div>
+                        태어난 날짜를 입력해야합니다
+                    </div>
+                    <div>
+                        비즈니스나 반려동물 등을 위한 계정인 경우에도 회원님의 생일 정보를 사용하세요
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn-login" id="birth-next">
+                        다음
+                    </button>
+                </div>
+            </form>
+            <div class="birth">
+                <div>
+                    <a th:href="@{/member/register}">돌아가기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box goto">
+        <p>
+            계정이 있으신가요?
+            <a th:href="@{/member/login}">로그인</a>
+        </p>
+    </div>
+
+    <div class="app-download">
+        <p>앱을 다운로드 하세요.</p>
+        <div class="store-link">
+            <a href="#">
+                <img th:src="@{/img/appDownload.png}" alt="app store">
+            </a>
+            <a href="#">
+                <img th:src="@{/img/googlePlay.png}" alt="google play">
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <th:block th:fragment="sideFragment">
+    <div id="mySelect">
+      <div>내 활동</div>
+      <th:block th:switch="${cate}">
+        <th:block th:case="interaction">
+          <div class="selectMenu currentMenu">
+            <a th:href="@{/my/interaction/like}" class="currentSet">
+              <i class="fa-solid fa-arrow-right-arrow-left fa-lg"></i>
+              반응
+              <p>좋아요, 댓글 및 회원님의 기타 반응을 검토하고 삭제합니다.</p>
+            </a>
+          </div>
+          <div class="selectMenu">
+            <a th:href="@{/my/photos/posts}">
+              <i class="fa-solid fa-photo-film fa-lg"></i>
+              사진 및 동영상
+              <p>공유한 사진과 동영상을 보거나 보관하거나 삭제합니다.</p>
+            </a>
+          </div>
+          <div class="selectMenu">
+            <a th:href="@{/my/history}">
+              <i class="fa-regular fa-calendar-days fa-lg"></i>
+              계정 내역
+              <p>공유한 사진과 동영상을 보거나 보관하거나 삭제합니다.</p>
+            </a>
+          </div>
+        </th:block>
+        <th:block th:case="photos">
+          <div class="selectMenu">
+            <a th:href="@{/my/interaction/like}">
+              <i class="fa-solid fa-arrow-right-arrow-left fa-lg"></i>
+              반응
+              <p>좋아요, 댓글 및 회원님의 기타 반응을 검토하고 삭제합니다.</p>
+            </a>
+          </div>
+          <div class="selectMenu currentMenu">
+            <a th:href="@{/my/photos/posts}" class="currentSet">
+              <i class="fa-solid fa-photo-film fa-lg"></i>
+              사진 및 동영상
+              <p>공유한 사진과 동영상을 보거나 보관하거나 삭제합니다.</p>
+            </a>
+          </div>
+          <div class="selectMenu">
+            <a th:href="@{/my/history}">
+              <i class="fa-regular fa-calendar-days fa-lg"></i>
+              계정 내역
+              <p>공유한 사진과 동영상을 보거나 보관하거나 삭제합니다.</p>
+            </a>
+          </div>
+        </th:block>
+        <th:block th:case="history">
+          <div class="selectMenu">
+            <a th:href="@{/my/interaction/like}">
+              <i class="fa-solid fa-arrow-right-arrow-left fa-lg"></i>
+              반응
+              <p>좋아요, 댓글 및 회원님의 기타 반응을 검토하고 삭제합니다.</p>
+            </a>
+          </div>
+          <div class="selectMenu">
+            <a th:href="@{/my/photos/posts}">
+              <i class="fa-solid fa-photo-film fa-lg"></i>
+              사진 및 동영상
+              <p>공유한 사진과 동영상을 보거나 보관하거나 삭제합니다.</p>
+            </a>
+          </div>
+          <div class="selectMenu currentMenu">
+            <a th:href="@{/my/history}" class="currentSet">
+              <i class="fa-regular fa-calendar-days fa-lg"></i>
+              계정 내역
+              <p>계정을 만든 이후 적용한 변경 사항을 검토해보세요.</p>
+            </a>
+          </div>
+        </th:block>
+      </th:block>
+    </div>
+  </th:block>
+</html>

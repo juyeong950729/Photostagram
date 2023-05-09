@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photostagram::register</title>
+    <link rel="shortcut icon" href="./images/favicon.png" type="image/png">
+    <!-- 구글 폰트 -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/member.css">
+</head>
+<!--
+    날짜 : 2023/03/03
+    이름 : 김진우
+    내용 : 회원가입 화면
+-->
+<body>
+<header></header>
+<!-- 본문 시작 -->
+<main class="member">
+    <div class="container">
+        <div class="main-container">
+            <div class="main-content">
+                <div class="form-container">
+                    <div class="form-content box">
+                        <div class="logo">
+                            <img src="./images/logo_light.png" alt="Instagram logo" class="logo-light">
+                            <img src="./images/logo_dark.png" alt="Instagram logo" class="logo-dark">
+                        </div>
+                        <div class="signin-form-reg" id="signin-form">
+                            <div class="btn-group">
+                            <p>친구들의 사진과 동영상을 보려면 가입하세요.</p>
+                            <button class="btn-fb">
+                                <img src="./images/facebook-icon.png" alt="">
+                                <span>Facebook으로 로그인</span>
+                            </button>
+                            </div>
+                            <div class="divine">
+                            <div></div>
+                            <div>또는</div>
+                            <div></div>
+                            </div>
+                            <form action="#">
+                                <div class="form-group">
+                                    <div class="animate-input">
+                                        <span>
+                                            아이디 입력
+                                        </span>
+                                        <input type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="animate-input">
+                                        <span>
+                                            성명
+                                        </span>
+                                        <input type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="animate-input">
+                                        <span>
+                                            이메일 입력
+                                        </span>
+                                        <input type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="animate-input">
+                                        <span>
+                                            비밀번호
+                                        </span>
+                                        <input type="password">
+                                        <button>비밀번호 표시</button>
+                                    </div>
+                                </div>
+                                <div class="btn-group">
+                                    <button type="submit" class="btn-login" id="signin-btn" onclick="location.href='./birth.html'" disabled>
+                                        가입
+                                    </button>
+                                </div>
+                                <div class="checking">
+                                    <div>이미 가입되어있는 아이디입니다.</div>
+                                </div>
+                            </form>                          
+                        </div>
+                    </div>
+                    <div class="box goto">
+                        <p>
+                            계정이 있으신가요?
+                            <a href="./login.html">로그인</a>
+                        </p>
+                    </div>
+                    <div class="app-download">
+                        <p>앱을 다운로드 하세요.</p>
+                        <div class="store-link">
+                            <a href="#">
+                                <img src="./images/appDownload.png" alt="app store">
+                            </a>
+                            <a href="#">
+                                <img src="./images/googlePlay.png" alt="google play">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="links">
+                <a href="#">Meta</a>
+                <a href="#">소개</a>
+                <a href="#">블로그</a>
+                <a href="#">채용정보</a>
+                <a href="#">도움말</a>
+                <a href="#">API</a>
+                <a href="#">개인정보처리방침</a>
+                <a href="#">약관</a>
+                <a href="#">인기 계정</a>
+                <a href="#">위치</a>
+                <a href="#">Instagram Lite</a>
+                <a href="#">연락처 업로드 & 비사용자</a>
+                <a href="#">Meta verified</a>
+                <a href="#" id="darkmode-toggle">Darkmode</a>
+            </div>
+            <div class="copyright">
+                © 2023 Instagram from Meta
+            </div>
+        </div>
+    </div>
+    </main>
+    <!-- APP JS -->
+    <script src="./js/member.js"></script>
+</body>
+</html>

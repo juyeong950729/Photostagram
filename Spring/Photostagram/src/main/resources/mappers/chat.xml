@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.photostagram.dao.ChatDAO">
+    <!--사용자 검색, 조회-->
+    <select id="findAllUsers" resultType="kr.co.photostagram.vo.MemberVO">
+        select * from `user` where `username` like concat(#{keyword},'%');
+    </select>
+    <!--채팅룸에 정보 입력-->
+    <insert id="insertChatRoom" useGeneratedKeys="true" keyProperty="no" parameterType="kr.co.photostagram.vo.RoomVO">
+        insert into `room` set `me`=#{me}, `rdate`=NOW();
+    </insert>
+    <insert id="insertChatRoomMember">
+        insert into `room_member` set `room`=#{room}, `user`=#{user_no}, `rdate`=NOW();
+    </insert>
+    <!--채팅룸 정보 조회-->
+    <select id="selectChatRoomList" resultMap="selectChatRooms">
+        SELECT a.*,b.`user`, c.username, c.profileImg from `room` as a
+        join `room_member` as b on a.no=b.room
+        JOIN `user` AS c ON b.`user`=c.`no`
+        where a.me=#{me};
+    </select>
+    <resultMap id="selectChatRooms" type="kr.co.photostagram.vo.RoomVO">
+        <id column="no" property="no"></id>
+        <result column="rdate" property="rdate"/>
+        <result column="me" property="me"/>
+        <collection property="members" ofType="kr.co.photostagram.vo.MemberVO">
+            <result column="username" property="username"/>
+            <result column="profileImg" property="profileImg"/>
+        </collection>
+        <collection property="room_members" ofType="kr.co.photostagram.vo.Room_MemberVO">
+            <result column="user" property="user"/>
+        </collection>
+    </resultMap>
+
+    <!--현재 채팅방 정보 조회-->
+    <select id="selectNowRoom" resultType="kr.co.photostagram.DTO.RoomDTO">
+        (select a.*,b.`user`, c.username, c.profileImg from `room` as a
+        join `room_member` as b on a.no=b.room
+        join `user` as c on b.`user`=c.`no`
+        where a.no=#{room_no})
+        UNION
+        (select a.*,a.me, c.username, c.profileImg from `room` as a
+        join `room_member` as b on a.no=b.room
+        join `user` as c on c.`no`=a.me
+        where a.no=#{room_no});
+    </select>
+    <!--메시지 입력-->
+    <insert id="insertMessages">
+        insert into `chatting` set `rdate`=NOW(), `message`=#{message}, `user_no`=#{user_no}, `room`=#{room};
+    </insert>
+    <!--채팅 메시지 조회-->
+    <select id="selectMessages" resultType="kr.co.photostagram.vo.ChattingVO">
+        select a.*, b.profileImg from `chatting` as a
+        join `user` as b on a.`user_no`=b.`no`
+        where `room`=#{room}
+        order by `rdate` asc;
+    </select>
+    <!--다른사람이 개설한 채팅방 조회(메시지 있는 것만)-->
+    <select id="selectChatRoomNotMine" resultType="int">
+        SELECT a.`room` from `room_member` AS a
+        JOIN `chatting` AS b ON a.`room`=b.`room`
+        where `user`=#{user}
+        GROUP BY a.`room`;
+    </select>
+    <select id="selectChatRoomsNotMine" resultMap="selectChatRooms">
+        (select a.*,b.`user` AS user, c.username, c.profileImg from `room` as a
+        join `room_member` as b on a.no=b.room
+        join `user` as c on b.`user`=c.`no`
+        where a.no=#{room_no})
+        UNION all
+        (SELECT a.*, NULL AS user, b.username, b.profileImg FROM `room` AS a
+        JOIN `user` AS b ON a.me=b.`no` WHERE a.`no`=#{room_no});
+    </select>
+    <!--추천 회원-->
+    <select id="selectRecommends" resultType="kr.co.photostagram.vo.RecommendVO">
+        (SELECT b.`user`, c.username, c.profileImg FROM `room` AS a
+        JOIN `room_member` AS b ON a.`no`=b.room
+        JOIN `user` AS c ON b.`user`=c.`no`
+        WHERE a.me=#{user_no})
+        UNION
+        (SELECT b.me, c.username, c.profileImg FROM `room_member` AS a
+        JOIN `room` AS b ON a.room=b.`no`
+        JOIN `user` AS c ON b.me=c.`no`
+        WHERE a.`user`=#{user_no})
+    </select>
+    <!--중복 채팅방 조회-->
+    <select id="selectChatRoomHave" resultMap="selectChatRoomIhave">
+        (SELECT a.`no`,a.me, b.`user` FROM `room` AS a
+        JOIN `room_member` AS b ON a.`no`=b.room
+        WHERE a.me=#{me})
+        UNION ALL
+        (SELECT c.`no`,c.me, d.`user` FROM `room` AS c
+        JOIN `room_member` AS d ON c.`no`=d.room
+        WHERE c.`no` IN (SELECT b.`no` FROM `room_member` AS a
+        JOIN `room` AS b ON a.room=b.`no`
+        WHERE a.`user`=#{me}))
+    </select>
+    <resultMap id="selectChatRoomIhave" type="kr.co.photostagram.DTO.ChatRoom">
+        <id column="no" property="no"></id>
+        <collection property="mes" ofType="int">
+            <result column="me" property="username"/>
+        </collection>
+        <collection property="users" ofType="int">
+            <result column="user" property="user"/>
+        </collection>
+    </resultMap>
+    <!--채팅삭제-->
+    <delete id="deleteRoomMemberAll">
+        DELETE FROM `room_member` WHERE `room`=#{room_no};
+    </delete>
+    <delete id="deleteRoom">
+        delete from `room` where `no`=#{room_no} and `me`=#{user_no};
+    </delete>
+    <delete id="deleteRoomMemberOne">
+        delete from `room_member` where `room`=#{room_no} and `user`=#{user_no};
+    </delete>
+    <delete id="deleteChats">
+        delete from `chatting` where `room`=#{room_no};
+    </delete>
+    <select id="selectRoomOwner" resultType="int">
+        SELECT `me` FROM `room` WHERE `no`=#{room_no};
+    </select>
+</mapper>

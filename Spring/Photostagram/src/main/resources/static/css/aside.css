@@ -1,0 +1,1867 @@
+
+html {height: 100%;}
+        * {
+        box-sizing: border-box;
+      }
+
+      a:link{color:black; text-decoration: none;}
+      a:visited{color: black; text-decoration: none;}
+
+      body {
+        margin: 0;
+        background: #fafafa;
+        color: #262626;
+        font-family: BlinkMacSystemFont;
+        height: 100%;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 250px;
+        height: 100%;
+        padding: 40px 10px 30px 10px;
+        background: #ffffff;
+        border-right: 1px solid #dbdbdb;
+        transition: 0.3s;
+        z-index: 10;
+      }
+
+      .sidebar-header {
+        width: 100%;
+        margin-bottom: 44px;
+      }
+
+      .logo-icon {
+        display: none;
+        font-size: 28px;
+        height: 35px;
+        width: 51px;
+        text-align: center;
+      }
+
+      .logo-img {
+        margin-left: 14px;
+        height: 32px;
+      }
+
+      .sidebar button {
+        height: 60px;
+        background: transparent;
+        border: 0;
+        padding: 0;
+        font-family: inherit;
+        color: inherit;
+        cursor: pointer;
+      }
+
+      .sidebar button > span {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        height: 48px;
+        padding: 0 12px;
+        border-radius: 24px;
+        line-height: 1;
+      }
+
+      .sidebar button > a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        height: 48px;
+        padding: 0 12px;
+        border-radius: 24px;
+        line-height: 1;
+      }
+
+      .sidebar button:hover > span {
+        background: #f2f2f2;
+      }
+
+      .sidebar button:hover > a {
+        background: #f2f2f2;
+      }
+
+      .sidebar button:hover > span :is(i, img) {
+        scale: 1.05;
+      }
+
+      .sidebar button:hover > a :is(i, img) {
+        scale: 1.05;
+      }
+
+      .sidebar button > span > span {
+        transition: 0.3s;
+      }
+
+      .sidebar button > a > span {
+        transition: 0.3s;
+      }
+
+      @media (width < 580px) {
+        .logo-img {
+          display: none;
+        }
+
+        .logo-icon {
+          display: block;
+        }
+
+        .sidebar {
+          width: 72px;
+        }
+
+        .sidebar button > span {
+          width: 50px;
+        }
+
+        .sidebar button > a {
+          width: 50px;
+        }
+
+        .sidebar button > span > span {
+          opacity: 0;
+          visibility: hidden;
+        }
+
+        .sidebar button > a > span {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+
+      .sidebar button > a > span > span{
+        text-align: center;
+      }
+
+      .sidebar button i {
+        position: relative;
+        font-size: 28px;
+        transition: 0.2s;
+      }
+
+      .sidebar button > a img {
+        width: 28px;
+        height: 28px;
+        transition: 0.2s;
+        border-radius: 50%;
+      }
+
+      .sidebar button i > span {
+        display: grid;
+        place-items: center;
+        height: 20px;
+        padding: 0 4px;
+        border-radius: 10px;
+        position: absolute;
+        top: -5px;
+        right: -10px;
+        border: 1px solid #ffffff;
+        background: #ff2f40;
+        color: #f9f9f9;
+        font-size: 12px;
+        font-family: BlinkMacSystemFont;
+        font-style: normal;
+      }
+
+      .sidebar button i > em {
+        display: block;
+        height: 10px;
+        width: 10px;
+        border-radius: 10px;
+        position: absolute;
+        top: 2px;
+        right: -1px;
+        border: 1px solid #ffffff;
+        background: #ff2f40;
+        color: #f9f9f9;
+        font-size: 12px;
+        font-family: BlinkMacSystemFont;
+        font-style: normal;
+      }
+
+      .sidebar button span {
+        font-size: 17px;
+      }
+
+      .sidebar > nav {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .sidebar > nav button:last-child {
+        margin-top: auto;
+      }
+
+      /*사이드바2*/
+      .side {
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 75px;
+        height: 100%;
+        padding: 40px 10px 30px 10px;
+        background: #ffffff;
+        border-right: 1px solid #dbdbdb;
+        transition: 0.3s;
+        z-index: 15;
+      }
+
+      .side.on {
+        display: flex;
+      }
+
+      .side-header {
+        width: 100%;
+        margin-bottom: 44px;
+      }
+
+      .side button {
+        height: 60px;
+        background: transparent;
+        border: 0;
+        padding: 0;
+        font-family: inherit;
+        color: inherit;
+        cursor: pointer;
+      }
+
+      .side button > span {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        height: 48px;
+        padding: 0 12px;
+        border-radius: 24px;
+        line-height: 1;
+      }
+
+      .side button > a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        height: 48px;
+        padding: 0 12px;
+        border-radius: 24px;
+        line-height: 1;
+      }
+
+      .side button:hover > span {
+        background: #f2f2f2;
+      }
+
+      .side button:hover > a {
+        background: #f2f2f2;
+      }
+
+      .side button:hover > span :is(i, img) {
+        scale: 1.05;
+      }
+
+      .side button:hover > a :is(i, img) {
+        scale: 1.05;
+      }
+
+      .side button > span > span {
+        transition: 0.3s;
+      }
+
+      .side button > a > span {
+        transition: 0.3s;
+      }
+
+      @media (width < 580px) {
+        .logo-img {
+          display: none;
+        }
+
+        .logo-icon {
+          display: block;
+        }
+
+        .side {
+          width: 72px;
+        }
+
+        .side button > span {
+          width: 50px;
+        }
+
+        .side button > a {
+          width: 50px;
+        }
+
+        .side button > span > span {
+          opacity: 0;
+          visibility: hidden;
+        }
+
+        .side button > a > span {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+
+      .side button i {
+        position: relative;
+        font-size: 28px;
+        transition: 0.2s;
+      }
+
+      .side button img {
+        width: 28px;
+        height: 28px;
+        transition: 0.2s;
+        border-radius: 50%;
+      }
+
+      .side button i > span {
+        display: grid;
+        place-items: center;
+        height: 20px;
+        padding: 0 4px;
+        border-radius: 10px;
+        position: absolute;
+        top: -5px;
+        right: -10px;
+        border: 1px solid #ffffff;
+        background: #ff2f40;
+        color: #f9f9f9;
+        font-size: 12px;
+        font-family: BlinkMacSystemFont;
+        font-style: normal;
+      }
+
+      .side button i > em {
+        display: block;
+        height: 10px;
+        width: 10px;
+        border-radius: 10px;
+        position: absolute;
+        top: 2px;
+        right: -1px;
+        border: 1px solid #ffffff;
+        background: #ff2f40;
+        color: #f9f9f9;
+        font-size: 12px;
+        font-family: BlinkMacSystemFont;
+        font-style: normal;
+      }
+
+      .side button span {
+        font-size: 17px;
+      }
+
+      .side > nav {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .side > nav button:last-child {
+        margin-top: auto;
+      }
+
+      /*검색창*/
+      .sidesearch{
+        display: none;
+        width: 397px;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 75px;
+        align-items: flex-start;
+        padding: 15px 10px 30px 10px;
+        background: #ffffff;
+        border-right: 1px solid #dbdbdb;
+        transition: 0.3s;
+        box-sizing: border-box;
+        z-index: 15;
+      }
+      .sidesearch.on {
+        display: block;
+      }
+
+      .sidesearch > div>h2{margin-bottom: 50px; font-size: 20px; font-weight: bold;}
+
+      .sidesearch > div{
+        background: #ffffff;
+      }
+
+      .sidesearch > div:nth-child(1){display: block; box-sizing: border-box; border-bottom: #dbdbdb; position: absolute; margin-left: 10px;}
+
+      .sidesearch > div:nth-child(1) > button{
+        background: none;
+        border: none;
+      }
+
+      .sidesearch > div:nth-child(1) > button > img{
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 81px;
+        left: 325px;
+      }
+
+      .sidesearch > div:nth-child(2){
+        position: relative;
+        top: 150px;
+        box-sizing: border-box;
+        margin-left: 10px;
+        width: 348px;
+        
+      }
+
+      .sidesearch > div:nth-child(2) > h3{
+        float: left;
+        width: 348px;
+        height: 24px;
+        box-sizing: border-box;
+      }
+
+      .sidesearch > div:nth-child(2) > h3 > button{
+        float: right;
+        background: none;
+        border: none;
+        color: #32a4ff;
+        box-sizing: border-box;
+      }
+
+      
+
+      #searchAll{
+        box-sizing: border-box;
+        width: 364px;
+        height: 40px;
+        background-color: #efefef;
+        font-size: 16px;
+        padding-left: 12px;
+        position: relative;
+        border: #efefef;
+      }
+
+      .searchListAll{
+        overflow-y: scroll;
+        overflow-x: hidden;
+        margin-top: 220px;
+        margin-left: 0;
+        height: 700px;
+      }
+
+      .searchlist > a > div:nth-of-type(1){
+        width: 54px;
+        height: 54px;
+        float: left;
+      }
+
+      .searchlist > a > div:nth-child(2){
+        float: left;
+      }
+
+      .searchlist > a > div:nth-of-type(1) > img{
+        width: 54px;
+        height: 54px;
+      }
+
+      .searchlist{
+        background: #ffffff;
+        display: flex;
+        margin-top: 15px;
+      }
+
+      .searchlist > a >  div:nth-child(2) > div {
+        width: 245px;
+        height: auto;
+        display: block;
+        box-sizing: border-box;
+        margin-left: 20px;
+      }
+
+      .searchlist > a > div:nth-child(2) > div:nth-child(1) > h3 {
+        width: 245px;
+        height: 18px;
+        font-size: 16px;
+        margin-bottom: 3px;
+        margin-top: 5px;
+      }
+
+      .searchlist > a > div:nth-child(2) > div:nth-child(2) > h8 {
+        width: 245px;
+        height: 18px;
+        font-size: 14px;
+      }
+
+      .searchlist > a > div:nth-child(2) > div:nth-child(2){
+          overflow: hidden;
+          text-overflow:ellipsis;
+          white-space:nowrap;
+      }
+
+      .searchlist > div {
+        position: absolute;
+        right: 30px;
+      }
+
+      .searchlist > div > button{
+        margin-top: 5px;
+        background: none;
+        border: none;
+      }
+
+      .searchlist > a{
+        display:block;
+        width: 348px;
+        height:56px;
+        position: relative;
+      }
+
+      .searchProfile{
+        width:54px;
+        height:54px;
+        border-radius:50%;
+        object-fit:cover;
+      }
+
+     /*알림*/
+      .sidealarm{
+        display: none;
+        width: 397px;
+        height: 100%;
+        position: fixed;
+        z-index: 15;
+        top: 0;
+        left: 75px;
+        align-items: flex-start;
+        padding: 15px 10px 30px 10px;
+        background: #ffffff;
+        border-right: 1px solid #dbdbdb;
+        transition: 0.3s;
+        box-sizing: border-box;        
+      }
+      .sidealarm.on {
+        display: block;
+      }
+
+      .sidealarm > div:nth-child(1){margin-top: 20px; margin-left: 10px;}
+
+      .sidealarm > div:nth-child(1) > h2{ font-weight: bold; font-size: 20px;}
+
+      .sidealarm > div:nth-child(2){
+        margin-top: 100px;
+        float: left;
+      }
+      
+      .alarmListAll{
+        overflow-y: scroll;
+        overflow-x: hidden;
+        position: fixed;
+        top: 50px;
+        margin-left: 0;
+        height: 800px;
+        width: 370px;
+      }
+
+      .alarmListAll > div{
+        display: flex;
+        margin-top: 10px;
+      }
+
+      .alarmlist > div:nth-child(1){
+        width: 50px;
+        height: 50px;
+        float: left;
+        margin-right: 2px;
+      }
+
+      .alarmlist > div:nth-child(1) > a >  img{
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+      }
+
+      .alarmlist > div:nth-child(2) {
+        float: left;
+        margin-left: 5px;
+        width: 220px;
+      }
+
+      .alarmlist > div:nth-child(2) > a >  h3{
+        font-size: 14px;
+        line-height: normal;
+      }
+
+      .alarmlist > div:nth-child(3){
+        float: right;
+        background: none;
+        border: none;
+      }
+      .alarmlist > div:nth-child(3) > img{
+        float: right;
+        width: 48px;
+        height: 48px;
+        margin-left: 11px;
+      }
+      .alarmlist > div:nth-child(3) > video{
+        float: right;
+        width: 48px;
+        height: 48px;
+        object-fit: cover;
+        margin-left: 11px;
+      }
+
+      .spinner {
+          position: absolute;
+          display: none;
+          width: 25px;
+          height: 25px;
+          left: 0;
+          top: 0;
+          background-image: url(../img/GIF/spinner.gif);
+          background-size: contain;
+          background-repeat: no-repeat;
+          background-color: white;
+          background-position: center;
+      }
+
+      .followBtn{
+          border: none;
+          background: #0095f6;
+          color: #ffffff;
+          height: 25px;
+      }
+
+     .followingBtn{
+          border: none;
+          background: #efefef;
+          color: #262626;
+          height: 25px;
+      }
+
+      .noticeTime{
+        color: #8e8e8e;
+      }
+
+
+      /*logout*/
+      .more_logout{
+        width: 230px; 
+        height: 44px;
+        background: #f5e1e1;
+        box-sizing: border-box;
+        z-index: 10;
+        position: fixed;
+        bottom: 100px;
+        left: 15px;
+        border-radius: 5px;
+        display: none;
+      }
+
+      .more_logout.on{
+        display: block;
+      }
+
+      .more_logout > a{
+        display: block;
+        text-align: center;
+        width: 230px;
+        height: 44px;
+        font-size: 15px;
+        line-height: 44px;
+      }
+
+    /*modal*/  
+    .modal_image_upload > button{
+      position: relative;
+      top: 45%;
+      width: 150px;
+      height: 24px;
+      border: none;
+      color: #efefef;
+      background: #0095f6;
+      box-sizing: border-box;
+      border-radius: 5px;
+    }
+
+    .modal_image_upload > button > label{
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      color: #efefef;
+      background: #0095f6;
+      cursor: pointer;
+    }
+
+    .modal_image_upload > button > input{width: 0; height: 0; opacity: 0;}
+
+    .main_body {
+        display: flex;
+        justify-content: center;
+        padding-top: 50px;
+        background-color: #FAFAFA;
+    }
+
+    
+    .feed_box {
+        background-color: white;
+        width: 580px;
+        margin: 10px;
+        min-height: auto;
+        padding-bottom: 10px;
+    }
+
+    .feed_img {
+        width: 100%;
+        object-fit: contain;
+    }
+
+    .feed_content {
+        padding: 0px 10px;
+    }
+
+    .feed_like {
+        padding: 0px 10px;
+    }
+
+    .feed_reply {
+        padding: 0px 10px;
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    .feed_txt {
+        font-size: 14px;
+    }
+
+
+    .feed_icon {
+        padding: 5px 5px 0px 5px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    /* span {
+        padding-right: 5px; // 주석 : 조광호
+    } */
+
+    .feed_name {
+        padding: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .feed_name_txt {
+        font-size: 14px;
+        padding: 0px 10px;
+        font-weight: bold;
+    }
+
+    .profile_box {
+        width: 40px;
+        height: 40px;
+        border-radius: 70%;
+        overflow: hidden;
+    }
+
+    .profile_img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .name_content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .name_content_txt {
+        font-size: 12px;
+        padding: 0px 10px;
+        font-weight: bold;
+        color: lightgray;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 190px;
+    }
+
+    .big_profile_box {
+        width: 60px;
+        height: 60px;
+        border-radius: 70%;
+        overflow: hidden;
+    }
+
+    .link_txt {
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .recommend_box {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px;
+        font-size: 14px;
+        font-weight: bold;
+        align-items: center;
+    }
+
+    .comment_box {
+        margin: 40px 0 0 5px;
+        font-size: 12px;
+        font-weight: bold;
+        color: lightgray;
+        display: flex;
+        flex-direction: column;
+    }
+
+    @media screen and (max-width: 1280px) {
+        .right_body {
+            display: none;
+        }
+    }
+
+
+    .modal {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(1.5px);
+        -webkit-backdrop-filter: blur(1.5px);
+        z-index: 16;
+    }
+
+    .modal_window {
+        background: white;
+        backdrop-filter: blur(13.5px);
+        -webkit-backdrop-filter: blur(13.5px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        width: 800px;
+        height: 600px;
+        position: relative;
+    }
+
+    .modal_title{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font-weight: bold;
+        font-size: 20px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+    }
+
+    .modal_title > div{
+      font-weight: bold;
+      font-size: 20px;
+      margin-top: 5px;
+    }
+
+    .modal_title_side{
+        margin: 5px;
+        flex: 0 0 40px;
+        text-align: center;
+    }
+
+    .modal_image_upload{
+        outline: 2px dashed black ;
+        outline-offset:-10px;
+        transition: all .15s ease-in-out;
+        width: 798px;
+        height: 548px;
+        text-align: center;
+        line-height: 548px;
+    }
+
+    .modal_image_upload_content{
+        outline: 2px dashed black ;
+        outline-offset:-10px;
+        text-align: center;
+        transition: all .15s ease-in-out;
+        width:500px;
+        height: 548px;
+        overflow: visible;
+        position: relative;
+    }
+
+    .modal_image_content{
+        display: flex;
+        flex-direction: row;
+    }
+
+    .modal_content_write{
+        display: flex;
+        flex-direction: column;
+        border-left: 1px solid rgba(0, 0, 0, 0.18);;
+    }
+
+    .feed_content_textarea{
+        resize: none;
+        width: 294px;
+        border: none;
+    }
+
+    #input_image > .beforeBtn{
+      position: fixed;
+      top: 45%;
+      left: 9px;
+      background: #4e4e4e;
+      width:32px;
+      height:32px;
+      border-radius:50%;
+      color:white;
+      border: none;
+      visibility: hidden;
+    }
+    #input_image > .afterBtn{
+      position: fixed;
+      top: 45%;
+      right: 305px;
+      background: #4e4e4e;
+      width:32px;
+      height:32px;
+      border-radius:50%;
+      color:white;
+      border: none;
+      visibility: hidden;
+    }
+
+    #input_image_drop > video{
+        width: 590px;
+        height: 590px;
+        position: absolute;
+        left:0;
+        top:0;
+    }
+
+    #input_image > video{
+        width: 590px;
+        height: 590px;
+        position: absolute;
+        left:0;
+        top:0;
+    }
+
+    /*modal drop*/
+    #input_image_drop > .beforeBtnDrop{
+      position: fixed;
+      top: 45%;
+      left: 9px;
+      background: #4e4e4e;
+      width:32px;
+      height:32px;
+      border-radius:50%;
+      color:white;
+      border: none;
+      visibility: hidden;
+    }
+    #input_image_drop > .afterBtnDrop{
+      position: fixed;
+      top: 45%;
+      right: 305px;
+      background: #4e4e4e;
+      width:32px;
+      height:32px;
+      border-radius:50%;
+      color:white;
+      border: none;
+      visibility: hidden;
+    }
+
+/** tagModal **/
+.tagModal{
+    width:338px;
+    height:226px;
+    z-index:18;
+    background: white;
+    position:absolute;
+    display:none;
+    border-radius:15px;
+    box-shadow:3px 3px 3px 3px #d0d0d0;
+}
+
+.tagModal > div:nth-child(1){
+    width: 20px;
+    height: 15px;
+    background: white;
+    transform: rotate(90deg);
+    position: absolute;
+    left: 18px;
+    top: -5px;
+    clip-path: path( 'M8 0C8 4 9.32406e-08 7.819 1.25211e-07 10.5C1.57188e-07 13.1815 8 17.0005 8 21L8 0Z' );
+}
+
+.tagUserList{
+    overflow-y:scroll;
+    width:338px;
+    height:180px;
+}
+
+.tagSearch {
+    padding:10px 8px;
+    border-bottom:1px solid black;
+    width:338px;
+    height:46px;
+}
+
+.tagSearch > div{
+    float:left;
+}
+
+.tagSearch > div > input{
+    border: none;
+}
+
+.tagSearches{
+    padding: 5px;
+    display:flex;
+    width:321px;
+    height:62px;
+}
+
+.tagSearchUser{
+    display:flex;
+}
+
+.tagSearchUser > img{
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    object-fit: cover;
+}
+
+.tagUserInfo{
+    padding:8px;
+}
+
+.tagUserInfo > div{
+    text-align: left;
+    font-size:14px;
+    color:#000000;
+    font-weight:bold;
+}
+.tagUserInfo > span{
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
+    font-size:14px;
+    color:#737373;
+}
+
+.snipper {
+  position: absolute;
+  display: none;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-image: url(../img/GIF/spinner.gif);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: white;
+  background-position: center;
+}
+
+#tooltipArea {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.tag1 {
+    position: absolute;
+    background: #000000;
+    padding:8px 12px;
+    border-radius:8px;
+    z-index:18;
+    width: auto;
+    height: 34px;
+    display: block;
+}
+
+.tag1 > div > button{
+    border:none;
+    color:white;
+    background: none;
+    margin-left: 8px;
+    font-size: 20px;
+    /* text-align: center; */
+    line-height: 10px;
+}
+
+.tag1 > div:nth-child(1){
+    clip-path: path( 'M8 0C8 4 9.32406e-08 7.819 1.25211e-07 10.5C1.57188e-07 13.1815 8 17.0005 8 21L8 0Z' );
+    width:21px;
+    height:21px;
+    transform: rotate(90deg);
+    top: -8px;
+    position:absolute;
+    background:#000000;
+}
+
+.username{
+    display:flex;
+    width:auto;
+}
+
+.username > span{
+    width:fit-content;
+    display:inline-block;
+    color:white;
+}
+/********** post Modal ************/
+div.modal-post {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 139px;
+  background-color: rgba(0, 0, 0, 0.65);
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  font: normal 12px 'Arial';
+}
+div.modal-post svg.post-close {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: 18px;
+  right: 162px;
+  cursor: pointer;
+}
+div.modal-post div.wrapper {
+  display: flex;
+  position: relative;
+  width: 1100px;
+  height: 600px;
+  background-color: #ffffff;
+  flex-direction: row;
+  border-radius: 6px;
+}
+div.modal-post div.wrapper div.image {
+  position: relative;
+  width: 600px;
+  height: 100%;
+  align-items: center;
+}
+div.modal-post div.wrapper div.image img {
+  object-fit: cover;
+  position: absolute;
+  width: 590px !important;
+  height: 590px;
+}
+div.modal-post div.wrapper div.image div.heart-wrapper {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+div.modal-post div.wrapper div.image div.heart-wrapper div.heart {
+  position: absolute;
+  background-image: url("../img/icon.png");
+  width: 120px;
+  height: 120px;
+}
+div.modal-post div.wrapper div.post-content {
+  display: flex;
+  height: 100%;
+  flex: 1;
+  flex-direction: column;
+}
+div.modal-post div.wrapper div.post-content div.user {
+  display: flex;
+  width: 100%;
+  height: 53px;
+  border-bottom: 1px #dbdbdb solid;
+  flex-direction: row;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 20px 20px;
+}
+
+div.modal-post div.wrapper div.post-content div.user img {
+  width: 32px;
+  height: 32px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+div.modal-post div.wrapper div.post-content div.user a {
+  font-size: 14px;
+  font-weight: bold;
+  font-family: "nsM";
+  padding: 0px 0px 0px 14px;
+  cursor: pointer;
+}
+div.modal-post div.wrapper div.post-content div.user span {
+  font-size: 12px;
+  font-family: "nsM";
+}
+div.modal-post div.wrapper div.post-content div.user button.follow {
+  color: #2e9afe;
+  font-size: 14px;
+  font-weight: bold;
+  /* font-family: "nsM"; */
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+  border: 0;
+}
+div.modal-post div.wrapper div.post-content div.user svg.etc {
+  width: 16px;
+  height: 16px;
+  fill: #262626;
+  cursor: pointer;
+}
+div.modal-post div.wrapper div.post-content div.rest {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+div.modal-post div.wrapper div.post-content div.rest div.text {
+  width: 100%;
+  height: calc(96% - 148px);
+  box-sizing: border-box;
+  overflow-y: scroll;
+  padding: 5px 11px;
+}
+
+div.modal-post div.wrapper div.post-content div.user-content {
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 9px 0px 0px 20px;
+}
+div.modal-post div.wrapper div.post-content div.user-content img {
+  width: 32px;
+  height: 32px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+div.modal-post div.wrapper div.post-content div.user-content div {
+  margin-left: 36px;
+  margin-top: 10px;
+}
+
+div.modal-post div.wrapper div.post-content div.user-content a {
+  font-size: 14px;
+  font-weight: bold;
+  font-family: "nsM";
+  padding: 0px 0px 0px 10px;
+  cursor: pointer;
+  position: relative;
+  top: -12px;
+}
+div.modal-post div.wrapper div.post-content div.user-content span {
+  font-size: 14px;
+  font-family: "nsM";
+  padding-bottom: 3px;
+  position: relative;
+  margin-top: -5px;
+  margin-left: 44px;
+  display: block;
+}
+
+div.modal-post div.wrapper div.post-content div.user-content span a {
+    position: relative;
+        top: 1px;
+}
+
+
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text::-webkit-scrollbar {
+  display: none;
+}
+div.modal-post div.wrapper div.post-content div.rest div.text div.top,
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.comment-container {
+  display: block;
+  width: 100%;
+}
+div.modal-post div.wrapper div.post-content div.rest div.text div.top img,
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.comment-container
+  img {
+  width: 32px;
+  height: 32px;
+  border-radius: 20px;
+  margin-right: 12px;
+  cursor: pointer;
+  vertical-align: top;
+}
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.top
+  div.posting,
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.comment-container
+  div.posting {
+  position: relative;
+  flex: 1;
+}
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.top
+  div.posting
+  div
+  a.id,
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.comment-container
+  div.posting
+  div
+  a.id {
+    font-size: 13px;
+    font-weight: bold;
+    padding-right: 4px;
+    cursor: pointer;
+}
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.top
+  div.posting
+  div
+  p.comment,
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.comment-container
+  div.posting
+  div
+  span.comment {
+  font-weight: 500;
+  font-size: 14px;
+  font-family: "nsL";
+  padding-right: 34px;
+}
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.top
+  div.posting
+  div
+  p,
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.comment-container
+  div.posting
+  div
+  p {
+  font-size: 14px;
+  font-family: "nsL";
+  padding-right: 4px;
+}
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.top
+  div.posting
+  div
+  a.tag,
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.comment-container
+  div.posting
+  div
+  a.tag {
+  font-size: 14px;
+  font-family: "nsL";
+  color: #00376b;
+  background-color: #ffffff;
+  margin-right: 6px;
+  cursor: pointer;
+}
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.top
+  div.posting
+  p.time,
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.comment-container
+  div.posting
+  p.time {
+  font-size: 12px;
+  color: #dbdbdb;
+  margin: 10px 0px 4px 0px;
+  cursor: pointer;
+}
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.top
+  div.posting
+  div.info,
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.comment-container
+  div.posting
+  div.info {
+  display: flex;
+}
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.top
+  div.posting
+  div.info
+  p.time,
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.comment-container
+  div.posting
+  div.info
+  p.time {
+  font-size: 13px;
+  font-family: "nsM";
+  color: #dbdbdb;
+  margin: 10px 10px 4px 0px;
+  cursor: pointer;
+}
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.top
+  div.posting
+  div.info
+  p.like,
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.comment-container
+  div.posting
+  div.info
+  p.like {
+  font-size: 13px;
+  font-family: "nsM";
+  color: #8e8e8e;
+  margin: 10px 10px 4px 0px;
+  cursor: pointer;
+}
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.top
+  div.posting
+  div.info
+  p.reply,
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.comment-container
+  div.posting
+  div.info
+  p.reply {
+  font-size: 13px;
+  font-family: "nsM";
+  color: #8e8e8e;
+  margin: 10px 0px 4px 0px;
+  cursor: pointer;
+}
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.top
+  div.posting
+  button.option,
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.comment-container
+  div.posting
+  button.option {
+  display: none;
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  top: -4px;
+  right: 32px;
+  font-family: "nsB";
+  color: #8e8e8e;
+  background-color: #ffffff;
+  padding: 4px;
+  outline: none;
+  cursor: pointer;
+}
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.top
+  div.posting
+  svg.heart-no,
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.comment-container
+  div.posting
+  svg.heart-no {
+  display: flex;
+  position: absolute;
+  width: 14px;
+  height: 12px;
+  top: 8px;
+  right: 10px;
+  cursor: pointer;
+}
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.top
+  div.posting
+  svg.heart-yes,
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.text
+  div.comment-container
+  div.posting
+  svg.heart-yes {
+  display: none;
+  position: absolute;
+  width: 14px;
+  height: 12px;
+  top: 8px;
+  right: 10px;
+  fill: #ed4956;
+  cursor: pointer;
+}
+div.modal-post div.wrapper div.post-content div.rest div.text div.center {
+  flex: 1;
+}
+div.modal-post div.wrapper div.post-content div.rest div.buttons {
+  display: flex;
+  border-top: 1px solid rgba(var(--ce3, 239, 239, 239), 1);
+  padding: 14px 8px 10px 9px;
+  margin-top: 4px;
+}
+div.modal-post div.wrapper div.post-content div.rest div.buttons button {
+  border: 0;
+  width: 33px;
+  height: 24px;
+  background-color: transparent;
+  margin-right: -3px;
+  outline: none;
+  cursor: pointer;
+}
+div.modal-post div.top div.posting a.modal_comment_id {
+  font-size: 14px;
+  font-weight: bold;
+  font-family: "nsM";
+}
+
+div.modal-post div.top div.posting span.modal_comment {
+  font-size: 14px;
+  font-family: "nsM";
+}
+
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.buttons
+  button
+  svg.like-yes {
+  display: none;
+  fill: #ed4956;
+}
+div.modal-post div.wrapper div.post-content div.rest div.buttons button.save {
+  margin-right: 6px;
+  outline: none;
+}
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.buttons
+  button.save
+  svg.save-yes {
+  display: none;
+}
+div.modal-post div.wrapper div.post-content div.rest button.likes-count {
+  font-weight: 600;
+  border: 0;
+  height: 20px;
+  background-color: transparent;
+  font-family: "nsM";
+  text-align: start;
+  margin-bottom: 4px;
+  padding-left: 16px;
+  padding-right: 16px;
+  outline: none;
+  cursor: pointer;
+}
+div.modal-post div.wrapper div.post-content div.rest div.post-date {
+  font-size: 12px;
+  line-height: 18px;
+  color: #8e8e8e;
+  letter-spacing: 0.2px;
+  padding-left: 16px;
+}
+div.modal-post div.wrapper div.post-content div.rest div.comment-wrapper {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 56px;
+  border-top: 1px solid rgba(var(--ce3, 239, 239, 239), 1);
+  align-items: center;
+  box-sizing: border-box;
+  margin-top: 8px;
+  padding-left: 16px;
+  float: left;
+  overflow: hidden;
+}
+div.modal-post div.wrapper div.post-content div.rest div.comment-wrapper .upload_btn {
+ color: #0095F6;
+ border: 0;
+ background: white;
+ margin-right: 13px;
+ cursor:pointer;
+}
+
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.comment-wrapper
+  input {
+  line-height: normal;
+  height: 40px;
+  flex: 1;
+  font-size: 14px;
+  font-family: "nsM";
+  color: #8e8e8e;
+  outline: none;
+  overflow: hidden;
+  box-sizing: border-box;
+  margin-right: 10px;
+  border: 0;
+}
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.comment-wrapper
+  textarea:focus {
+  outline: none;
+}
+div.modal-post
+  div.wrapper
+  div.post-content
+  div.rest
+  div.comment-wrapper
+  button.submit {
+  height: 100%;
+  font-family: "nsM";
+  color: #0096f6;
+  background-color: transparent;
+  opacity: 0.3;
+  margin-top: -4px;
+  outline: none;
+  cursor: pointer;
+  border: 0;
+}
+div.modal-post div.wrapper div.previous {
+  position: absolute;
+  background-image: url("../img/icon.png");
+  background-position: -186px -136px;
+  width: 30px;
+  height: 30px;
+  top: 290px;
+  left: -30px;
+  cursor: pointer;
+}
+div.modal-post div.wrapper div.next {
+  position: absolute;
+  background-image: url("../img/icon.png");
+  background-position: -260px -190px;
+  width: 30px;
+  height: 30px;
+  top: 290px;
+  right: -30px;
+  cursor: pointer;
+}
+
+div.modal-post div.commentInfo {
+  margin-top: 6px;
+  font-size: 13px;
+  color: #a9a9a9;
+  font-weight: bold;
+}
+
+div.modal-post span.comment {
+  font-size: 13px;
+}
+
+/**** 게시글 상단 점 눌렀을때 나오는 모달css ****/
+div.post-menu {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  background-color: rgba(0, 0, 0, 0.65);
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  cursor: pointer;
+}
+div.post-menu div.wrapper {
+  display: flex;
+  width: 400px;
+  max-height: 100%;
+  background-color: #ffffff;
+  border-radius: 12px;
+  flex-direction: column;
+  align-items: center;
+}
+div.post-menu div.wrapper button {
+  width: 100%;
+  min-height: 48px;
+  font-size: 14px;
+  text-align: center;
+  background-color: transparent;
+  padding: 4px 8px;
+  cursor: pointer;
+  border: 0;
+  border-bottom: 1px solid #cccccc
+}
+div.post-menu div.wrapper button:focus {
+  outline: none;
+}
+div.post-menu div.wrapper button:nth-child(1) {
+  color: #ed4956;
+  font-weight: bold;
+  border-top: none;
+}
+
+div.post-menu div.wrapper button:nth-child(2) {
+  color: #ed4956;
+  font-weight: bold;
+}
+
+/* myPage */
+.more_my {
+    width: 230px;
+    height: 44px;
+    background: #f2f2f2;
+    box-sizing: border-box;
+    z-index: 10;
+    position: fixed;
+    bottom: 150px;
+    left: 15px;
+    border-radius: 5px;
+    display: none;
+    }
+
+.more_my.on {
+    display: block;
+    }
+
+.more_my > a {
+    display: block;
+    text-align: center;
+    width: 230px;
+    height: 44px;
+    font-size: 15px;
+    line-height: 44px;
+}
+

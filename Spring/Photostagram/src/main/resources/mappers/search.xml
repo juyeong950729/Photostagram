@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.photostagram.dao.SearchDAO">
+    <!--해시태그-포스트 개수-->
+    <select id="selectPostNums" resultType="int">
+        select `post_no` from `post_hashtag` where `hashtag_no`=#{hashtag_no};
+    </select>
+    <!--해시태그가 있는 포스트 모두 조회-->
+    <select id="selectPostsByHashTag" resultMap="selectPostsResultMap">
+        SELECT * FROM `post` AS a
+        JOIN `image` AS b ON a.`no`=b.post_no
+        WHERE a.`no`=#{no}
+        ORDER BY a.`rdate`;
+    </select>
+    <!--해시태그가 있는 포스트 중 인기게시물 9개-->
+    <select id="selectPostsByLike" resultMap="selectPostsResultMap">
+        SELECT * FROM `post` AS a
+        JOIN `post_hashtag` AS b ON a.`no` = b.post_no
+        JOIN `hashtag` AS c ON b.hashtag_no = c.`no`
+        JOIN `image` AS d ON a.`no`=d.post_no
+        WHERE c.`no`=#{no}
+        GROUP BY a.`no`
+        ORDER BY a.`like` DESC
+        LIMIT 9;
+    </select>
+
+    <resultMap id="selectPostsResultMap" type="kr.co.photostagram.vo.PostVO">
+        <id column="no" property="no"></id>
+        <result column="content" property="content"></result>
+        <result column="user_no" property="user_no"></result>
+        <result column="like" property="like"></result>
+        <result column="rdate" property="rdate"></result>
+
+        <collection property="imageVO" ofType="kr.co.photostagram.vo.ImageVO">
+            <id column="no" property="no"></id>
+            <result column="thumb" property="thumb"></result>
+            <result column="post_no" property="post_no"></result>
+        </collection>
+    </resultMap>
+    <!--해시태그가 이름 조회-->
+    <select id="selectHashTagName" resultType="string">
+        select `hashtag` from `hashtag` where `no`=#{no};
+    </select>
+
+
+    <!-- 검색 결과의 해시태그 팔로우 여부 체크 -->
+    <select id="searchHashFollow" resultType="int">
+        SELECT COUNT(*) FROM `follow_hashtag`
+            WHERE `tag_no`=#{tagNo}
+            AND `user_no`=#{userNo};
+    </select>
+
+    <insert id="insertHashFollow">
+        INSERT INTO `follow_hashtag`
+            SET `tag_no`=#{tagNo},
+            `user_no`=#{userNo};
+    </insert>
+
+    <delete id="deleteHashFollow">
+        DELETE FROM `follow_hashtag`
+            WHERE `tag_no`=#{tagNo}
+            AND `user_no`=#{userNo};
+    </delete>
+
+</mapper>

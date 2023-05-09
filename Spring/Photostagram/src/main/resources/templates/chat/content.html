@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/chatLayout}">
+<th:block layout:fragment="main">
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script th:inline="javascript">
+
+
+       $(function(){
+
+
+          $("#confirm").click(function(){
+              modalClose();
+              //컨펌 이벤트 처리
+          });
+          $("#modal-open").click(function(){
+            $("#overlay").css('display','flex').hide().fadeIn();
+          });
+
+          function modalClose(){
+            $("#overlay").fadeOut();
+          }
+
+          $("#lay").click(function(){
+            console.log('click!!!');
+            $("#overlay").css('display','flex').hide().fadeIn();
+          });
+    });
+
+    $(document).ready(function(){
+        $('.chatMember').on('click', function(){
+            let ul = $(this).parent('ul');
+            let room_no =ul.children('input').val();
+
+            location.href='/Photostagram/chat/content?room_no='+room_no;
+        });
+
+        var roomId = [[${roomNow[0].no}]];
+        var username = [[${#authentication.principal.username}]];
+        let userno = [[${user.no}]];
+        let profileImg = [[${user.profileImg}]];
+
+        var msgAreaDiv = document.getElementById('msgArea');
+
+        console.log(roomId + ", " + username);
+
+        var sockJs = new SockJS("/Photostagram/stomp/chat");
+        //1. SockJS를 내부에 들고있는 stomp를 내어줌
+        var stomp = Stomp.over(sockJs);
+
+        //2. connection이 맺어지면 실행
+        stomp.connect({}, function (){
+            console.log("STOMP Connection")
+
+           //4. subscribe(path, callback)으로 메세지를 받을 수 있음
+            stomp.subscribe("/sub/chat/content/" + roomId, function (chat) {
+                // alert('message0!!!');
+                var content = JSON.parse(chat.body);
+                var writer = content.writer;
+                var message = content.message;
+                let profile = content.profileImg;
+                var str = '';
+
+                console.log('writer : ' + writer); // 작성자 (나 또는 상대방)
+                console.log('username : ' + username); // 로그인 되어있는 유저
+                console.log('message : ' + message);
+                console.log('profile : '+profile);
+
+                if(writer == username){ // 내가 쓴 글이라면
+                    //alert('writer와 username이 같다!!!');
+                    //alert('message : ' + message);
+                    str = "<div class='chat ch2'>";
+                    str += "<div class='textbox'>" + message + "</div>";
+                    str += "</div>";
+                    $("#msgArea").append(str);
+                    msgAreaDiv.scrollTop = msgAreaDiv.scrollHeight;
+                }
+                else{ // 상대방이 쓴 글이라면
+                    //alert('writer와 username이 다르다!!!');
+                    str = "<div class='chat ch1'>";
+                    str += "<div class='icon'>";
+                    if(!profile){
+                        str += "<img class='' src='/Photostagram/img/44884218_345707102882519_2446069589734326272_n.jpg' alt='계정사진'>";
+                    }else{
+                        str += "<img class='' src='/Photostagram/thumb/"+profile+"' alt='계정사진'>";
+                    }
+                    str += "</div>";
+                    str += "<div class='textbox'>" + message + "</div>";
+                    str += "</div>";
+                    $("#msgArea").append(str);
+                    msgAreaDiv.scrollTop = msgAreaDiv.scrollHeight;
+                }
+
+                // $("#msgArea").append(str);
+                msgAreaDiv.scrollTop = msgAreaDiv.scrollHeight;
+            });
+
+        });
+
+        $('.chatbox-box-1').keydown(function(key) {
+            if (key.keyCode == 13) {
+                //alert('send!!!');
+                var msg = document.getElementById("msg");
+                console.log(username + ":" + msg.value);
+
+                // 채팅 pub 하기
+                stomp.send('/pub/chat/message', {}, JSON.stringify({room: roomId, message: msg.value, writer: username, user_no:userno, profileImg:profileImg}));
+                msg.value = '';
+            }
+        });
+
+        $('.chat-head-add-2').on('click', function(){
+            $('.chatOptions').toggleClass('on');
+            $('#msgArea').toggleClass('on');
+            $('.chatbox').toggleClass('on');
+        });
+
+        $('.deleteChat').on('click', function(e){
+            e.preventDefault();
+            let isOutChat = confirm('채팅을 삭제하시겠어요?');
+            if(isOutChat){
+                let room_no = $('input[name=roomNow_no]').val();
+                let user_no = [[${user.no}]];
+
+                let jsonData = {"room_no":room_no, "user_no":user_no};
+
+                $.ajax({
+                    url:'/Photostagram/deleteChat',
+                    method:'POST',
+                    data:jsonData,
+                    dataType:'json',
+                    success:function(data){
+                        location.href='/Photostagram/chat/index';
+                    }
+                });
+            }
+        });
+
+    });
+    </script>
+    <div class="fullscreen">
+        <div class="left">
+            <div class="up">
+                <div class="src1">
+                    <p>[[${user.username}]]</p>
+                </div>
+                <div class="src2">
+                    <img id="lay" th:src="@{/img/free-icon-writing-6570264.png}" alt="">
+                </div>
+            </div>
+            <div class="dir2">
+                <th:block th:if="${not #lists.isEmpty(rooms)}" th:each="room:${rooms}">
+                    <ul>
+                        <input type="hidden" th:value="${room.no}" name="user_no"/>
+                        <li class="chatMember" >
+                            <th:block th:if="${#strings.isEmpty(room.members[0].profileImg)}">
+                                <img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="프로필사진">
+                            </th:block>
+                            <th:block th:unless="${#strings.isEmpty(room.members[0].profileImg)}">
+                                <img th:src="@{/thumb/{img}(img=${room.members[0].profileImg})}" alt="프로필사진">
+                            </th:block>
+                            <div class="profile">
+                                <p><span th:each="member:${room.members}">[[${member.username}]]&nbsp;</span></p>
+                                <p></p>
+                            </div>
+                        </li>
+                    </ul>
+                </th:block>
+                <th:block th:if="${not #lists.isEmpty(rooms2)}" th:each="room2:${rooms2}">
+                    <ul>
+                        <input type="hidden" th:value="${room2.no}" name="user_no"/>
+                        <li class="chatMember" >
+                            <th:block th:if="${#strings.isEmpty(room2.members[0].profileImg)}">
+                                <img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="프로필사진">
+                            </th:block>
+                            <th:block th:unless="${#strings.isEmpty(room2.members[0].profileImg)}">
+                                <img th:src="@{/thumb/{img}(img=${room2.members[0].profileImg})}" alt="프로필사진">
+                            </th:block>
+                            <div class="profile">
+                                <p><span th:each="member:${room2.members}" th:if="${member.username != user.username}">[[${member.username}]]&nbsp;</span></p>
+                                <p></p>
+                            </div>
+                        </li>
+                    </ul>
+                </th:block>
+            </div>
+        </div>
+        <div class="right-1">
+            <div class="chat-head">
+                <div class="chat-head-1">
+                    <div class="chat-head-2">
+                        <div class="chat-head-3"></div>
+                        <div class="chat-head-4">
+                            <div class="chat-head-5">
+                                <input type="hidden" th:value="${roomNow[0].no}" name="roomNow_no"/>
+                                <div class="chat-head-6">
+                                    <th:block th:if="${now.user != user.no}" th:each="now:${roomNow}">
+                                        <span class="chat-head-7">
+                                            <th:block th:if="${#strings.isEmpty(now.profileImg)}">
+                                                <img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="프로필사진">
+                                            </th:block>
+                                            <th:block th:unless="${#strings.isEmpty(now.profileImg)}">
+                                                <img th:src="@{/thumb/{img}(img=${now.profileImg})}" alt="프로필사진">
+                                            </th:block>
+                                        </span>
+                                    </th:block>
+                                </div>
+                                <div class="chat-head-name">
+                                    <div class="chat-head-name-1">
+                                        <div class="chat-head-name-2">
+                                            <div class="chat-head-name-3">
+                                                <th:block th:each="member:${roomNow}">
+                                                    <span th:if="${member.user != user.no}">[[${member.username}]]&nbsp;</span>
+                                                </th:block>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-head-add">
+                            <div class="chat-head-add-0">
+                                <img th:src="@{/img/free-icon-telephone-4544272.png}" alt="음성 통화">
+                            </div>
+                            <div class="chat-head-add-1">
+                                <img th:src="@{/img/free-icon-videos-4353992.png}" alt="영상 통화">
+                            </div>
+                            <div class="chat-head-add-2">
+                                <img th:src="@{/img/free-icon-info-5258991.png}" alt="상세정보">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ///////////////// 메세지 구역 /////////////////// -->
+            <div class="wrap" id="msgArea">
+                <th:block th:if="${not #lists.isEmpty(chats)}" th:each="chat:${chats}">
+                    <div class="chat ch2" th:if="${chat.user_no == user.no}">
+                        <div class="textbox">[[${chat.message}]]</div>
+                    </div>
+                    <div class="chat ch1" th:unless="${chat.user_no == user.no}">
+                        <div class="icon">
+                            <th:block th:if="${not #strings.isEmpty(chat.profileImg)}">
+                                <img class="" th:src="@{/thumb/{image}(image=${chat.profileImg})}" alt="계정사진">
+                            </th:block>
+                            <th:block th:unless="${not #strings.isEmpty(chat.profileImg)}">
+                                <img class="" th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}" alt="계정사진">
+                            </th:block>
+                        </div>
+                        <div class="textbox">[[${chat.message}]]</div>
+                    </div>
+                </th:block>
+            </div>
+            <div class="chatOptions">
+                <div class="chatMemberList">
+                    <h3>멤버</h3>
+                    <ul th:each="list:${roomNow}">
+                        <li>
+                            <a th:href="@{/profile/index(username=${list.username})}">
+                                <th:block th:if="${not #strings.isEmpty(list.profileImg)}">
+                                    <img th:src="@{/thumb/{img}(img=${list.profileImg})}">
+                                </th:block>
+                                <th:block th:unless="${not #strings.isEmpty(list.profileImg)}">
+                                    <img th:src="@{/img/44884218_345707102882519_2446069589734326272_n.jpg}">
+                                </th:block>
+                                <span class="chatMembers">&nbsp;&nbsp;[[${list.username}]]</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="deleteChat">
+                    <a>채팅나가기</a>
+                </div>
+            </div>
+            <div class="chatbox">
+                <div class="chatboxem-1">
+                    <div class="chatboxem-2">
+                        <div class="mj">
+                            <div class="chatboxem-3">
+                                <img th:src="@{/img/free-icon-smiling-emoticon-square-face-42877.png}" alt="이모티콘">
+                            </div>
+                        </div>
+                        <!-- /////////////////// 메세지 입력 ///////////////////-->
+                        <div class="chatbox-box">
+                            <input placeholder="메시지 입력..." id="msg" class="chatbox-box-1"/>
+                        </div>
+                        <div class="chatg">
+                            <div class="chatg-1">
+                                <img th:src="@{/img/free-icon-gallery-4348117.png}" alt="갤러리">
+                            </div>
+                        </div>
+                        <div class="chath">
+                            <div class="chath-1">
+                                <img th:src="@{/img/free-icon-heart-shape-3717486.png}" alt="좋아요">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

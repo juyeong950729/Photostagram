@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.photostagram.dao.ProfileDAO">
+
+    <insert id="insertMember">
+    </insert>
+
+    <insert id="insertFollow">
+        INSERT INTO `follow`
+            SET `follower` = #{follower},
+            `following` = #{following},
+            `rdate` = NOW();
+    </insert>
+
+    <insert id="insertTagFollow">
+        INSERT INTO `follow_hashtag`
+            SET `tag_no`= #{no},
+            `user_no` = #{userNo};
+    </insert>
+
+    <select id="selectMember" resultType="kr.co.photostagram.vo.MemberVO">
+        SELECT * FROM `user` WHERE `username`=#{username};
+    </select>
+
+    <select id="selectPosts" resultType="kr.co.photostagram.vo.PostVO">
+        SELECT *,COUNT(`thumb`) AS 'thumbs'
+            FROM `post` AS a
+            JOIN `image` AS b
+            ON a.`no`=b.`post_no`
+            WHERE a.`user_no`=#{no}
+            GROUP BY a.`no`
+            DESC LIMIT #{pg}, 12 ;       <!-- 무한스크롤 페이징 처리하며 추가 -->
+    </select>
+
+    <select id="selectThumb" resultType="kr.co.photostagram.vo.PostVO">
+        SELECT b.*, `thumb` AS 'firstThumb', COUNT(DISTINCT `thumb`) AS 'thumbs',
+            COUNT(DISTINCT c.`comment`) AS 'commentCount'
+            FROM `post` AS b
+            JOIN `image` AS a
+            ON b.`no`=a.`post_no`
+            LEFT JOIN `comment` AS c
+            ON c.`post_no`=a.`post_no`
+            WHERE b.`user_no`=#{pageNo} AND a.`post_no`=#{postNo}
+            GROUP BY b.`no`;
+    </select>
+
+    <select id="selectTaggedPosts" resultType="kr.co.photostagram.vo.PostVO">
+        SELECT b.*,
+            a.`thumb` AS 'firstThumb',
+            COUNT(DISTINCT a.`thumb`) AS 'thumbs',
+            COUNT(DISTINCT c.`no`) AS 'commentCount'
+            FROM `post` AS b
+            JOIN `image` AS a ON b.`no`=a.`post_no`
+            left JOIN `comment` AS c ON a.`post_no`=c.`post_no`
+            WHERE b.`no` = #{no};
+    </select>
+
+    <select id="selectTaggedPostsNo" resultType="int">
+        SELECT a.`no` FROM `post` AS a
+            JOIN `post_usertag` AS b
+            ON a.`no`=b.`post_no`
+            WHERE b.`tag_user_no` = #{no}
+            LIMIT #{pg}, 12;
+    </select>
+
+    <!--
+    <select id="selectThumb" resultType="kr.co.photostagram.vo.ImageVO">
+        SELECT * FROM `image`
+            WHERE `post_no`=#{postNo}
+            ORDER BY `no` ASC LIMIT 1;
+    </select>
+    -->
+
+    <select id="selectFollowers" resultType="kr.co.photostagram.vo.MemberVO">
+        SELECT * FROM `follow` AS a
+            JOIN `user` AS b
+            ON a.`follower` = b.`no`
+            WHERE `following`=#{pageNo}
+            LIMIT #{pg}, 12 ;
+    </select>
+    <select id="selectFollowings" resultType="kr.co.photostagram.vo.MemberVO">
+        SELECT * FROM `follow` AS a
+            JOIN `user` AS b
+            ON a.`following` = b.`no`
+            WHERE `follower`=#{pageNo}
+            LIMIT #{pg}, 12 ;
+    </select>
+    <select id="selectFollowTags" resultType="kr.co.photostagram.vo.HashTagVO">
+        SELECT a.`tag_no`, a.`user_no`, b.`hashtag` FROM `follow_hashtag` AS a
+            JOIN `hashtag` AS b
+            ON a.`tag_no` = b.`no`
+            WHERE `user_no`=#{pageNo}
+            LIMIT #{pg}, 12 ;
+    </select>
+
+
+    <select id="selectCountPost" resultType="int">
+        SELECT COUNT(*) FROM `post` WHERE `user_no`=#{no};
+    </select>
+    <select id="selectCountFollower" resultType="int">
+        SELECT COUNT(*) FROM `follow` WHERE `following`=#{no};
+    </select>
+    <select id="selectCountFollowing" resultType="int">
+        SELECT COUNT(*) FROM `follow` WHERE `follower`=#{no};
+    </select>
+    <select id="selectCountFollowingTags" resultType="int">
+        SELECT COUNT(*) FROM `follow_hashtag` WHERE `user_no`=#{no};
+    </select>
+
+    <select id="searchFollowing" resultType="int">
+        SELECT COUNT(*) FROM `follow` WHERE `follower`=#{follower} AND `following`=#{following};
+    </select>
+
+    <select id="searchFollowingTag" resultType="int">
+        SELECT COUNT(*) FROM `follow_hashtag` WHERE `user_no`=#{pageNo} AND `tag_no`=#{tagNo};
+    </select>
+
+    <select id="searchUserName" resultType="int">
+        SELECT COUNT(*) FROM `user` WHERE `username`=#{username};
+    </select>
+
+    <update id="updateMember">
+        UPDATE `user` SET
+            `username` = #{username},
+            `name` = #{name},
+            `profileText` = #{profileText},
+            `profilePhone` = #{profilePhone},
+            `gender` = #{gender}
+            WHERE `no`=#{no};
+    </update>
+
+    <update id="updatePassword">
+        UPDATE `user` SET
+            `password` = #{newPass}
+            WHERE `no`=#{no};
+    </update>
+
+    <update id="updateProfilePhoto">
+        UPDATE `user` SET
+            `profileImg` = #{newName}
+            WHERE `no`=#{no};
+    </update>
+
+    <update id="deleteProfilePhoto">
+        UPDATE `user` SET
+            `profileImg` = NULL
+            WHERE `no`=#{no};
+    </update>
+
+    <!-- ver.1
+    <update id="deleteMember">
+        UPDATE `user` SET
+            `name` = 'NULL',
+            `password` = 'NULL',
+            `email` = 'NULL',
+            `profileImg` = NULL,
+            `profileText` = NULL,
+            `profilePhone` = NULL,
+            `gender` = NULL,
+            `birth` = 'NULL'
+            WHERE `no`=#{no};
+    </update>
+    -->
+
+    <delete id="deleteMember">
+        DELETE FROM `user`
+            WHERE `no`=#{no};
+    </delete>
+
+    <delete id="deleteFollow">
+        DELETE FROM `follow`
+            WHERE `follower` = #{follower}
+            AND `following` = #{following};
+    </delete>
+
+    <delete id="deleteTagFollow">
+        DELETE FROM `follow_hashtag`
+            WHERE `tag_no` = #{no}
+            AND `user_no` = #{userNo};
+    </delete>
+
+    <delete id="deleteMemberData">
+        <!-- 채팅 기록 삭제 -->
+        DELETE FROM `chatting`
+            WHERE `user_no`=#{no};
+        <!-- 채팅 기록 삭제 -->
+        DELETE FROM `chatting`
+            WHERE `room`
+            IN (SELECT `no` FROM `room` WHERE `me`=#{no});
+        <!-- 생성한 채팅룸 삭제 -->
+        DELETE FROM `room_member`
+            WHERE `room`
+            IN (SELECT `no` FROM `room` WHERE `me`=#{no});
+        <!-- 입장된 채팅룸에서 퇴장 -->
+        DELETE FROM `room`
+            WHERE `no`
+            IN (SELECT `room` FROM `room_member` WHERE `user`=#{no});
+        <!-- 개설한 채팅룸 삭제 -->
+        DELETE FROM `room` WHERE `me`=#{no};
+        <!-- 검색 기록에서 삭제 -->
+        DELETE FROM `searchList`
+            WHERE `cate` = 1
+            AND `searchResult` = #{no};
+        <!-- 탈퇴 회원의 검색 기록 삭제 -->
+        DELETE FROM `searchList`
+            WHERE `user_no` = #{no};
+        <!-- 팔로우 기록 삭제 -->
+        DELETE FROM `follow`
+            WHERE `follower` = #{no}
+            OR `following` = #{no};
+        <!-- 해시태그 팔로우 기록 삭제 -->
+        DELETE FROM `follow_hashtag`
+            WHERE `user_no` = #{no};
+        <!-- 작성 게시물 해시태그 삭제 -->
+        DELETE a
+            FROM `post_hashtag` AS a
+            JOIN `post` AS b
+            ON a.`post_no`=b.`no`
+            WHERE b.`user_no`=#{no};
+        <!-- 작성 게시물 좋아요 삭제 -->
+        DELETE a
+            FROM `post_like` AS a
+            JOIN `post` AS b
+            ON a.`post_no`=b.`no`
+            WHERE b.`user_no`=#{no};
+        <!-- 작성 게시물 이미지 삭제 -->
+        DELETE a
+            FROM `image` AS a
+            JOIN `post` AS b
+            ON a.`post_no`=b.`no`
+            WHERE b.`user_no`=#{no};
+        <!-- 내가 한 게시물 좋아요 삭제 -->
+        DELETE FROM `post_like`
+            WHERE `user_no`=#{no};
+        <!-- 내가 한 코멘트 좋아요 삭제 -->
+        DELETE FROM `comment_like`
+            WHERE `user_no`=#{no};
+        <!-- 코멘트 좋아요 삭제 -->
+        DELETE FROM `comment_like`
+            WHERE `comment_no` IN (SELECT `no` FROM `comment` WHERE `user_no`=#{no});
+        <!-- 코멘트 삭제 -->
+        DELETE FROM `comment`
+            WHERE `user_no`=#{no};
+        <!-- 내가 작성한 게시물에 달린 코멘트 삭제 -->
+        DELETE FROM `comment`
+            WHERE `post_no`
+            IN (SELECT `no` FROM `post` WHERE `user_no`=#{no});
+        <!-- 내가 작성한 게시물 삭제 -->
+        DELETE FROM `post` WHERE `user_no`=#{no};
+    </delete>
+
+</mapper>
